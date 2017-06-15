@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reflash</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+  <body>
+    <script>
+      addEventListener("click", function(event) {
+        if (event.target.tagName.toLowerCase() === "img" && event.target.id === "img") {
+          var image = event.target,
+          requestFullScreen = image.requestFullscreen || image.webkitRequestFullScreen || image.mozRequestFullScreen || image.msRequestFullscreen;
+          requestFullScreen.call(image);
+        }
+      });
+      $(document).bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', function(e) {
+          var state = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
+          var event = state ? 'FullscreenOn' : 'FullscreenOff';
+          if (event === "FullscreenOff") {
+            $(".profile-container").removeClass("fullscreen");
+          }
+      });
+    </script>
+    <%= yield %>
+  </body>
+</html>

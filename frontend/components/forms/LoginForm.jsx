@@ -1,0 +1,59 @@
+const React = require('react');
+const SessionActions = require('../../actions/SessionActions');
+const ReactRouter = require('react-router');
+const Link = ReactRouter.Link;
+const hashHistory = ReactRouter.hashHistory;
+const SessionStore = require('../../stores/SessionStore');
+
+const LoginForm = React.createClass({
+  getInitialState: function() {
+    return {
+      userName: "",
+      password: ""
+    };
+  },
+  componentDidMount: function() {
+    this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
+  },
+  handleUsernameChange(e){
+    this.setState({userName: e.target.value});
+  },
+  redirectIfLoggedIn() {
+    if (SessionStore.loggedIn()) {
+      hashHistory.push('/submit')
+    }
+  },
+  handlePasswordChange(e){
+    this.setState({password: e.target.value});
+  },
+  handleSubmit() {
+    SessionActions.login(this.state);
+  },
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit} className="login">
+          <div>
+            <img src="https://unsplash.com/assets/core/logo-black-b37a09de4a228cd8fb72adbabc95931c5090611a0cae8e76f1fd077d378ec080.svg"></img>
+            <h1>Login</h1>
+            <p>Welcome Back.</p>
+            <input type="submit" value="Guest Login" className="guest-login-btn"/>
+            <p className="or">OR</p>
+            <label>
+              <p>Username</p>
+              <input type="text" onChange={this.handleUsernameChange}/>
+            </label>
+            <labeL>
+              <p>Password</p>
+              <input type="password" onChange={this.handlePasswordChange}/>
+            </labeL>
+            <input type="submit" value="Login" className="login-btn"/>
+            <p>Don't have an account? <Link to="/signup">Join</Link></p>
+          </div>
+        </form>
+      </div>
+    )
+  }
+})
+
+module.exports = LoginForm;

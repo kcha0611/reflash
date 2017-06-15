@@ -1,0 +1,20 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+div.name-wrap {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.inner-login-wrap {
+  width: 100%;
+}
+
+label.name-label {
+  width: 48%;
+}
+
+.first {
+  margin-right: 4%;
+}

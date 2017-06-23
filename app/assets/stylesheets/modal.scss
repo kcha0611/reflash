@@ -1,0 +1,73 @@
+.collection-modal-wrap {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.collection-modal-right {
+  width: 53%;
+  padding: 0 45px 40px;
+}
+
+.collection-modal-left {
+    width: 47%;
+}
+
+img.collection-modal-img {
+    width: 100%;
+}
+
+.collection-modal {
+    position: absolute;
+    top: 40px;
+    left: 18%;
+    right: 18%;
+    bottom: 40px;
+    border: 1px solid #cccccc;
+    background: white;
+    overflow: auto;
+    border-radius: 8px;
+    outline: none;
+}
+
+.collection-modal-container {
+  display: flex;
+  justify-content: center;
+}
+
+.overlay-modal {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(0,0,0,.7);
+}
+
+.collection-modal-right a {
+  padding: 26px 19px;
+  border: 2px dashed #ddd;
+  font-size: 21px;
+  line-height: 22px;
+  color: #999;
+  display: block;
+  margin-bottom: 12px;
+  border-radius: 5px;
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+.collection-modal-right h1 {
+  font-size: 28px;
+  margin: 28px 0 28px 0;
+}
+
+.collection-form {
+  display: none;
+}
+
+.ReactModal__Body--open {
+  overflow-y: hidden;
+}

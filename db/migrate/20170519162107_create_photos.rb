@@ -5,6 +5,9 @@ class CreatePhotos < ActiveRecord::Migration[5.0]
       t.integer :user_id
       t.integer :collection_id
       t.integer :likes, default: 0
+      t.string :subject, null: false
+      t.string :name, null: false
+      t.text :description
       t.timestamps
     end
   end

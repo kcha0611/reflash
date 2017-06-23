@@ -5,7 +5,7 @@ const PhotoStore = new Store(AppDispatcher);
 
 
 let _photos = {};
-
+let _searchInput = "";
 
 PhotoStore.all = function() {
   return Object.keys(_photos).sort(function(first, second) {
@@ -33,10 +33,30 @@ PhotoStore.resetOne = function(photoObj){
   return _photos;
 }
 
+PhotoStore.sendSearchInput = function(searchInput) {
+  _searchInput = searchInput;
+}
+
+PhotoStore.searchInput = function() {
+  if (_searchInput !== "") {
+    $(".inner-index-container").hide();
+    $(".grid-index-container").hide();
+  } else {
+    $(".inner-index-container").show();
+    $(".grid-index-container").show();
+  }
+  return _searchInput;
+}
+
 PhotoStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case PhotoConstants.RECEIVE_PHOTOS:
       PhotoStore.reset(payload.photos)
+      PhotoStore.__emitChange();
+      break;
+    case PhotoConstants.RECEIVE_SEARCHED_PHOTOS:
+      PhotoStore.reset(payload.photos)
+      PhotoStore.sendSearchInput(payload.searchInput)
       PhotoStore.__emitChange();
       break;
     case PhotoConstants.RECEIVE_PHOTO:

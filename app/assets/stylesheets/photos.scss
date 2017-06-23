@@ -1,6 +1,3 @@
-// Place all the styles related to the photos controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
 
 .inner-item-container {
   display: flex;
@@ -39,7 +36,7 @@ a.profile-download-btn {
   text-decoration: none;
   font-weight: 700;
   border-radius: 6px;
-  line-height: 30px;
+
   float: right;
   padding: 0 11px;
   font-size: 11px;
@@ -56,13 +53,14 @@ a.profile-download-btn {
 
 .profile-container a {
   color: #999;
+  display: flex;
+  align-items: center;
 }
 
 .profile-container img {
   width: 15px;
   height: 15px;
 }
-
 
 a.like-btn {
   font-size: 15px;
@@ -73,7 +71,7 @@ a.like-btn {
   border: 1px solid transparent;
   border-color: #ddd;
   border-radius: 6px;
-  line-height: 28px;
+
   text-decoration: none;
   float: left;
 }
@@ -90,7 +88,7 @@ a.like-btn img {
   text-decoration: none;
   font-weight: 700;
   border-radius: 6px;
-  line-height: 28px;
+
   float: right;
   padding: 0 11px;
   font-size: 11px;
@@ -118,7 +116,7 @@ a.like-btn img {
   border: 1px solid transparent;
   padding: 9px 18px;
   font-size: 15px;
-  line-height: 1.6;
+
   border-radius: 6px;
   color: white;
   background-color: black;
@@ -132,13 +130,13 @@ a.like-btn img {
 
 .photo-submit-form h1 {
   margin-bottom: 20px;
-  line-height: 54px;
+
   font-size: 46px;
 }
 
 .photo-submit-form p {
   font-size: 15px;
-  line-height: 25px;
+
 }
 
 .photo-submit-form p:nth-child(3) {
@@ -169,7 +167,7 @@ p.upload-length {
 }
 
 .fullscreen a {
-  background-color: hsla(0,0%,100%,.8);
+  background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid transparent;
   color: #777;
   fill: #777;
@@ -181,7 +179,7 @@ p.upload-length {
   color: #fff;
   position: absolute;
   right: 93%;
-  line-height: 31px;
+
 }
 
 .fullscreen > a:not(.image-user) {
@@ -196,7 +194,7 @@ p.upload-length {
 }
 
 .inner-photo-container {
-  display: inline-block;
+
   column-count: 3;
   column-gap: 0px;
   width: 88%;
@@ -206,11 +204,53 @@ p.upload-length {
   width: 100%;
   float: left;
   height: auto;
-
 }
 
 .grid-item-container img {
   width: 100%;
   height: auto;
   margin: 10px 20px 10px 20px;
+}
+
+.inner-photo-form-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 30px 0px 30px 0px;
+}
+
+.inner-photo-form-wrap label {
+  width: 45%;
+}
+
+.description-wrap {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.search-input {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.navtab-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 50px 0 50px 0;
+  width: 100%;
+}
+
+.inner-navtab-wrap {
+  width: 50%;
+  text-align: center;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: space-around;
+  border-radius: 3px;
+}
+
+.inner-navtab-wrap a {
+  font-size: 18px;
+  width: 25%;
+  padding: 14px 5px 15px;
 }

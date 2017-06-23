@@ -27,6 +27,9 @@ ActiveRecord::Schema.define(version: 20170522160859) do
     t.integer  "user_id"
     t.integer  "collection_id"
     t.integer  "likes",         default: 0
+    t.string   "subject",                   null: false
+    t.string   "name",                      null: false
+    t.text     "description"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end

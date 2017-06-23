@@ -8,15 +8,19 @@ const Link = ReactRouter.Link;
 const PhotoIndex = React.createClass({
   getInitialState: function() {
     return {
-      photos: []
+      photos: [],
+      searchInput: ""
     };
   },
   componentDidMount: function() {
     this.photoListener = PhotoStore.addListener(this.onChange);
     PhotoActions.fetchPhotos();
   },
+  componentWillUnmount: function() {
+    this.photoListener.remove();
+  },
   onChange() {
-    this.setState({photos: PhotoStore.all()})
+    this.setState({photos: PhotoStore.all(), searchInput: PhotoStore.searchInput()})
   },
   onGridTab() {
     $(".inner-item-container").addClass('grid');
@@ -28,6 +32,19 @@ const PhotoIndex = React.createClass({
         <PhotoIndexItem key={photo.id} photoData={photo} />
       )
     });
+    let navTab;
+    if (this.state.searchInput !== "") {
+      navTab = (
+        <div className="navtab-wrap">
+          <div className="inner-navtab-wrap">
+            <a>All</a>
+            <a>{this.state.photos.length} Photos</a>
+            <a>Collections</a>
+            <a>Users</a>
+          </div>
+        </div>
+      )
+    }
     return (
       <div>
         <div className="inner-index-container">
@@ -36,7 +53,9 @@ const PhotoIndex = React.createClass({
           <p>To get the best of Reflash delivered to your inbox, <a>subscribe</a>.</p>
           <Link to="/gridphotos">Grid</Link>
         </div>
-        {photos}
+        <h1 className="search-input">{this.state.searchInput}</h1>
+          {navTab}
+          {photos}
       </div>
     )
   }

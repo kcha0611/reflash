@@ -7,7 +7,10 @@ const PhotoForm = React.createClass({
     return {
       url: "",
       imagePreviewUrl: "",
-      user_id: SessionStore.currentUser().id
+      user_id: SessionStore.currentUser().id,
+      name: "",
+      description: "",
+      subject: ""
     };
   },
   handlePhotoChange(e) {
@@ -21,8 +24,16 @@ const PhotoForm = React.createClass({
         imagePreviewUrl: reader.result
       });
     }
-
     reader.readAsDataURL(file);
+  },
+  onNameChange(e) {
+    this.setState({ name: e.target.value });
+  },
+  onSubjectChange(e) {
+    this.setState({ subject: e.target.value });
+  },
+  onDescriptionChange(e) {
+    this.setState({ descrption: e.target.value });
   },
   handleSubmit() {
     PhotoActions.createPhoto({url: this.state.imagePreviewUrl, user_id: this.state.user_id})
@@ -36,6 +47,19 @@ const PhotoForm = React.createClass({
             be distributed for free under <a href="https://unsplash.com/license">the Unsplash license</a>.
             <p>Please only upload photos <a href="https://unsplash.com/terms">that you own the rights to</a>.</p>
           </p>
+          <div className="inner-photo-form-wrap">
+            <label>
+              Name:<input type="text" onChange={this.onNameChange} value={this.state.name}/>
+          </label>
+          <label>
+            Subject:<input type="text" onChange={this.onSubjectChange} />
+        </label>
+          </div>
+          <div className="description-wrap">
+            <label>
+              Description:<textarea onChange={this.onDescriptionChange} />
+          </label>
+          </div>
             <input type="file" onChange={(e)=>this.handlePhotoChange(e)}/>
             <input type="submit" value="Add a Photo"/>
         </form>

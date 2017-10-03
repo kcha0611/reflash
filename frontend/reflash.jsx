@@ -12,9 +12,9 @@ const SignupForm = require('./components/forms/SignupForm');
 const SessionActions = require('./actions/SessionActions');
 //Photo
 const PhotoForm = require('./components/forms/PhotoForm');
-const PhotoIndex = require('./components/PhotoIndex');
-const PhotoDetail = require('./components/PhotoDetail');
-const GridPhotoIndex = require('./components/GridPhotoIndex');
+const PhotoIndex = require('./components/photo/PhotoIndex');
+const PhotoDetail = require('./components/photo/PhotoDetail');
+const GridPhotoIndex = require('./components/photo/GridPhotoIndex');
 
 const App = require('./components/App');
 

@@ -1,8 +1,8 @@
 const React = require('react');
 const ReactRouter = require('react-router');
 const Link = ReactRouter.Link;
-const SearchBar = require('./SearchBar');
-const SearchResult = require('./SearchResult');
+const SearchBar = require('./search/SearchBar');
+const SearchResult = require('./search/SearchResult');
 
 const NavBar = React.createClass({
   render() {

@@ -1,4 +1,5 @@
 class Api::PhotosController < ApplicationController
+
   def create
     @photo = Photo.new(photo_params)
     if @photo.save
@@ -40,7 +41,7 @@ class Api::PhotosController < ApplicationController
   private
 
   def photo_params
-    params.require(:photo).permit(:url, :user_id, :user, :likes, :name, :subject)
+    params.require(:photo).permit(:url, :user_id, :likes, :tag_list)
   end
 
 end

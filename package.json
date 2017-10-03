@@ -18,10 +18,11 @@
     "react-flux": "^1.0.1",
     "react-modal": "^2.0.6",
     "react-router": "^3.0.5",
-    "webpack": "^2.5.1"
+    "webpack": "^2.7.0"
   },
   "devDependencies": {},
   "scripts": {
+    "start": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

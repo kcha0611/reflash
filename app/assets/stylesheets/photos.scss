@@ -6,7 +6,7 @@
 }
 
 .item-container img {
-  width: 88vw;
+  width: 76vw;
 }
 
 .inner-index-container, .grid-index-container {
@@ -36,7 +36,6 @@ a.profile-download-btn {
   text-decoration: none;
   font-weight: 700;
   border-radius: 6px;
-
   float: right;
   padding: 0 11px;
   font-size: 11px;
@@ -44,7 +43,7 @@ a.profile-download-btn {
 }
 
 .profile-container {
-  width: 88vw;
+  width: 76vw;
   margin: 20px 0 50px 0;
   display: flex;
   justify-content: space-between;
@@ -194,10 +193,9 @@ p.upload-length {
 }
 
 .inner-photo-container {
-
   column-count: 3;
   column-gap: 0px;
-  width: 88%;
+  width: 76vw;
 }
 
 .grid-item-container {

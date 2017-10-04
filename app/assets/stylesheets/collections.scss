@@ -1,3 +1,73 @@
 // Place all the styles related to the collections controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+form.collection.form {
+    transform: translate3d(125%, 0, 0);
+    width: 100%;
+    -moz-transition: all 100ms ease;
+    -o-transition: all 100ms ease;
+    -webkit-transition: all 100ms ease;
+    transition: all 100ms ease;
+}
+
+.collection.form.slidein {
+  transform: translate3d(0, 125%, 0);
+}
+
+.collection-modal-wrap {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.collection-modal-right {
+  width: 63%;
+  padding: 0 45px 40px;
+  overflow-x: hidden;
+}
+
+.collection-modal-left {
+    width: 37%;
+}
+
+.collection-modal-container {
+  display: flex;
+  justify-content: center;
+}
+
+.collection-modal-right a {
+  padding: 26px 19px;
+  border: 2px dashed #ddd;
+  font-size: 21px;
+  line-height: 22px;
+  color: #999;
+  display: block;
+  margin-bottom: 12px;
+  border-radius: 5px;
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+.collection-modal-right h1 {
+  font-size: 28px;
+  margin: 28px 0 28px 0;
+}
+
+.collection label {
+  display: flex;
+  flex-direction: column;
+}
+
+.collection input:not([type=submit]) {
+  width: 100%;
+}
+
+.collection-btn-wrap {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.collection-submit-btn {
+
+}

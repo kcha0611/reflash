@@ -3,7 +3,7 @@ module.exports = {
     $.ajax({
       url: "api/collections",
       method: "POST",
-      data: {collection: collection}
+      data: { collection: collection },
       success: function(collection) {
         successCB(collection)
       }

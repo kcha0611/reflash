@@ -48,12 +48,6 @@ const PhotoForm = React.createClass({
             <p>Please only upload photos <a href="https://unsplash.com/terms">that you own the rights to</a>.</p>
           </p>
           <div className="inner-photo-form-wrap">
-            <label>
-              Name:<input type="text" onChange={this.onNameChange} value={this.state.name}/>
-          </label>
-          <label>
-            Subject:<input type="text" onChange={this.onSubjectChange} />
-        </label>
           </div>
           <div className="description-wrap">
             <label>

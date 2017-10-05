@@ -21534,22 +21534,7 @@ var PhotoForm = React.createClass({
             '.'
           )
         ),
-        React.createElement(
-          'div',
-          { className: 'inner-photo-form-wrap' },
-          React.createElement(
-            'label',
-            null,
-            'Name:',
-            React.createElement('input', { type: 'text', onChange: this.onNameChange, value: this.state.name })
-          ),
-          React.createElement(
-            'label',
-            null,
-            'Subject:',
-            React.createElement('input', { type: 'text', onChange: this.onSubjectChange })
-          )
-        ),
+        React.createElement('div', { className: 'inner-photo-form-wrap' }),
         React.createElement(
           'div',
           { className: 'description-wrap' },
@@ -50900,8 +50885,8 @@ var CollectionForm = function (_React$Component) {
     }
   }, {
     key: 'onSubmit',
-    value: function onSubmit() {
-      debugger;
+    value: function onSubmit(e) {
+      e.preventDefault();
       _CollectionActions2.default.createCollection(this.state);
     }
   }, {

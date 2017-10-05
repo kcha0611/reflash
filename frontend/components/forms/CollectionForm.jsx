@@ -17,8 +17,8 @@ class CollectionForm extends React.Component {
       [e.target.name]: newState
     });
   }
-  onSubmit() {
-    debugger
+  onSubmit(e) {
+    e.preventDefault();
     CollectionActions.createCollection(this.state);
   }
   closeCollectionForm() {

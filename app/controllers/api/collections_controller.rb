@@ -4,7 +4,10 @@ class Api::CollectionsController < ApplicationController
     @collection = Collection.new(collection_params)
     @collection.user_id = current_user.id
     if @collection.save
-      render :show
+      respond_to do |f|
+        f.html
+        f.json
+      end 
     else
       render json: { base: [@collection.errors.full_messages] }, status: 422
     end

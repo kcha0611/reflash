@@ -2,6 +2,7 @@ class Api::CollectionsController < ApplicationController
 
   def create
     @collection = Collection.new(collection_params)
+    @collection.user_id = current_user.id
     if @collection.save
       render :show
     else
@@ -14,7 +15,7 @@ class Api::CollectionsController < ApplicationController
   end
 
   def index
-    @collections = Collection.all
+    @collections = Collection.where(user_id: current_user.id)
   end
 
   private

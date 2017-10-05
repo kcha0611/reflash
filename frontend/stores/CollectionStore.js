@@ -3,15 +3,19 @@ const CollectionConstants = require('../constants/CollectionConstants');
 const Dispatcher = require('../dispatcher/dispatcher');
 const CollectionStore = new Store(Dispatcher);
 
-_collections = {};
+let _collections = {};
 
 CollectionStore.all = function() {
-  return _collections;
+  return Object.keys(_collections).sort(function(first, second) {
+    return new Date(_collections[second].updated_at) - new Date(_collections[first].updated_at)
+  }).map(function(id){
+    return _collections[id];
+  });
 }
 
 CollectionStore.reset = function(collectionObj) {
   _collections = {};
-  Object.keys(collectionObj.collections).forEach(function(collection) {
+  collectionObj.collections.forEach(function(collection) {
     _collections[collection.id] = collection;
   });
 };
@@ -22,7 +26,7 @@ CollectionStore.resetOne = function(collectionObj) {
   return _collections
 };
 
-CollectionStore.find(id) {
+CollectionStore.find = function(id) {
   return _collections[id];
 };
 
@@ -31,9 +35,11 @@ CollectionStore.__onDispatch = function(payload) {
     case CollectionConstants.RECEIVE_COLLECTIONS:
       CollectionStore.reset(payload.collections);
       this.__emitChange();
+      break;
     case CollectionConstants.RECEIVE_COLLECTION:
       CollectionStore.resetOne(payload.collection);
       this.__emitChange();
+      break;
   }
 };
 

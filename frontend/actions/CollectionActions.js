@@ -9,8 +9,8 @@ const CollectionActions = {
   getCollection(collection) {
     CollectionApiUtil.getCollection(collection, this.receiveCollection);
   },
-  fetchCollections(collections) {
-    CollectionApiUtil.fetchCollections(collections, this.receiveCollections);
+  fetchCollections() {
+    CollectionApiUtil.fetchCollections(this.receiveCollections);
   },
   receiveCollection(collection) {
     Dispatcher.dispatch({

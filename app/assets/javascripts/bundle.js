@@ -22052,62 +22052,7 @@ var NavBar = React.createClass({
 module.exports = NavBar;
 
 /***/ }),
-/* 259 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var React = __webpack_require__(1);
-var Modal = __webpack_require__(127);
-
-var CollectionModal = React.createClass({
-  displayName: 'CollectionModal',
-  getInitialState: function getInitialState() {
-    return {
-      show: false
-    };
-  },
-  openCollectionForm: function openCollectionForm() {
-    this.setState({ show: true });
-  },
-  close: function close() {
-    this.setState({ show: false });
-  },
-  render: function render() {
-    return React.createElement(
-      'div',
-      null,
-      React.createElement(
-        'button',
-        { onClick: this.openCollectionForm },
-        'Collect'
-      ),
-      React.createElement(
-        Modal,
-        { show: this.state.show, onHide: this.close },
-        React.createElement(
-          Modal.Header,
-          null,
-          React.createElement(
-            Modal.Title,
-            null,
-            'Add to Collection'
-          )
-        ),
-        React.createElement(
-          Modal.Body,
-          null,
-          'Body'
-        )
-      )
-    );
-  }
-});
-
-module.exports = CollectionModal;
-
-/***/ }),
+/* 259 */,
 /* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22147,12 +22092,25 @@ var _CollectionForm = __webpack_require__(552);
 
 var _CollectionForm2 = _interopRequireDefault(_CollectionForm);
 
+var _CollectionStore = __webpack_require__(556);
+
+var _CollectionStore2 = _interopRequireDefault(_CollectionStore);
+
+var _CollectionIndexItem = __webpack_require__(555);
+
+var _CollectionIndexItem2 = _interopRequireDefault(_CollectionIndexItem);
+
+var _CollectionActions = __webpack_require__(551);
+
+var _CollectionActions2 = _interopRequireDefault(_CollectionActions);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var React = __webpack_require__(1);
 var PhotoActions = __webpack_require__(42);
+//Bootstrap
 var Modal = __webpack_require__(127).Modal;
-var CollectionModal = __webpack_require__(259);
+//Collections
 
 
 var PhotoIndexItem = React.createClass({
@@ -22160,11 +22118,18 @@ var PhotoIndexItem = React.createClass({
 
   getInitialState: function getInitialState() {
     return {
-      show: false
+      show: false,
+      userCollections: []
     };
   },
-  likePhoto: function likePhoto() {
-    PhotoActions.likePhoto(this.props.photoData);
+  componentDidMount: function componentDidMount() {
+    this.collectionListener = _CollectionStore2.default.addListener(this.onCollectionChange);
+    _CollectionActions2.default.fetchCollections();
+  },
+  onCollectionChange: function onCollectionChange() {
+    this.setState({
+      userCollections: _CollectionStore2.default.all()
+    });
   },
   fullScreen: function fullScreen() {
     $(".profile-container").addClass("fullscreen");
@@ -22186,6 +22151,9 @@ var PhotoIndexItem = React.createClass({
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
     };
+    var userCollections = this.state.userCollections.map(function (collection) {
+      return React.createElement(_CollectionIndexItem2.default, { key: collection.id, collectionData: collection });
+    });
     var collectionModal = React.createElement(
       'div',
       { className: 'collection-modal-container' },
@@ -22211,7 +22179,8 @@ var PhotoIndexItem = React.createClass({
                 'a',
                 { onClick: this.openCollectionForm },
                 'Create a new collection'
-              )
+              ),
+              userCollections
             ),
             React.createElement(_CollectionForm2.default, null)
           )
@@ -50856,8 +50825,8 @@ var CollectionActions = {
   getCollection: function getCollection(collection) {
     CollectionApiUtil.getCollection(collection, this.receiveCollection);
   },
-  fetchCollections: function fetchCollections(collections) {
-    CollectionApiUtil.fetchCollections(collections, this.receiveCollections);
+  fetchCollections: function fetchCollections() {
+    CollectionApiUtil.fetchCollections(this.receiveCollections);
   },
   receiveCollection: function receiveCollection(collection) {
     Dispatcher.dispatch({
@@ -50898,6 +50867,8 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -50916,12 +50887,21 @@ var CollectionForm = function (_React$Component) {
       name: "",
       description: ""
     };
+    _this.changeInput = _this.changeInput.bind(_this);
+    _this.onSubmit = _this.onSubmit.bind(_this);
     return _this;
   }
 
   _createClass(CollectionForm, [{
+    key: 'changeInput',
+    value: function changeInput(e) {
+      var newState = e.target.value;
+      this.setState(_defineProperty({}, e.target.name, newState));
+    }
+  }, {
     key: 'onSubmit',
     value: function onSubmit() {
+      debugger;
       _CollectionActions2.default.createCollection(this.state);
     }
   }, {
@@ -50934,40 +50914,44 @@ var CollectionForm = function (_React$Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'form',
-        { onSubmit: this.onSubmit, className: 'collection form', id: 'collection-form' },
+        'div',
+        null,
         _react2.default.createElement(
-          'h1',
-          null,
-          'Create new collection'
-        ),
-        _react2.default.createElement(
-          'label',
-          null,
-          'Name',
-          _react2.default.createElement('input', { type: 'text', onChange: this.changeInput })
-        ),
-        _react2.default.createElement(
-          'label',
-          null,
-          'Description',
-          _react2.default.createElement('input', { type: 'textarea', onChange: this.changeInput })
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'collection-btn-wrap' },
+          'form',
+          { onSubmit: this.onSubmit, className: 'collection form', id: 'collection-form' },
           _react2.default.createElement(
-            'div',
+            'h1',
             null,
-            _react2.default.createElement('input', { type: 'submit', value: 'Create collection', className: 'collection-submit-btn' })
+            'Create new collection'
+          ),
+          _react2.default.createElement(
+            'label',
+            null,
+            'Name',
+            _react2.default.createElement('input', { type: 'text', onChange: this.changeInput, name: 'name' })
+          ),
+          _react2.default.createElement(
+            'label',
+            null,
+            'Description',
+            _react2.default.createElement('input', { type: 'textarea', onChange: this.changeInput, name: 'description' })
           ),
           _react2.default.createElement(
             'div',
-            null,
+            { className: 'collection-btn-wrap' },
             _react2.default.createElement(
-              'button',
-              { onClick: this.closeCollectionForm },
-              'Cancel'
+              'div',
+              null,
+              _react2.default.createElement('input', { type: 'submit', value: 'Create collection', className: 'collection-submit-btn' })
+            ),
+            _react2.default.createElement(
+              'div',
+              null,
+              _react2.default.createElement(
+                'button',
+                { onClick: this.closeCollectionForm },
+                'Cancel'
+              )
             )
           )
         )
@@ -51028,6 +51012,110 @@ module.exports = {
     });
   }
 };
+
+/***/ }),
+/* 555 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CollectionIndexItem = function (_React$Component) {
+  _inherits(CollectionIndexItem, _React$Component);
+
+  function CollectionIndexItem() {
+    _classCallCheck(this, CollectionIndexItem);
+
+    return _possibleConstructorReturn(this, (CollectionIndexItem.__proto__ || Object.getPrototypeOf(CollectionIndexItem)).apply(this, arguments));
+  }
+
+  _createClass(CollectionIndexItem, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        this.props.collectionData.name
+      );
+    }
+  }]);
+
+  return CollectionIndexItem;
+}(_react2.default.Component);
+
+exports.default = CollectionIndexItem;
+
+/***/ }),
+/* 556 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Store = __webpack_require__(185).Store;
+var CollectionConstants = __webpack_require__(553);
+var Dispatcher = __webpack_require__(76);
+var CollectionStore = new Store(Dispatcher);
+
+var _collections = {};
+
+CollectionStore.all = function () {
+  return Object.keys(_collections).sort(function (first, second) {
+    return new Date(_collections[second].updated_at) - new Date(_collections[first].updated_at);
+  }).map(function (id) {
+    return _collections[id];
+  });
+};
+
+CollectionStore.reset = function (collectionObj) {
+  _collections = {};
+  collectionObj.collections.forEach(function (collection) {
+    _collections[collection.id] = collection;
+  });
+};
+
+CollectionStore.resetOne = function (collectionObj) {
+  _collections = {};
+  _collections[collectionObj.id] = collectionObj;
+  return _collections;
+};
+
+CollectionStore.find = function (id) {
+  return _collections[id];
+};
+
+CollectionStore.__onDispatch = function (payload) {
+  switch (payload.actionType) {
+    case CollectionConstants.RECEIVE_COLLECTIONS:
+      CollectionStore.reset(payload.collections);
+      this.__emitChange();
+      break;
+    case CollectionConstants.RECEIVE_COLLECTION:
+      CollectionStore.resetOne(payload.collection);
+      this.__emitChange();
+      break;
+  }
+};
+
+module.exports = CollectionStore;
 
 /***/ })
 /******/ ]);

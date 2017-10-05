@@ -1,17 +1,28 @@
 const React = require('react');
 const PhotoActions = require('../../actions/PhotoActions');
+//Bootstrap
 const Modal = require('react-bootstrap').Modal;
-const CollectionModal = require('../collection/CollectionModal');
+//Collections
 import CollectionForm from '../forms/CollectionForm';
+import CollectionStore from '../../stores/CollectionStore';
+import CollectionIndexItem from '../collection/CollectionIndexItem';
+import CollectionActions from '../../actions/CollectionActions';
 
 const PhotoIndexItem = React.createClass({
   getInitialState: function() {
     return {
-      show: false
+      show: false,
+      userCollections: []
     };
   },
-  likePhoto() {
-    PhotoActions.likePhoto(this.props.photoData);
+  componentDidMount: function() {
+    this.collectionListener = CollectionStore.addListener(this.onCollectionChange)
+    CollectionActions.fetchCollections();
+  },
+  onCollectionChange() {
+    this.setState({
+      userCollections: CollectionStore.all()
+    });
   },
   fullScreen() {
     $(".profile-container").addClass("fullscreen");
@@ -33,6 +44,11 @@ const PhotoIndexItem = React.createClass({
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
     }
+    let userCollections = this.state.userCollections.map(function (collection) {
+      return (
+        <CollectionIndexItem key={collection.id} collectionData={collection} />
+      )
+    });
     let collectionModal = (
       <div className="collection-modal-container">
         <Modal show={this.state.show} onHide={this.close} className="collection-modal">
@@ -43,6 +59,7 @@ const PhotoIndexItem = React.createClass({
               <div id="inner-collections-wrap">
                 <h1>Add to Collection</h1>
                 <a onClick={this.openCollectionForm}>Create a new collection</a>
+                {userCollections}
               </div>
               <CollectionForm />
             </div>

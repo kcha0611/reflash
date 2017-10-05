@@ -16,22 +16,20 @@ ActiveRecord::Schema.define(version: 20171003195052) do
   enable_extension "plpgsql"
 
   create_table "collections", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",        null: false
+    t.integer  "user_id",     null: false
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "photos", force: :cascade do |t|
-    t.string   "url",                       null: false
-    t.integer  "user_id"
+    t.string   "url",           null: false
+    t.integer  "user_id",       null: false
     t.integer  "collection_id"
-    t.integer  "likes",         default: 0
-    t.string   "subject",                   null: false
-    t.string   "name",                      null: false
     t.text     "description"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "taggings", force: :cascade do |t|

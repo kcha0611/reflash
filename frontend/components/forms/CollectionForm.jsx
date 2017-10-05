@@ -8,8 +8,17 @@ class CollectionForm extends React.Component {
       name: "",
       description: ""
     }
+    this.changeInput = this.changeInput.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+  changeInput(e) {
+    let newState = e.target.value;
+    this.setState({
+      [e.target.name]: newState
+    });
   }
   onSubmit() {
+    debugger
     CollectionActions.createCollection(this.state);
   }
   closeCollectionForm() {
@@ -18,25 +27,27 @@ class CollectionForm extends React.Component {
   }
   render() {
     return (
-      <form onSubmit={this.onSubmit} className="collection form" id="collection-form">
-        <h1>Create new collection</h1>
-        <label>
-          Name
-          <input type="text" onChange={this.changeInput} />
-        </label>
-        <label>
-          Description
-          <input type="textarea" onChange={this.changeInput}/>
-        </label>
-        <div className="collection-btn-wrap">
-          <div>
-            <input type="submit" value="Create collection" className="collection-submit-btn"/>
+      <div>
+        <form onSubmit={this.onSubmit} className="collection form" id="collection-form">
+          <h1>Create new collection</h1>
+          <label>
+            Name
+            <input type="text" onChange={this.changeInput} name="name"/>
+          </label>
+          <label>
+            Description
+            <input type="textarea" onChange={this.changeInput} name="description"/>
+          </label>
+          <div className="collection-btn-wrap">
+            <div>
+              <input type="submit" value="Create collection" className="collection-submit-btn"/>
+            </div>
+            <div>
+              <button onClick={this.closeCollectionForm}>Cancel</button>
+            </div>
           </div>
-          <div>
-            <button onClick={this.closeCollectionForm}>Cancel</button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     )
   }
 }

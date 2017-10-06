@@ -13,7 +13,7 @@ const NavBar = React.createClass({
         <a href="/">Home</a>
         <a href="/">New</a>
         <a href="/">Following</a>
-        <Link to="/submit">Submit Photo</Link>
+        <Link to="/photos/new">Submit Photo</Link>
       </div>
     )
   }

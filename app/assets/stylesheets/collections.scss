@@ -2,16 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 form.collection.form {
-    transform: translate3d(125%, 0, 0);
-    width: 100%;
-    -moz-transition: all 100ms ease;
-    -o-transition: all 100ms ease;
-    -webkit-transition: all 100ms ease;
-    transition: all 100ms ease;
+  position: absolute;
+  right: -600px;
+  width: 63%;
 }
 
-.collection.form.slidein {
-  transform: translate3d(0, 125%, 0);
+.collection-modal-right.hide {
+  visibility: hidden;
 }
 
 .collection-modal-wrap {
@@ -19,6 +16,8 @@ form.collection.form {
     width: 100%;
     justify-content: flex-start;
     height: 100%;
+    position: relative;
+    overflow: hidden;
 }
 
 .collection-modal-right {

@@ -4,10 +4,7 @@ class Api::CollectionsController < ApplicationController
     @collection = Collection.new(collection_params)
     @collection.user_id = current_user.id
     if @collection.save
-      respond_to do |f|
-        f.html
-        f.json
-      end 
+      render :show
     else
       render json: { base: [@collection.errors.full_messages] }, status: 422
     end
@@ -24,7 +21,7 @@ class Api::CollectionsController < ApplicationController
   private
 
   def collection_params
-    params.require(:collection).permit(:name, :user_id, :description)
+    params.require(:collection).permit(:name, :description)
   end
 
 end

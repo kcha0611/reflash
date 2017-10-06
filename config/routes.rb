@@ -6,7 +6,5 @@ Rails.application.routes.draw do
     resources :users
     resources :photos
     resources :collections
-    patch 'like/photos', to: 'photos#like'
-    patch 'unlike/photos', to: 'photos#unlike'
   end
 end

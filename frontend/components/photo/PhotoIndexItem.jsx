@@ -35,8 +35,8 @@ const PhotoIndexItem = React.createClass({
     this.setState({show: false})
   },
   openCollectionForm() {
-    $("#inner-collections-wrap").hide();
-    $("#collection-form").addClass("slidein");
+    $(".collection-modal-right").addClass("hide");
+    $("#collection-form").animate({right: "+=600"});
   },
   render() {
     let modalLeftStyles = {
@@ -46,7 +46,7 @@ const PhotoIndexItem = React.createClass({
     }
     let userCollections = this.state.userCollections.map(function (collection) {
       return (
-        <CollectionIndexItem key={collection.id} collectionData={collection} />
+        <CollectionIndexItem key={"id" + collection.id} collectionData={collection} />
       )
     });
     let collectionModal = (
@@ -61,8 +61,8 @@ const PhotoIndexItem = React.createClass({
                 <a onClick={this.openCollectionForm}>Create a new collection</a>
                 {userCollections}
               </div>
-              <CollectionForm />
             </div>
+            <CollectionForm />
           </div>
         </Modal>
       </div>

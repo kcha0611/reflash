@@ -35,7 +35,8 @@ const PhotoForm = React.createClass({
   onDescriptionChange(e) {
     this.setState({ descrption: e.target.value });
   },
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault();
     PhotoActions.createPhoto({url: this.state.imagePreviewUrl, user_id: this.state.user_id})
   },
   render() {

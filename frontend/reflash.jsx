@@ -18,6 +18,7 @@ const GridPhotoIndex = require('./components/photo/GridPhotoIndex');
 
 const App = require('./components/App');
 
+import CollectionDetail from './components/collection/CollectionDetail';
 
 const routes = (
   <Router history={hashHistory}>
@@ -25,10 +26,11 @@ const routes = (
       <IndexRoute component={PhotoIndex}/>
       <Route path="/signup" component={SignupForm} />
       <Route path="/login" component={LoginForm} />
-      <Route path="/submit" component={PhotoForm} />
+      <Route path="/photos/new" component={PhotoForm} />
       <Route path="/photos" component={PhotoIndex} />
       <Route path="/gridphotos" component={GridPhotoIndex} />
       <Route path="/photos/:photoID" component={PhotoDetail} />
+      <Route path="/collections/:collectionID" component={CollectionDetail} />
     </Route>
   </Router>
 )

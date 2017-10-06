@@ -21,23 +21,6 @@ class Api::PhotosController < ApplicationController
     end
   end
 
-  def like
-    @photo = Photo.find(params[:id])
-    if @photo.update({likes: @photo.likes + 1})
-    else
-      render json: { base: [@photo.errors.full_messages] }, status: 422
-    end
-  end
-
-  def unlike
-    @photo = Photo.find(params[:id])
-    if @photo.updates_attributes(likes: @photo.likes - 1)
-      render :show
-    else
-      render json: { base: [@photo.errors.full_messages] }, status: 422
-    end
-  end
-
   private
 
   def photo_params

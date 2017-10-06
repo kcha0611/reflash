@@ -1,1 +1,1 @@
-json.collections @collections, partial: 'api/collections/collections', as: :collection
+json.collections @collections, partial: 'api/collections/collection', as: :collection

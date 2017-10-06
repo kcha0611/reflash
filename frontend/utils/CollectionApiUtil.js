@@ -1,9 +1,9 @@
 module.exports = {
   createCollection(collection, successCB) {
     $.ajax({
-      url: "api/collections",
       method: "POST",
-      data: { collection: collection },
+      url: "api/collections",
+      data: {collection: collection},
       success: function(collection) {
         successCB(collection)
       }
@@ -17,10 +17,9 @@ module.exports = {
       }
     })
   },
-  getCollection(collection, successCB) {
+  getCollection(id, successCB) {
     $.ajax({
-      url: `api/collections/${collection.id}`,
-      data: {collection: collection},
+      url: `api/collections/${id}`,
       success: function(collection) {
         successCB(collection)
       }

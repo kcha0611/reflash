@@ -25,7 +25,8 @@ const CollectionForm = React.createClass({
     e.preventDefault();
     CollectionActions.createCollection(this.state);
   },
-  closeCollectionForm() {
+  closeCollectionForm(e) {
+    e.preventDefault();
     $("#collection-form").animate({right: "-=600"}, function() {
       $(".collection-modal-right").removeClass("hide");
     });
@@ -55,7 +56,7 @@ const CollectionForm = React.createClass({
                 <input type="submit" value="Create collection" className="collection-submit-btn" />
               </div>
               <div>
-                <button onClick={this.closeCollectionForm} type="text">Cancel</button>
+                <button onClick={this.closeCollectionForm} type="cancel">Cancel</button>
               </div>
             </div>
           </form>

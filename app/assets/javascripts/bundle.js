@@ -22193,7 +22193,8 @@ var CollectionForm = _react2.default.createClass({
     e.preventDefault();
     CollectionActions.createCollection(this.state);
   },
-  closeCollectionForm: function closeCollectionForm() {
+  closeCollectionForm: function closeCollectionForm(e) {
+    e.preventDefault();
     $("#collection-form").animate({ right: "-=600" }, function () {
       $(".collection-modal-right").removeClass("hide");
     });
@@ -22250,7 +22251,7 @@ var CollectionForm = _react2.default.createClass({
             null,
             _react2.default.createElement(
               'button',
-              { onClick: this.closeCollectionForm, type: 'text' },
+              { onClick: this.closeCollectionForm, type: 'cancel' },
               'Cancel'
             )
           )
@@ -22651,6 +22652,9 @@ module.exports = {
       data: { collection: collection },
       success: function success(collection) {
         successCB(collection);
+        $("#collection-form").animate({ right: "-=600" }, function () {
+          $(".collection-modal-right").removeClass("hide");
+        });
       }
     });
   },

@@ -6,6 +6,9 @@ module.exports = {
       data: {collection: collection},
       success: function(collection) {
         successCB(collection)
+        $("#collection-form").animate({right: "-=600"}, function() {
+          $(".collection-modal-right").removeClass("hide");
+        });
       }
     })
   },

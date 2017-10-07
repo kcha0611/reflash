@@ -5,4 +5,6 @@ class Photo < ApplicationRecord
 
   belongs_to :user
   belongs_to :collection, optional: true
+
+  has_many :likes
 end

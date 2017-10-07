@@ -41,15 +41,5 @@ module.exports = {
         successCB(photo);
       }
     })
-  },
-  likePhoto(photo, successCB) {
-    $.ajax({
-      method: "PATCH",
-      url: `api/like/photos`,
-      data: {likes: photo.likes + 1, id: photo.id, user_id: photo.user.id},
-      success: function(photo) {
-        successCB(photo);
-      }
-    })
   }
 }

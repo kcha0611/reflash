@@ -5,6 +5,7 @@ class User < ApplicationRecord
 
   has_many :photos
   has_many :collections
+  has_many :likes
 
   attr_reader :password
 

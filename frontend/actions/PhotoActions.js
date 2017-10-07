@@ -18,8 +18,11 @@ const PhotoActions = {
   getPhoto(id) {
     PhotoApiUtil.getPhoto(id, this.receivePhoto);
   },
-  likePhoto(photo) {
-    PhotoApiUtil.likePhoto(photo, this.receivePhoto);
+  likePhoto(id) {
+    PhotoApiUtil.likePhoto(id, this.receivePhoto);
+  },
+  unlikePhoto(id) {
+    PhotoApiUtil.unlikePhoto(id, this.receivePhoto);
   },
   receivePhoto(photo) {
     Dispatcher.dispatch({

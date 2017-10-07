@@ -27,4 +27,5 @@ class Api::PhotosController < ApplicationController
     params.require(:photo).permit(:url, :user_id, :likes, :tag_list)
   end
 
+
 end

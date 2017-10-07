@@ -1,8 +1,8 @@
 const Store = require('flux/utils').Store;
 const AppDispatcher = require('../dispatcher/dispatcher');
 const PhotoConstants = require('../constants/PhotoConstants');
+import LikeConstants from '../constants/LikeConstants';
 const PhotoStore = new Store(AppDispatcher);
-
 
 let _photos = {};
 let _searchInput = "";
@@ -16,6 +16,7 @@ PhotoStore.all = function() {
 };
 
 PhotoStore.find = function(id){
+  debugger
   return _photos[id];
 }
 
@@ -48,6 +49,18 @@ PhotoStore.searchInput = function() {
   return _searchInput;
 }
 
+PhotoStore.likePhoto = function(likeObj) {
+  let likedPhoto = PhotoStore.find(likeObj.photo_id);
+  let likedPhotoIndex = _photos.indexOf(likedPhoto);
+  _photos[likedPhotoIndex].likes.push(likeObj);
+}
+
+PhotoStore.unlikePhoto = function(likeObj) {
+  let likedPhoto = PhotoStore.find(likeObj.photo_id);
+  let likedPhotoIndex = _photos.indexOf(likedPhoto);
+  _photos[likedPhotoIndex].likes.splice(likedPhoto, 1);
+}
+
 PhotoStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case PhotoConstants.RECEIVE_PHOTOS:
@@ -61,6 +74,14 @@ PhotoStore.__onDispatch = function (payload) {
       break;
     case PhotoConstants.RECEIVE_PHOTO:
       PhotoStore.resetOne(payload.photo)
+      PhotoStore.__emitChange();
+      break;
+    case LikeConstants.RECEIVE_LIKE:
+      PhotoStore.likePhoto(payload.like);
+      PhotoStore.__emitChange();
+      break;
+    case LikeConstants.REMOVE_LIKE:
+      PhotoStore.unlikePhoto(payload.like);
       PhotoStore.__emitChange();
       break;
   }

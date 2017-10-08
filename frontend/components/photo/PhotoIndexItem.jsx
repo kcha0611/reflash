@@ -11,20 +11,32 @@ import CollectionActions from '../../actions/CollectionActions';
 import SessionStore from '../../stores/SessionStore';
 //Likes
 import LikeActions from '../../actions/LikeActions';
-
+//Photo
+import PhotoStore from '../../stores/PhotoStore';
 
 const PhotoIndexItem = React.createClass({
   getInitialState: function() {
     return {
       show: false,
-      userCollections: []
+      userCollections: [],
+      liked: this.photoLiked(this.props.photoData)
     };
   },
+  componentWillReceiveProps(props) {
+    this.setState({
+      liked: this.photoLiked(this.props.photoData)
+    })
+  },
+  photoLiked(photo) {
+    return photo.likes.some( like => {
+      return like.user_id === this.props.currentUser.id;
+    });
+  },
   componentDidMount: function() {
-    this.collectionListener = CollectionStore.addListener(this.onCollectionChange)
+    this.collectionListener = CollectionStore.addListener(this.onCollectionChange);
     CollectionActions.fetchCollections();
   },
-  componentWillUnmout() {
+  componentWillUnmount() {
     this.collectionListener.remove();
   },
   onCollectionChange() {
@@ -47,10 +59,21 @@ const PhotoIndexItem = React.createClass({
     $("#collection-form").animate({right: "+=600"});
   },
   likePhoto(e) {
-    LikeActions.likePhoto(this.props.photoData.id)
+    LikeActions.likePhoto(this.props.photoData.id);
   },
   unlikePhoto(e) {
     LikeActions.unlikePhoto(this.props.photoData.id);
+  },
+  checkIfLiked() {
+    if (this.state.liked) {
+      return (
+        <a href="javascript:void(0)" onClick={this.unlikePhoto} className="like-btn liked"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png" />{this.props.photoData.likes.length}</a>
+      )
+    } else {
+      return (
+        <a href="javascript:void(0)" onClick={this.likePhoto} className="like-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png" />{this.props.photoData.likes.length}</a>
+      )
+    }
   },
   renderModal() {
     let userCollections = this.state.userCollections.map(function (collection) {
@@ -90,7 +113,7 @@ const PhotoIndexItem = React.createClass({
             <img src={this.props.photoData.url} id="img" className="img" onClick={this.fullScreen}/>
             <div className="profile-container">
               <div>
-                <a href="javascript:void(0)" onClick={this.likePhoto} className="like-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png" />{this.props.photoData.likes.length}</a>
+                {this.checkIfLiked()}
                 <a href="javascript:void(0)" className="collect-btn" onClick={this.openCollectionModal}>Collect</a>
               </div>
               {this.renderModal()}

@@ -5087,6 +5087,10 @@ module.exports = reactProdInvariant;
 "use strict";
 
 
+var _SessionStore = __webpack_require__(102);
+
+var _SessionStore2 = _interopRequireDefault(_SessionStore);
+
 var _LikeConstants = __webpack_require__(161);
 
 var _LikeConstants2 = _interopRequireDefault(_LikeConstants);
@@ -5094,10 +5098,10 @@ var _LikeConstants2 = _interopRequireDefault(_LikeConstants);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Store = __webpack_require__(83).Store;
-var AppDispatcher = __webpack_require__(32);
-var PhotoConstants = __webpack_require__(162);
+var Dispatcher = __webpack_require__(32);
 
-var PhotoStore = new Store(AppDispatcher);
+var PhotoConstants = __webpack_require__(162);
+var PhotoStore = new Store(Dispatcher);
 
 var _photos = {};
 var _searchInput = "";
@@ -5144,15 +5148,24 @@ PhotoStore.searchInput = function () {
   return _searchInput;
 };
 
+function findPosition(photoObj) {
+  for (var i = 1; i < Object.keys(_photos).length; i++) {
+    if (_photos[i] === photoObj) {
+      return i;
+    }
+  }
+}
+
 PhotoStore.likePhoto = function (likeObj) {
   var likedPhoto = PhotoStore.find(likeObj.photo_id);
-  _photos[likedPhoto.id].likes.push(likeObj);
+  var photoIdx = findPosition(likedPhoto);
+  _photos[photoIdx].likes.push(likeObj);
 };
 
 PhotoStore.unlikePhoto = function (likeObj) {
   var likedPhoto = PhotoStore.find(likeObj.photo_id);
-  var likedPhotoIndex = _photos.indexOf(likedPhoto);
-  _photos[likedPhotoIndex].likes.splice(likedPhoto, 1);
+  var photoIdx = findPosition(likedPhoto);
+  _photos[photoIdx].likes.splice(likedPhoto, 1);
 };
 
 PhotoStore.__onDispatch = function (payload) {
@@ -22145,6 +22158,12 @@ module.exports = PhotoDetail;
 "use strict";
 
 
+var _SessionStore = __webpack_require__(102);
+
+var _SessionStore2 = _interopRequireDefault(_SessionStore);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var React = __webpack_require__(1);
 var PhotoStore = __webpack_require__(62);
 var PhotoActions = __webpack_require__(43);
@@ -22177,7 +22196,7 @@ var PhotoIndex = React.createClass({
   },
   render: function render() {
     var photos = this.state.photos.map(function (photo) {
-      return React.createElement(PhotoIndexItem, { key: photo.id, photoData: photo });
+      return React.createElement(PhotoIndexItem, { key: photo.id, photoData: photo, currentUser: _SessionStore2.default.currentUser() });
     });
     var navTab = void 0;
     if (this.state.searchInput !== "") {
@@ -22583,6 +22602,10 @@ var _LikeActions = __webpack_require__(265);
 
 var _LikeActions2 = _interopRequireDefault(_LikeActions);
 
+var _PhotoStore = __webpack_require__(62);
+
+var _PhotoStore2 = _interopRequireDefault(_PhotoStore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var React = __webpack_require__(1);
@@ -22595,6 +22618,8 @@ var Modal = __webpack_require__(211).Modal;
 
 //Likes
 
+//Photo
+
 
 var PhotoIndexItem = React.createClass({
   displayName: 'PhotoIndexItem',
@@ -22602,14 +22627,28 @@ var PhotoIndexItem = React.createClass({
   getInitialState: function getInitialState() {
     return {
       show: false,
-      userCollections: []
+      userCollections: [],
+      liked: this.photoLiked(this.props.photoData)
     };
   },
+  componentWillReceiveProps: function componentWillReceiveProps(props) {
+    this.setState({
+      liked: this.photoLiked(this.props.photoData)
+    });
+  },
+  photoLiked: function photoLiked(photo) {
+    var _this = this;
+
+    return photo.likes.some(function (like) {
+      return like.user_id === _this.props.currentUser.id;
+    });
+  },
+
   componentDidMount: function componentDidMount() {
     this.collectionListener = _CollectionStore2.default.addListener(this.onCollectionChange);
     _CollectionActions2.default.fetchCollections();
   },
-  componentWillUnmout: function componentWillUnmout() {
+  componentWillUnmount: function componentWillUnmount() {
     this.collectionListener.remove();
   },
   onCollectionChange: function onCollectionChange() {
@@ -22636,6 +22675,23 @@ var PhotoIndexItem = React.createClass({
   },
   unlikePhoto: function unlikePhoto(e) {
     _LikeActions2.default.unlikePhoto(this.props.photoData.id);
+  },
+  checkIfLiked: function checkIfLiked() {
+    if (this.state.liked) {
+      return React.createElement(
+        'a',
+        { href: 'javascript:void(0)', onClick: this.unlikePhoto, className: 'like-btn liked' },
+        React.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png' }),
+        this.props.photoData.likes.length
+      );
+    } else {
+      return React.createElement(
+        'a',
+        { href: 'javascript:void(0)', onClick: this.likePhoto, className: 'like-btn' },
+        React.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png' }),
+        this.props.photoData.likes.length
+      );
+    }
   },
   renderModal: function renderModal() {
     var userCollections = this.state.userCollections.map(function (collection) {
@@ -22697,12 +22753,7 @@ var PhotoIndexItem = React.createClass({
             React.createElement(
               'div',
               null,
-              React.createElement(
-                'a',
-                { href: 'javascript:void(0)', onClick: this.likePhoto, className: 'like-btn' },
-                React.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png' }),
-                this.props.photoData.likes.length
-              ),
+              this.checkIfLiked(),
               React.createElement(
                 'a',
                 { href: 'javascript:void(0)', className: 'collect-btn', onClick: this.openCollectionModal },
@@ -22982,7 +23033,6 @@ module.exports = {
       url: "api/likes",
       data: { like: { photo_id: photoID } },
       success: function success(like) {
-        debugger;
         successCB(like);
       }
     });

@@ -5,7 +5,6 @@ module.exports = {
       url: "api/likes",
       data: {like: {photo_id: photoID}},
       success: function(like) {
-        debugger
         successCB(like)
       }
     })

@@ -9,10 +9,18 @@ const SessionActions = {
   signup(user) {
     SessionApiUtil.signup(user, this.receiveUser);
   },
+  logout() {
+    SessionApiUtil.logout(this.removeUser);
+  },
   receiveUser(user) {
     Dispatcher.dispatch({
       actionType: SessionConstants.LOGIN,
       user: user
+    })
+  },
+  removeUser() {
+    Dispatcher.dispatch({
+      actionType: SessionConstants.LOGOUT
     })
   }
 }

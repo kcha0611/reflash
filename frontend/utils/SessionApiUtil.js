@@ -23,5 +23,14 @@ module.exports = {
         hashHistory.push("/");
       }
     })
+  },
+  logout(successCB) {
+    $.ajax({
+      method: 'DELETE',
+      url: 'api/session',
+      success: function() {
+        successCB()
+      }
+    })
   }
 }

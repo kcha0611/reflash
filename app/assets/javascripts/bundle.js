@@ -8216,10 +8216,18 @@ var SessionActions = {
   signup: function signup(user) {
     SessionApiUtil.signup(user, this.receiveUser);
   },
+  logout: function logout() {
+    SessionApiUtil.logout(this.removeUser);
+  },
   receiveUser: function receiveUser(user) {
     Dispatcher.dispatch({
       actionType: SessionConstants.LOGIN,
       user: user
+    });
+  },
+  removeUser: function removeUser() {
+    Dispatcher.dispatch({
+      actionType: SessionConstants.LOGOUT
     });
   }
 };
@@ -22316,40 +22324,92 @@ module.exports = LikeActions;
 "use strict";
 
 
-var React = __webpack_require__(1);
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _SearchBar = __webpack_require__(271);
+
+var _SearchBar2 = _interopRequireDefault(_SearchBar);
+
+var _SearchResult = __webpack_require__(272);
+
+var _SearchResult2 = _interopRequireDefault(_SearchResult);
+
+var _SessionStore = __webpack_require__(102);
+
+var _SessionStore2 = _interopRequireDefault(_SessionStore);
+
+var _SessionActions = __webpack_require__(100);
+
+var _SessionActions2 = _interopRequireDefault(_SessionActions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var ReactRouter = __webpack_require__(35);
 var Link = ReactRouter.Link;
-var SearchBar = __webpack_require__(271);
-var SearchResult = __webpack_require__(272);
+var hashHistory = ReactRouter.hashHistory;
 
-var NavBar = React.createClass({
+
+var NavBar = _react2.default.createClass({
   displayName: 'NavBar',
+  redirectTo: function redirectTo(e) {
+    hashHistory.push('' + e.target.name);
+  },
+  logout: function logout() {
+    _SessionActions2.default.logout();
+  },
+  handleCurrentUser: function handleCurrentUser() {
+    if (_SessionStore2.default.loggedIn()) {
+      return _react2.default.createElement(
+        'a',
+        { href: 'javascript:void(0)', onClick: this.logout },
+        'Logout'
+      );
+    } else {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'a',
+          { href: 'javascript:void(0)', name: 'login', onClick: this.redirectTo },
+          'Login'
+        ),
+        _react2.default.createElement(
+          'a',
+          { href: 'javascript:void(0)', name: 'signup', onClick: this.redirectTo },
+          'Signup'
+        )
+      );
+    }
+  },
   render: function render() {
-    return React.createElement(
+    return _react2.default.createElement(
       'div',
       { className: 'navbar-container' },
-      React.createElement('img', { src: 'http://res.cloudinary.com/dllnnnotc/image/upload/c_scale,w_60/v1495477878/Unsplash_logo_mub2w6.jpg' }),
-      React.createElement(SearchBar, null),
-      React.createElement(
+      _react2.default.createElement('img', { src: 'http://res.cloudinary.com/dllnnnotc/image/upload/c_scale,w_60/v1495477878/Unsplash_logo_mub2w6.jpg' }),
+      _react2.default.createElement(_SearchBar2.default, null),
+      _react2.default.createElement(
         'a',
         { href: '/' },
         'Home'
       ),
-      React.createElement(
+      _react2.default.createElement(
         'a',
         { href: '/' },
         'New'
       ),
-      React.createElement(
+      _react2.default.createElement(
         'a',
         { href: '/' },
         'Following'
       ),
-      React.createElement(
+      _react2.default.createElement(
         Link,
         { to: '/photos/new' },
         'Submit Photo'
-      )
+      ),
+      this.handleCurrentUser()
     );
   }
 });
@@ -23113,6 +23173,15 @@ module.exports = {
       success: function success(user) {
         successCB(user);
         hashHistory.push("/");
+      }
+    });
+  },
+  logout: function logout(successCB) {
+    $.ajax({
+      method: 'DELETE',
+      url: 'api/session',
+      success: function success() {
+        successCB();
       }
     });
   }

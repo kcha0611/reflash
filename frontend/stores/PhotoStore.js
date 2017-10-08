@@ -51,8 +51,7 @@ PhotoStore.searchInput = function() {
 
 PhotoStore.likePhoto = function(likeObj) {
   let likedPhoto = PhotoStore.find(likeObj.photo_id);
-  let likedPhotoIndex = _photos.indexOf(likedPhoto);
-  _photos[likedPhotoIndex].likes.push(likeObj);
+  _photos[likedPhoto.id].likes.push(likeObj);
 }
 
 PhotoStore.unlikePhoto = function(likeObj) {

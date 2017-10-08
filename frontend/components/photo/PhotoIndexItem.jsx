@@ -24,6 +24,9 @@ const PhotoIndexItem = React.createClass({
     this.collectionListener = CollectionStore.addListener(this.onCollectionChange)
     CollectionActions.fetchCollections();
   },
+  componentWillUnmout() {
+    this.collectionListener.remove();
+  },
   onCollectionChange() {
     this.setState({
       userCollections: CollectionStore.all()

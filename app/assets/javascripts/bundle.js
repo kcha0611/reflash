@@ -22158,12 +22158,6 @@ module.exports = PhotoDetail;
 "use strict";
 
 
-var _SessionStore = __webpack_require__(102);
-
-var _SessionStore2 = _interopRequireDefault(_SessionStore);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var React = __webpack_require__(1);
 var PhotoStore = __webpack_require__(62);
 var PhotoActions = __webpack_require__(43);
@@ -22196,7 +22190,7 @@ var PhotoIndex = React.createClass({
   },
   render: function render() {
     var photos = this.state.photos.map(function (photo) {
-      return React.createElement(PhotoIndexItem, { key: photo.id, photoData: photo, currentUser: _SessionStore2.default.currentUser() });
+      return React.createElement(PhotoIndexItem, { key: photo.id, photoData: photo });
     });
     var navTab = void 0;
     if (this.state.searchInput !== "") {
@@ -22637,10 +22631,8 @@ var PhotoIndexItem = React.createClass({
     });
   },
   photoLiked: function photoLiked(photo) {
-    var _this = this;
-
     return photo.likes.some(function (like) {
-      return like.user_id === _this.props.currentUser.id;
+      return like.user_id === _SessionStore2.default.currentUser().id;
     });
   },
 

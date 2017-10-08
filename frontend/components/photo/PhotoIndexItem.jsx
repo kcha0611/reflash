@@ -29,7 +29,7 @@ const PhotoIndexItem = React.createClass({
   },
   photoLiked(photo) {
     return photo.likes.some( like => {
-      return like.user_id === this.props.currentUser.id;
+      return like.user_id === SessionStore.currentUser().id;
     });
   },
   componentDidMount: function() {

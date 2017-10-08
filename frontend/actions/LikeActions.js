@@ -6,11 +6,10 @@ const LikeActions = {
   likePhoto(id) {
     LikeApiUtil.likePhoto(id, this.receiveLike)
   },
-  unlikePhoto(id) {
-    LikeApiUtil.unlikePhoto(id, this.removeLike)
+  unlikePhoto(photoID) {
+    LikeApiUtil.unlikePhoto(photoID, this.removeLike)
   },
   receiveLike(like) {
-    debugger
     Dispatcher.dispatch({
       actionType: LikeConstants.RECEIVE_LIKE,
       like: like

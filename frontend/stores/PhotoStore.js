@@ -17,7 +17,6 @@ PhotoStore.all = function() {
 };
 
 PhotoStore.find = function(id){
-  debugger
   return _photos[id];
 }
 
@@ -50,24 +49,14 @@ PhotoStore.searchInput = function() {
   return _searchInput;
 }
 
-function findPosition(photoObj) {
-  for (let i = 1; i < Object.keys(_photos).length; i++) {
-    if (_photos[i] === photoObj) {
-      return i;
-    }
-  }
-}
-
 PhotoStore.likePhoto = function(likeObj) {
   let likedPhoto = PhotoStore.find(likeObj.photo_id);
-  let photoIdx = findPosition(likedPhoto);
-  _photos[photoIdx].likes.push(likeObj);
+  _photos[likedPhoto.id].likes.push(likeObj);
 }
 
 PhotoStore.unlikePhoto = function(likeObj) {
   let likedPhoto = PhotoStore.find(likeObj.photo_id);
-  let photoIdx = findPosition(likedPhoto);
-  _photos[photoIdx].likes.splice(likedPhoto, 1);
+  _photos[likedPhoto.id].likes.splice(likedPhoto, 1);
 }
 
 PhotoStore.__onDispatch = function (payload) {

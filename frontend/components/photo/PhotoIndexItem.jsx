@@ -67,7 +67,7 @@ const PhotoIndexItem = React.createClass({
   checkIfLiked() {
     if (this.state.liked) {
       return (
-        <a href="javascript:void(0)" onClick={this.unlikePhoto} className="like-btn liked"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png" />{this.props.photoData.likes.length}</a>
+        <a href="javascript:void(0)" onClick={this.unlikePhoto} className="like-btn liked" id="unlike-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png" />{this.props.photoData.likes.length}</a>
       )
     } else {
       return (

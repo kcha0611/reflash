@@ -5115,7 +5115,6 @@ PhotoStore.all = function () {
 };
 
 PhotoStore.find = function (id) {
-  debugger;
   return _photos[id];
 };
 
@@ -5148,24 +5147,14 @@ PhotoStore.searchInput = function () {
   return _searchInput;
 };
 
-function findPosition(photoObj) {
-  for (var i = 1; i < Object.keys(_photos).length; i++) {
-    if (_photos[i] === photoObj) {
-      return i;
-    }
-  }
-}
-
 PhotoStore.likePhoto = function (likeObj) {
   var likedPhoto = PhotoStore.find(likeObj.photo_id);
-  var photoIdx = findPosition(likedPhoto);
-  _photos[photoIdx].likes.push(likeObj);
+  _photos[likedPhoto.id].likes.push(likeObj);
 };
 
 PhotoStore.unlikePhoto = function (likeObj) {
   var likedPhoto = PhotoStore.find(likeObj.photo_id);
-  var photoIdx = findPosition(likedPhoto);
-  _photos[photoIdx].likes.splice(likedPhoto, 1);
+  _photos[likedPhoto.id].likes.splice(likedPhoto, 1);
 };
 
 PhotoStore.__onDispatch = function (payload) {
@@ -22301,11 +22290,10 @@ var LikeActions = {
   likePhoto: function likePhoto(id) {
     _LikeApiUtil2.default.likePhoto(id, this.receiveLike);
   },
-  unlikePhoto: function unlikePhoto(id) {
-    _LikeApiUtil2.default.unlikePhoto(id, this.removeLike);
+  unlikePhoto: function unlikePhoto(photoID) {
+    _LikeApiUtil2.default.unlikePhoto(photoID, this.removeLike);
   },
   receiveLike: function receiveLike(like) {
-    debugger;
     _dispatcher2.default.dispatch({
       actionType: _LikeConstants2.default.RECEIVE_LIKE,
       like: like
@@ -22672,7 +22660,7 @@ var PhotoIndexItem = React.createClass({
     if (this.state.liked) {
       return React.createElement(
         'a',
-        { href: 'javascript:void(0)', onClick: this.unlikePhoto, className: 'like-btn liked' },
+        { href: 'javascript:void(0)', onClick: this.unlikePhoto, className: 'like-btn liked', id: 'unlike-btn' },
         React.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png' }),
         this.props.photoData.likes.length
       );
@@ -23032,10 +23020,11 @@ module.exports = {
   unlikePhoto: function unlikePhoto(photoID, successCB) {
     $.ajax({
       method: "DELETE",
-      url: "api/likes",
-      data: { like: { photo_id: photoID } },
+      url: "api/likes/" + photoID,
+      data: { photo_id: photoID },
       success: function success(like) {
         successCB(like);
+        $("#unlike-btn").removeClass("liked");
       }
     });
   }

@@ -4,6 +4,7 @@ const PhotoActions = require('../../actions/PhotoActions');
 const PhotoIndexItem = require('./PhotoIndexItem');
 const ReactRouter = require('react-router');
 const Link = ReactRouter.Link;
+import SessionStore from '../../stores/SessionStore';
 
 const PhotoIndex = React.createClass({
   getInitialState: function() {
@@ -29,7 +30,7 @@ const PhotoIndex = React.createClass({
   render() {
     let photos = this.state.photos.map(function (photo) {
       return (
-        <PhotoIndexItem key={photo.id} photoData={photo} />
+        <PhotoIndexItem key={photo.id} photoData={photo} currentUser={SessionStore.currentUser()} />
       )
     });
     let navTab;

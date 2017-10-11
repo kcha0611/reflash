@@ -5,15 +5,16 @@ import LikeConstants from '../constants/LikeConstants';
 const PhotoConstants = require('../constants/PhotoConstants');
 const PhotoStore = new Store(Dispatcher);
 
-let _photos = {};
+let _photos = [];
 let _searchInput = "";
 
 PhotoStore.all = function() {
-  return Object.keys(_photos).sort(function(first, second) {
-    return new Date(_photos[second].updated_at) - new Date(_photos[first].updated_at)
-  }).map(function(id){
-    return _photos[id];
-  });
+  // return Object.keys(_photos).sort(function(first, second) {
+  //   return new Date(_photos[second].updated_at) - new Date(_photos[first].updated_at)
+  // }).map(function(id){
+  //   return _photos[id];
+  // });
+  return _photos;
 };
 
 PhotoStore.find = function(id){
@@ -21,16 +22,15 @@ PhotoStore.find = function(id){
 }
 
 PhotoStore.reset = function(photoObj){
-  _photos = {};
+  _photos = [];
   photoObj.photos.forEach(function(photo){
     _photos[photo.id] = photo;
   });
 };
 
 PhotoStore.resetOne = function(photoObj){
-  _photos = {};
+  _photos = [];
   _photos[photoObj.id] = photoObj;
-
   return _photos;
 }
 
@@ -51,12 +51,39 @@ PhotoStore.searchInput = function() {
 
 PhotoStore.likePhoto = function(likeObj) {
   let likedPhoto = PhotoStore.find(likeObj.photo_id);
-  _photos[likedPhoto.id].likes.push(likeObj);
+  let photoIdx = findPhotoIdx(likedPhoto);
+  if (photoIdx >= 0 && checkIfLiked(_photos[photoIdx].likes, likeObj) < 0) {
+    _photos[photoIdx].likes.push(likeObj);
+  }
 }
 
 PhotoStore.unlikePhoto = function(likeObj) {
   let likedPhoto = PhotoStore.find(likeObj.photo_id);
-  _photos[likedPhoto.id].likes.splice(likedPhoto, 1);
+  let photoIdx = findPhotoIdx(likedPhoto);
+  if (photoIdx >= 0) {
+    let likeIdx = _photos[photoIdx].likes.indexOf(likeObj.user_id);
+    _photos[photoIdx].likes.splice(likeIdx, 1);
+  }
+}
+
+function findPhotoIdx(photoObj) {
+  let idx = -1;
+  _photos.forEach(function(photo, i) {
+    if (photo.id === photoObj.id) {
+      idx = i;
+    }
+  });
+  return idx;
+}
+
+function checkIfLiked(likes, likeObj) {
+  let idx = -1;
+  likes.forEach( (like, i) => {
+    if (like.id === likeObj.id) {
+      idx = i;
+    }
+  });
+  return idx;
 }
 
 PhotoStore.__onDispatch = function (payload) {

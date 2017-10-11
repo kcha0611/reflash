@@ -16,7 +16,6 @@ module.exports = {
       data: {photo_id: photoID},
       success: function(like) {
         successCB(like);
-        $("#unlike-btn").removeClass("liked");
       }
     })
   }

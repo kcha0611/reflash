@@ -22,14 +22,14 @@ const PhotoIndexItem = React.createClass({
       liked: this.photoLiked(this.props.photoData)
     };
   },
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(nextProps) {
     this.setState({
       liked: this.photoLiked(this.props.photoData)
-    })
+    });
   },
   photoLiked(photo) {
     return photo.likes.some( like => {
-      return like.user_id === SessionStore.currentUser().id;
+      return like.user_id === this.props.currentUser.id
     });
   },
   componentDidMount: function() {
@@ -49,29 +49,30 @@ const PhotoIndexItem = React.createClass({
   },
   openCollectionModal(e) {
     e.preventDefault();
-    this.setState({show: true})
+    this.setState({show: true});
   },
   close() {
-    this.setState({show: false})
+    this.setState({show: false});
   },
   openCollectionForm() {
     $(".collection-modal-right").addClass("hide");
     $("#collection-form").animate({right: "+=600"});
   },
-  likePhoto(e) {
-    LikeActions.likePhoto(this.props.photoData.id);
-  },
-  unlikePhoto(e) {
-    LikeActions.unlikePhoto(this.props.photoData.id);
+  handleLike() {
+    if (this.state.liked) {
+      LikeActions.unlikePhoto(this.props.photoData.id);
+    } else {
+      LikeActions.likePhoto(this.props.photoData.id);
+    }
   },
   checkIfLiked() {
     if (this.state.liked) {
       return (
-        <a href="javascript:void(0)" onClick={this.unlikePhoto} className="like-btn liked" id="unlike-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png" />{this.props.photoData.likes.length}</a>
+        <a href="javascript:void(0)" onClick={this.handleLike} className="like-btn liked"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png" />{this.props.photoData.likes.length}</a>
       )
     } else {
       return (
-        <a href="javascript:void(0)" onClick={this.likePhoto} className="like-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png" />{this.props.photoData.likes.length}</a>
+        <a href="javascript:void(0)" onClick={this.handleLike} className="like-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png" />{this.props.photoData.likes.length}</a>
       )
     }
   },

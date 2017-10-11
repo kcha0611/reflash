@@ -6,7 +6,7 @@ const LikeActions = {
   likePhoto(id) {
     LikeApiUtil.likePhoto(id, this.receiveLike)
   },
-  unlikePhoto(photoID) {
+  unlikePhoto(photoID, error) {
     LikeApiUtil.unlikePhoto(photoID, this.removeLike)
   },
   receiveLike(like) {

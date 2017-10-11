@@ -8,14 +8,12 @@ const CollectionActions = {
     CollectionApiUtil.createCollection(collection, this.receiveCollection);
   },
   getCollection(id) {
-    debugger
     CollectionApiUtil.getCollection(id, this.receiveCollection);
   },
   fetchCollections() {
     CollectionApiUtil.fetchCollections(this.receiveCollections);
   },
   receiveCollection(collection) {
-    debugger
     Dispatcher.dispatch({
       actionType: CollectionConstants.RECEIVE_COLLECTION,
       collection: collection

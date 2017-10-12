@@ -4213,10 +4213,22 @@ PhotoStore.unlikePhoto = function (likeObj) {
   var likedPhoto = PhotoStore.find(likeObj.photo_id);
   var photoIdx = findPhotoIdx(likedPhoto);
   if (photoIdx >= 0) {
-    var likeIdx = _photos[photoIdx].likes.indexOf(likeObj.user_id);
-    _photos[photoIdx].likes.splice(likeIdx, 1);
+    var likeIdx = findLike(photoIdx, likeObj);
+    if (likeIdx >= 0) {
+      _photos[photoIdx].likes.splice(likeIdx, 1);
+    }
   }
 };
+
+function findLike(photoIdx, likeObj) {
+  var idx = -1;
+  _photos[photoIdx].likes.forEach(function (like, i) {
+    if (like.id === likeObj.id) {
+      idx = i;
+    }
+  });
+  return idx;
+}
 
 function findPhotoIdx(photoObj) {
   var idx = -1;
@@ -4254,10 +4266,12 @@ PhotoStore.__onDispatch = function (payload) {
       PhotoStore.__emitChange();
       break;
     case _LikeConstants2.default.RECEIVE_LIKE:
+      // console.log("PhotoStore Photo liked");
       PhotoStore.likePhoto(payload.like);
       PhotoStore.__emitChange();
       break;
     case _LikeConstants2.default.REMOVE_LIKE:
+      // console.log("PhotoStore Photo unliked");
       PhotoStore.unlikePhoto(payload.like);
       PhotoStore.__emitChange();
       break;
@@ -22707,7 +22721,7 @@ var PhotoIndexItem = React.createClass({
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     this.setState({
-      liked: this.photoLiked(this.props.photoData)
+      liked: this.photoLiked(nextProps.photoData)
     });
   },
   photoLiked: function photoLiked(photo) {
@@ -22752,6 +22766,7 @@ var PhotoIndexItem = React.createClass({
     }
   },
   checkIfLiked: function checkIfLiked() {
+    console.log('State is now ' + this.state.liked + ' in checkIfLiked for ' + this.props.photoData.id);
     if (this.state.liked) {
       return React.createElement(
         'a',
@@ -22802,9 +22817,9 @@ var PhotoIndexItem = React.createClass({
                 'a',
                 { onClick: this.openCollectionForm },
                 'Create a new collection'
-              ),
-              userCollections
-            )
+              )
+            ),
+            userCollections
           ),
           React.createElement(_CollectionForm2.default, null)
         )

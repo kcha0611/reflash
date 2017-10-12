@@ -24,7 +24,7 @@ const PhotoIndexItem = React.createClass({
   },
   componentWillReceiveProps(nextProps) {
     this.setState({
-      liked: this.photoLiked(this.props.photoData)
+      liked: this.photoLiked(nextProps.photoData)
     });
   },
   photoLiked(photo) {
@@ -66,6 +66,7 @@ const PhotoIndexItem = React.createClass({
     }
   },
   checkIfLiked() {
+    console.log(`State is now ${this.state.liked} in checkIfLiked for ${this.props.photoData.id}`);
     if (this.state.liked) {
       return (
         <a href="javascript:void(0)" onClick={this.handleLike} className="like-btn liked"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png" />{this.props.photoData.likes.length}</a>
@@ -97,8 +98,8 @@ const PhotoIndexItem = React.createClass({
               <div id="inner-collections-wrap">
                 <h1>Add to Collection</h1>
                 <a onClick={this.openCollectionForm}>Create a new collection</a>
-                {userCollections}
               </div>
+              {userCollections}
             </div>
             <CollectionForm />
           </div>

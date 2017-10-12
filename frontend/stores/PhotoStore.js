@@ -61,9 +61,21 @@ PhotoStore.unlikePhoto = function(likeObj) {
   let likedPhoto = PhotoStore.find(likeObj.photo_id);
   let photoIdx = findPhotoIdx(likedPhoto);
   if (photoIdx >= 0) {
-    let likeIdx = _photos[photoIdx].likes.indexOf(likeObj.user_id);
-    _photos[photoIdx].likes.splice(likeIdx, 1);
+    let likeIdx = findLike(photoIdx, likeObj);
+    if (likeIdx >= 0) {
+      _photos[photoIdx].likes.splice(likeIdx, 1);
+    }
   }
+}
+
+function findLike(photoIdx, likeObj) {
+  let idx = -1;
+  _photos[photoIdx].likes.forEach(function(like, i) {
+    if (like.id === likeObj.id) {
+      idx = i;
+    }
+  });
+  return idx;
 }
 
 function findPhotoIdx(photoObj) {
@@ -78,7 +90,7 @@ function findPhotoIdx(photoObj) {
 
 function checkIfLiked(likes, likeObj) {
   let idx = -1;
-  likes.forEach( (like, i) => {
+  likes.forEach(function(like, i) {
     if (like.id === likeObj.id) {
       idx = i;
     }
@@ -102,10 +114,12 @@ PhotoStore.__onDispatch = function (payload) {
       PhotoStore.__emitChange();
       break;
     case LikeConstants.RECEIVE_LIKE:
+    // console.log("PhotoStore Photo liked");
       PhotoStore.likePhoto(payload.like);
       PhotoStore.__emitChange();
       break;
     case LikeConstants.REMOVE_LIKE:
+      // console.log("PhotoStore Photo unliked");
       PhotoStore.unlikePhoto(payload.like);
       PhotoStore.__emitChange();
       break;

@@ -3,10 +3,10 @@ const PhotoActions = require('../../actions/PhotoActions');
 //Bootstrap
 const Modal = require('react-bootstrap').Modal;
 //Collections
-import CollectionForm from '../forms/CollectionForm';
 import CollectionStore from '../../stores/CollectionStore';
 import CollectionIndexItem from '../collection/CollectionIndexItem';
 import CollectionActions from '../../actions/CollectionActions';
+import CollectionModal from '../collection/CollectionModal';
 //Session
 import SessionStore from '../../stores/SessionStore';
 //Likes
@@ -18,7 +18,6 @@ const PhotoIndexItem = React.createClass({
   getInitialState: function() {
     return {
       show: false,
-      userCollections: [],
       liked: this.photoLiked(this.props.photoData)
     };
   },
@@ -32,18 +31,6 @@ const PhotoIndexItem = React.createClass({
       return like.user_id === this.props.currentUser.id
     });
   },
-  componentDidMount: function() {
-    this.collectionListener = CollectionStore.addListener(this.onCollectionChange);
-    CollectionActions.fetchCollections();
-  },
-  componentWillUnmount() {
-    this.collectionListener.remove();
-  },
-  onCollectionChange() {
-    this.setState({
-      userCollections: CollectionStore.all()
-    });
-  },
   fullScreen() {
     $(".profile-container").addClass("fullscreen");
   },
@@ -54,10 +41,6 @@ const PhotoIndexItem = React.createClass({
   close() {
     this.setState({show: false});
   },
-  openCollectionForm() {
-    $(".collection-modal-right").addClass("hide");
-    $("#collection-form").animate({right: "+=600"});
-  },
   handleLike() {
     if (this.state.liked) {
       LikeActions.unlikePhoto(this.props.photoData.id);
@@ -66,7 +49,6 @@ const PhotoIndexItem = React.createClass({
     }
   },
   checkIfLiked() {
-    console.log(`State is now ${this.state.liked} in checkIfLiked for ${this.props.photoData.id}`);
     if (this.state.liked) {
       return (
         <a href="javascript:void(0)" onClick={this.handleLike} className="like-btn liked"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png" />{this.props.photoData.likes.length}</a>
@@ -76,36 +58,6 @@ const PhotoIndexItem = React.createClass({
         <a href="javascript:void(0)" onClick={this.handleLike} className="like-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png" />{this.props.photoData.likes.length}</a>
       )
     }
-  },
-  renderModal() {
-    let userCollections = this.state.userCollections.map(function (collection) {
-      return (
-        <CollectionIndexItem key={"id" + collection.id} collectionData={collection} />
-      )
-    });
-    let modalLeftStyles = {
-      backgroundImage: `url(${this.props.photoData.url})`,
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat'
-    }
-    return (
-      <div className="collection-modal-container">
-        <Modal show={this.state.show} onHide={this.close} className="collection-modal">
-          <div className="collection-modal-wrap">
-            <div className="collection-modal-left" style={modalLeftStyles}>
-            </div>
-            <div className="collection-modal-right">
-              <div id="inner-collections-wrap">
-                <h1>Add to Collection</h1>
-                <a onClick={this.openCollectionForm}>Create a new collection</a>
-              </div>
-              {userCollections}
-            </div>
-            <CollectionForm />
-          </div>
-        </Modal>
-      </div>
-    )
   },
   render() {
     return (
@@ -118,7 +70,7 @@ const PhotoIndexItem = React.createClass({
                 {this.checkIfLiked()}
                 <a href="javascript:void(0)" className="collect-btn" onClick={this.openCollectionModal}>Collect</a>
               </div>
-              {this.renderModal()}
+              <CollectionModal photoData={this.props.photoData} show={this.state.show} onHide={this.close}/>
               <a href="/" className="image-user">{this.props.photoData.user.first_name} {this.props.photoData.user.last_name}</a>
               <a href={this.props.photoData.url} download className="profile-download-btn">Download</a>
             </div>

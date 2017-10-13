@@ -5,7 +5,17 @@ module.exports = {
       url: "api/collections",
       data: {collection: collection},
       success: function(collection) {
-        successCB(collection)
+        successCB(collection);
+      }
+    })
+  },
+  createModalCollection(collection, successCB) {
+    $.ajax({
+      method: "POST",
+      url: "api/collections",
+      data: {collection: collection},
+      success: function(collection) {
+        successCB(collection);
         $("#collection-form").animate({right: "-=600"}, function() {
           $(".collection-modal-right").removeClass("hide");
         });

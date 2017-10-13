@@ -7,6 +7,9 @@ const CollectionActions = {
   createCollection(collection) {
     CollectionApiUtil.createCollection(collection, this.receiveCollection);
   },
+  createModalCollection(collection) {
+    CollectionApiUtil.createModalCollection(collection, this.receiveModalCollection);
+  },
   getCollection(id) {
     CollectionApiUtil.getCollection(id, this.receiveCollection);
   },
@@ -23,6 +26,12 @@ const CollectionActions = {
     Dispatcher.dispatch({
       actionType: CollectionConstants.RECEIVE_COLLECTIONS,
       collections: collections
+    })
+  },
+  receiveModalCollection(collection) {
+    Dispatcher.dispatch({
+      actionType: CollectionConstants.RECEIVE_MODAL_COLLECTION,
+      collection: collection
     })
   }
 }

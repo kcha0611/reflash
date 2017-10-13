@@ -29,7 +29,8 @@ CollectionStore.resetOne = function(collectionObj) {
 };
 
 CollectionStore.addModalCollection = function(collectionObj) {
-  _collections.push(collectionObj);
+  _collections[collectionObj.collection.id] = collectionObj.collection;
+  debugger
   return _collections;
 }
 
@@ -50,6 +51,7 @@ CollectionStore.__onDispatch = function(payload) {
     case CollectionConstants.RECEIVE_MODAL_COLLECTION:
       CollectionStore.addModalCollection(payload.collection);
       CollectionStore.__emitChange();
+      break;
   }
 };
 

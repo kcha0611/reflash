@@ -6161,6 +6161,9 @@ var CollectionActions = {
   fetchCollections: function fetchCollections() {
     CollectionApiUtil.fetchCollections(this.receiveCollections);
   },
+  addPhotoToCollection: function addPhotoToCollection(photo, collection) {
+    CollectionApiUtil.addPhotoToCollection(photo, collection, this.receiveAddedPhoto);
+  },
   receiveCollection: function receiveCollection(collection) {
     Dispatcher.dispatch({
       actionType: CollectionConstants.RECEIVE_COLLECTION,
@@ -6177,6 +6180,13 @@ var CollectionActions = {
     Dispatcher.dispatch({
       actionType: CollectionConstants.RECEIVE_MODAL_COLLECTION,
       collection: collection
+    });
+  },
+  receiveAddedPhoto: function receiveAddedPhoto(photo, collection) {
+    Dispatcher.dispatch({
+      actionType: CollectionConstants.RECEIVE_ADDED_PHOTO,
+      collection: collection,
+      photo: photo
     });
   }
 };
@@ -8425,13 +8435,40 @@ CollectionStore.resetOne = function (collectionObj) {
 
 CollectionStore.addModalCollection = function (collectionObj) {
   _collections[collectionObj.collection.id] = collectionObj.collection;
-  debugger;
   return _collections;
+};
+
+CollectionStore.addPhotoToCollection = function (photoObj, collectionObj) {
+  var photoIdx = checkIfPhotoAdded(_collections[collectionObj].photos, photoObj);
+  var collectionIdx = collectionIdx(collectionObj);
+  if (collectionIdx >= 0 && photoIdx === -1) {
+    _collections[collectionIdx].photos.push(photoObj);
+  }
 };
 
 CollectionStore.find = function (id) {
   return _collections[id];
 };
+
+function checkIfPhotoAdded(photos, photoObj) {
+  var idx = -1;
+  photos.forEach(function (photo, i) {
+    if (photo.id === photoObj.id) {
+      idx = i;
+    }
+  });
+  return idx;
+}
+
+function collectionIdx(collectionObj) {
+  var idx = -1;
+  _collections.forEach(function (collection, i) {
+    if (collection.id === collectionObj.id) {
+      idx = i;
+    }
+  });
+  return idx;
+}
 
 CollectionStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
@@ -8445,6 +8482,10 @@ CollectionStore.__onDispatch = function (payload) {
       break;
     case CollectionConstants.RECEIVE_MODAL_COLLECTION:
       CollectionStore.addModalCollection(payload.collection);
+      CollectionStore.__emitChange();
+      break;
+    case CollectionConstants.RECEIVE_ADDED_PHOTO:
+      CollectionStore.addPhotoToCollection(payload.collection, payload.photo);
       CollectionStore.__emitChange();
       break;
   }
@@ -12877,12 +12918,22 @@ var CollectionIndexItem = function (_React$Component) {
   }
 
   _createClass(CollectionIndexItem, [{
-    key: 'render',
+    key: "render",
     value: function render() {
       return _react2.default.createElement(
-        'div',
-        null,
-        this.props.collectionData.name
+        "div",
+        { className: "collection-container" },
+        _react2.default.createElement(
+          "h6",
+          null,
+          this.props.collectionData.photos.length,
+          " photos"
+        ),
+        _react2.default.createElement(
+          "h3",
+          null,
+          this.props.collectionData.name
+        )
       );
     }
   }]);
@@ -22587,9 +22638,16 @@ var CollectionModal = React.createClass({
     $(".collection-modal-right").addClass("hide");
     $("#collection-form").animate({ right: "+=600" });
   },
+  addPhoto: function addPhoto(photoObj, collectionObj) {
+    _CollectionActions2.default.addPhotoToCollection(photoObj, collectionObj);
+  },
   render: function render() {
     var userCollections = this.state.userCollections.map(function (collection) {
-      return React.createElement(_CollectionIndexItem2.default, { key: "id" + collection.id, collectionData: collection });
+      var _this = this;
+
+      return React.createElement(_CollectionIndexItem2.default, { key: "id" + collection.id, collectionData: collection, onClick: function onClick() {
+          return _this.addPhoto(_this.props.photoData, collection);
+        } });
     });
     var modalLeftStyles = {
       backgroundImage: 'url(' + this.props.photoData.url + ')',
@@ -23132,52 +23190,9 @@ module.exports = ErrorStore;
 
 /***/ }),
 /* 276 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-module.exports = {
-  createCollection: function createCollection(collection, successCB) {
-    $.ajax({
-      method: "POST",
-      url: "api/collections",
-      data: { collection: collection },
-      success: function success(collection) {
-        successCB(collection);
-      }
-    });
-  },
-  createModalCollection: function createModalCollection(collection, successCB) {
-    $.ajax({
-      method: "POST",
-      url: "api/collections",
-      data: { collection: collection },
-      success: function success(collection) {
-        successCB(collection);
-        $("#collection-form").animate({ right: "-=600" }, function () {
-          $(".collection-modal-right").removeClass("hide");
-        });
-      }
-    });
-  },
-  fetchCollections: function fetchCollections(successCB) {
-    $.ajax({
-      url: "api/collections",
-      success: function success(collections) {
-        successCB(collections);
-      }
-    });
-  },
-  getCollection: function getCollection(id, successCB) {
-    $.ajax({
-      url: "api/collections/" + id,
-      success: function success(collection) {
-        successCB(collection);
-      }
-    });
-  }
-};
+throw new Error("Module build failed: SyntaxError: C:/Users/Ken/Desktop/reflash/frontend/utils/CollectionApiUtil.js: Unexpected token, expected , (46:6)\n\n\u001b[0m \u001b[90m 44 | \u001b[39m      url\u001b[33m:\u001b[39m \u001b[32m`api/collections/${collection.id}`\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 45 | \u001b[39m      data\u001b[33m:\u001b[39m {collection\u001b[33m:\u001b[39m collection\u001b[33m,\u001b[39m photo_id\u001b[33m:\u001b[39m photo\u001b[33m.\u001b[39mid}\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 46 | \u001b[39m      success\u001b[33m:\u001b[39m \u001b[36mfunction\u001b[39m(photo\u001b[33m,\u001b[39m collection) {\n \u001b[90m    | \u001b[39m      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 47 | \u001b[39m        successCB(photo\u001b[33m,\u001b[39m collection)\n \u001b[90m 48 | \u001b[39m      }\n \u001b[90m 49 | \u001b[39m    })\u001b[0m\n");
 
 /***/ }),
 /* 277 */

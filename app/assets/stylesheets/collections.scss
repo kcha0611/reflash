@@ -70,3 +70,18 @@ form.collection.form {
 .collection-btn-wrap div {
   width: 50%;
 }
+
+.collection-container {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 10px 17px;
+  color: white;
+  border-radius: 5px;
+}
+
+.collection-container h3, h6 {
+  margin: 0;
+}
+
+.collection-container h6 {
+  opacity: 0.6;
+}

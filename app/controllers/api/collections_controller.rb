@@ -18,6 +18,17 @@ class Api::CollectionsController < ApplicationController
     @collections = Collection.where(user_id: current_user.id)
   end
 
+  def add_photo_to_collection
+    @collection = Collection.find(params[:id])
+    @photo = Photo.find(params[:photo_id])
+    photos = @collection.photos.push(@photo)
+    if @collection.update_attributes(photos: photos)
+      render :show
+    else
+      render {}
+    end
+  end 
+
   private
 
   def collection_params

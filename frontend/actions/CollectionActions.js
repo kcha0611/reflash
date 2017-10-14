@@ -16,6 +16,9 @@ const CollectionActions = {
   fetchCollections() {
     CollectionApiUtil.fetchCollections(this.receiveCollections);
   },
+  addPhotoToCollection(photo, collection) {
+    CollectionApiUtil.addPhotoToCollection(photo, collection, this.receiveAddedPhoto)
+  },
   receiveCollection(collection) {
     Dispatcher.dispatch({
       actionType: CollectionConstants.RECEIVE_COLLECTION,
@@ -32,6 +35,13 @@ const CollectionActions = {
     Dispatcher.dispatch({
       actionType: CollectionConstants.RECEIVE_MODAL_COLLECTION,
       collection: collection
+    })
+  },
+  receiveAddedPhoto(photo, collection) {
+    Dispatcher.dispatch({
+      actionType: CollectionConstants.RECEIVE_ADDED_PHOTO,
+      collection: collection,
+      photo: photo
     })
   }
 }

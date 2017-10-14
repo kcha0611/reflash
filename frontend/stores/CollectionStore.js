@@ -30,13 +30,40 @@ CollectionStore.resetOne = function(collectionObj) {
 
 CollectionStore.addModalCollection = function(collectionObj) {
   _collections[collectionObj.collection.id] = collectionObj.collection;
-  debugger
   return _collections;
+}
+
+CollectionStore.addPhotoToCollection = function(photoObj, collectionObj) {
+  let photoIdx = checkIfPhotoAdded(_collections[collectionObj].photos, photoObj);
+  let collectionIdx = collectionIdx(collectionObj);
+  if (collectionIdx >= 0 && photoIdx === -1) {
+    _collections[collectionIdx].photos.push(photoObj);
+  }
 }
 
 CollectionStore.find = function(id) {
   return _collections[id];
 };
+
+function checkIfPhotoAdded(photos, photoObj) {
+  let idx = -1;
+  photos.forEach(function(photo, i) {
+    if (photo.id === photoObj.id) {
+      idx = i;
+    }
+  });
+  return idx;
+}
+
+function collectionIdx(collectionObj) {
+  let idx = -1;
+  _collections.forEach(function(collection, i) {
+    if (collection.id === collectionObj.id) {
+      idx = i;
+    }
+  });
+  return idx;
+}
 
 CollectionStore.__onDispatch = function(payload) {
   switch (payload.actionType) {
@@ -50,6 +77,10 @@ CollectionStore.__onDispatch = function(payload) {
       break;
     case CollectionConstants.RECEIVE_MODAL_COLLECTION:
       CollectionStore.addModalCollection(payload.collection);
+      CollectionStore.__emitChange();
+      break;
+    case CollectionConstants.RECEIVE_ADDED_PHOTO:
+      CollectionStore.addPhotoToCollection(payload.collection, payload.photo);
       CollectionStore.__emitChange();
       break;
   }

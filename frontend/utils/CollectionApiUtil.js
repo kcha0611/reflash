@@ -37,5 +37,15 @@ module.exports = {
         successCB(collection)
       }
     })
+  },
+  addPhotoToCollection(photo, collection, successCB) {
+    $.ajax({
+      method: 'POST',
+      url: `api/collections/${collection.id}`,
+      data: {collection: collection, photo_id: photo.id}
+      success: function(photo, collection) {
+        successCB(photo, collection)
+      }
+    })
   }
 }

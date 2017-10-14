@@ -28,10 +28,13 @@ const CollectionModal = React.createClass({
     $(".collection-modal-right").addClass("hide");
     $("#collection-form").animate({right: "+=600"});
   },
+  addPhoto(photoObj, collectionObj) {
+    CollectionActions.addPhotoToCollection(photoObj, collectionObj)
+  },
   render() {
     let userCollections = this.state.userCollections.map(function (collection) {
       return (
-        <CollectionIndexItem key={"id" + collection.id} collectionData={collection} />
+        <CollectionIndexItem key={"id" + collection.id} collectionData={collection} onClick={ () => this.addPhoto(this.props.photoData, collection)}/>
       )
     });
     let modalLeftStyles = {

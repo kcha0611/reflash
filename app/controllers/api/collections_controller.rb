@@ -23,7 +23,8 @@ class Api::CollectionsController < ApplicationController
     if params[:photo_id]
       @photo = Photo.find(params[:photo_id])
       if @collection.photos.include?(@photo)
-        photos = @collection.photos.delete(@photo)
+        @collection.photos.delete(@photo)
+        photos = @collection.photos
       else
         photos = @collection.photos.push(@photo)
       end
@@ -34,7 +35,6 @@ class Api::CollectionsController < ApplicationController
       end
     end
   end
-
 
   private
 

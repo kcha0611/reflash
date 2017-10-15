@@ -8459,7 +8459,7 @@ CollectionStore.addPhotoToCollection = function (collectionObj, photoObj) {
 CollectionStore.removePhotoFromCollection = function (collectionObj, photoObj) {
   var collectionIdx = findCollectionIdx(collectionObj);
   var photoIdx = checkIfPhotoAdded(_collections[collectionIdx].photos, photoObj);
-  if (collectionIdx >= 0 && photoIdx < 0) {
+  if (collectionIdx >= 0 && photoIdx >= 0) {
     _collections[collectionIdx].photos.splice(photoIdx, 1);
   }
 };
@@ -23289,7 +23289,6 @@ module.exports = {
       url: "api/collections/" + collection.id,
       data: { collection: collection, photo_id: photo.id },
       success: function success(data) {
-        debugger;
         successCB(data);
       }
     });

@@ -44,7 +44,7 @@ CollectionStore.addPhotoToCollection = function(collectionObj, photoObj) {
 CollectionStore.removePhotoFromCollection = function(collectionObj, photoObj) {
   let collectionIdx = findCollectionIdx(collectionObj);
   let photoIdx = checkIfPhotoAdded(_collections[collectionIdx].photos, photoObj);
-  if (collectionIdx >= 0 && photoIdx < 0) {
+  if (collectionIdx >= 0 && photoIdx >= 0) {
     _collections[collectionIdx].photos.splice(photoIdx, 1);
   }
 }

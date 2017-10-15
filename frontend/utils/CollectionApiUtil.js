@@ -54,7 +54,6 @@ module.exports = {
       url: `api/collections/${collection.id}`,
       data: {collection: collection, photo_id: photo.id},
       success: function(data) {
-        debugger
         successCB(data)
       }
     })

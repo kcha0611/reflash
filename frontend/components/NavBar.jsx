@@ -35,7 +35,7 @@ const NavBar = React.createClass({
         <SearchBar />
         <a href="/">Home</a>
         <a href="/">New</a>
-        <a href="/">Following</a>
+        <a href="/collections">Collections</a>
         <Link to="/photos/new">Submit Photo</Link>
         {this.handleCurrentUser()}
       </div>

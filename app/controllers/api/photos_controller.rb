@@ -14,8 +14,8 @@ class Api::PhotosController < ApplicationController
   end
 
   def index
-    if params[:searchInput]
-      @photos = Photo.where("lower(name) LIKE '%#{params[:searchInput].downcase}%'")
+    if params[:search_input]
+      @photos = Photo.where("lower(description) LIKE '%#{params[:searchInput].downcase}%'")
     else
       @photos = Photo.all
     end
@@ -26,6 +26,5 @@ class Api::PhotosController < ApplicationController
   def photo_params
     params.require(:photo).permit(:url, :user_id, :likes, :tag_list)
   end
-
 
 end

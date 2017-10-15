@@ -15,7 +15,11 @@ class Api::UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
+    if params[:search_input]
+      @users = User.where(first_name: params[:search_input])
+    else
+      @users = User.all
+    end 
   end
 
   private

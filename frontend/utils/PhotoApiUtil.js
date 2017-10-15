@@ -17,15 +17,6 @@ module.exports = {
       }
     })
   },
-  fetchSearchedPhotos(searchInput, successCB) {
-    $.ajax({
-      url: "api/photos",
-      data: {searchInput: searchInput},
-      success: function(photos) {
-        successCB(photos, searchInput)
-      }
-    })
-  },
   fetchRandomPhoto(successCB) {
     $.ajax({
       url: "https://source.unsplash.com/random",

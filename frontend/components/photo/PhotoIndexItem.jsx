@@ -4,7 +4,7 @@ const PhotoActions = require('../../actions/PhotoActions');
 const Modal = require('react-bootstrap').Modal;
 //Collections
 import CollectionStore from '../../stores/CollectionStore';
-import CollectionIndexItem from '../collection/CollectionIndexItem';
+import CollectionModalItem from '../collection/CollectionModalItem';
 import CollectionActions from '../../actions/CollectionActions';
 import CollectionModal from '../collection/CollectionModal';
 //Session

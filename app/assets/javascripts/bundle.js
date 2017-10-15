@@ -12912,74 +12912,25 @@ module.exports = {
 "use strict";
 
 
-var _react = __webpack_require__(1);
+var React = __webpack_require__(1);
 
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var CollectionActions = __webpack_require__(64);
-
-var CollectionIndexItem = _react2.default.createClass({
+var CollectionIndexItem = React.createClass({
   displayName: 'CollectionIndexItem',
-
-  getInitialState: function getInitialState() {
-    return {
-      added: this.photoAdded(this.props.collectionData)
-    };
-  },
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    this.setState({
-      added: this.photoAdded(nextProps.collectionData)
-    });
-  },
-  photoAdded: function photoAdded(collection) {
-    var _this = this;
-
-    return collection.photos.some(function (photo) {
-      return photo.id === _this.props.photoData.id;
-    });
-  },
-  addPhoto: function addPhoto(photoObj, collectionObj) {
-    CollectionActions.addPhotoToCollection(photoObj, collectionObj);
-  },
-  removePhoto: function removePhoto(photoObj, collectionObj) {
-    CollectionActions.removePhotoFromCollection(photoObj, collectionObj);
-  },
-  handleAddPhoto: function handleAddPhoto() {
-    if (this.state.added) {
-      return this.removePhoto(this.props.photoData, this.props.collectionData);
-    } else {
-      return this.addPhoto(this.props.photoData, this.props.collectionData);
-    }
-  },
-  handleAddPhotoClassName: function handleAddPhotoClassName() {
-    if (this.state.added) {
-      return "collection-container photo-added";
-    } else {
-      return "collection-container";
-    }
-  },
   render: function render() {
-    var bckImage = void 0;
-    if (this.state.added) {
-      bckImage = 'url(' + this.props.photoData.url + ')';
-    } else {
-      bckImage = "none";
-    }
-    return _react2.default.createElement(
+    React.createElement(
       'div',
-      { className: this.handleAddPhotoClassName(), onClick: this.handleAddPhoto, id: 'collection-item', style: { backgroundImage: bckImage, backgroundPosition: 'center', backgroundRepeat: 'no-repeat' } },
-      _react2.default.createElement(
-        'h6',
+      null,
+      React.createElement(
+        'div',
         null,
-        this.props.collectionData.photos.length,
-        ' photos'
+        collection.created_at,
+        collection.name
       ),
-      _react2.default.createElement(
-        'h3',
+      React.createElement(
+        'div',
         null,
-        this.props.collectionData.name
+        collection.user.first_name,
+        collection.user.last_name
       )
     );
   }
@@ -22615,8 +22566,8 @@ var NavBar = _react2.default.createClass({
       ),
       _react2.default.createElement(
         'a',
-        { href: '/' },
-        'Following'
+        { href: '/collections' },
+        'Collections'
       ),
       _react2.default.createElement(
         Link,
@@ -22637,9 +22588,9 @@ module.exports = NavBar;
 "use strict";
 
 
-var _CollectionIndexItem = __webpack_require__(161);
+var _CollectionModalItem = __webpack_require__(563);
 
-var _CollectionIndexItem2 = _interopRequireDefault(_CollectionIndexItem);
+var _CollectionModalItem2 = _interopRequireDefault(_CollectionModalItem);
 
 var _CollectionModalForm = __webpack_require__(269);
 
@@ -22691,7 +22642,7 @@ var CollectionModal = React.createClass({
     var _this = this;
 
     var userCollections = this.state.userCollections.map(function (collection) {
-      return React.createElement(_CollectionIndexItem2.default, { key: "id" + collection.id, collectionData: collection, photoData: _this.props.photoData });
+      return React.createElement(_CollectionModalItem2.default, { key: "id" + collection.id, collectionData: collection, photoData: _this.props.photoData });
     });
     var modalLeftStyles = {
       backgroundImage: 'url(' + this.props.photoData.url + ')',
@@ -22894,9 +22845,9 @@ var _CollectionStore = __webpack_require__(103);
 
 var _CollectionStore2 = _interopRequireDefault(_CollectionStore);
 
-var _CollectionIndexItem = __webpack_require__(161);
+var _CollectionModalItem = __webpack_require__(563);
 
-var _CollectionIndexItem2 = _interopRequireDefault(_CollectionIndexItem);
+var _CollectionModalItem2 = _interopRequireDefault(_CollectionModalItem);
 
 var _CollectionActions = __webpack_require__(64);
 
@@ -23143,6 +23094,9 @@ var PhotoDetail = __webpack_require__(264);
 var GridPhotoIndex = __webpack_require__(263);
 
 var App = __webpack_require__(258);
+//
+
+var CollectionIndex = __webpack_require__(564);
 
 var routes = React.createElement(
   Router,
@@ -23157,6 +23111,7 @@ var routes = React.createElement(
     React.createElement(Route, { path: '/photos', component: PhotoIndex }),
     React.createElement(Route, { path: '/gridphotos', component: GridPhotoIndex }),
     React.createElement(Route, { path: '/photos/:photoID', component: PhotoDetail }),
+    React.createElement(Route, { path: '/collections', component: CollectionIndex }),
     React.createElement(Route, { path: '/collections/:collectionID', component: _CollectionDetail2.default })
   )
 );
@@ -23354,15 +23309,6 @@ module.exports = {
       url: "api/photos",
       success: function success(photos) {
         successCB(photos);
-      }
-    });
-  },
-  fetchSearchedPhotos: function fetchSearchedPhotos(searchInput, successCB) {
-    $.ajax({
-      url: "api/photos",
-      data: { searchInput: searchInput },
-      success: function success(photos) {
-        successCB(photos, searchInput);
       }
     });
   },
@@ -51770,6 +51716,134 @@ function isReactComponent(component) {
   return !!(component && component.prototype && component.prototype.isReactComponent);
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 563 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CollectionActions = __webpack_require__(64);
+
+var CollectionModalItem = _react2.default.createClass({
+  displayName: 'CollectionModalItem',
+
+  getInitialState: function getInitialState() {
+    return {
+      added: this.photoAdded(this.props.collectionData)
+    };
+  },
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    this.setState({
+      added: this.photoAdded(nextProps.collectionData)
+    });
+  },
+  photoAdded: function photoAdded(collection) {
+    var _this = this;
+
+    return collection.photos.some(function (photo) {
+      return photo.id === _this.props.photoData.id;
+    });
+  },
+  addPhoto: function addPhoto(photoObj, collectionObj) {
+    CollectionActions.addPhotoToCollection(photoObj, collectionObj);
+  },
+  removePhoto: function removePhoto(photoObj, collectionObj) {
+    CollectionActions.removePhotoFromCollection(photoObj, collectionObj);
+  },
+  handleAddPhoto: function handleAddPhoto() {
+    if (this.state.added) {
+      return this.removePhoto(this.props.photoData, this.props.collectionData);
+    } else {
+      return this.addPhoto(this.props.photoData, this.props.collectionData);
+    }
+  },
+  handleAddPhotoClassName: function handleAddPhotoClassName() {
+    if (this.state.added) {
+      return "collection-container photo-added";
+    } else {
+      return "collection-container";
+    }
+  },
+  render: function render() {
+    var bckImage = void 0;
+    if (this.state.added) {
+      bckImage = 'url(' + this.props.photoData.url + ')';
+    } else {
+      bckImage = "none";
+    }
+    return _react2.default.createElement(
+      'div',
+      { className: this.handleAddPhotoClassName(), onClick: this.handleAddPhoto, id: 'collection-item', style: { backgroundImage: bckImage, backgroundPosition: 'center', backgroundRepeat: 'no-repeat' } },
+      _react2.default.createElement(
+        'h6',
+        null,
+        this.props.collectionData.photos.length,
+        ' photos'
+      ),
+      _react2.default.createElement(
+        'h3',
+        null,
+        this.props.collectionData.name
+      )
+    );
+  }
+});
+
+module.exports = CollectionModalItem;
+
+/***/ }),
+/* 564 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var React = __webpack_require__(1);
+var CollectionStore = __webpack_require__(103);
+var CollectionActions = __webpack_require__(64);
+var CollectionIndexItem = __webpack_require__(161);
+
+var CollectionIndex = React.createClass({
+  displayName: 'CollectionIndex',
+
+  getInitialState: function getInitialState() {
+    return {
+      collections: []
+    };
+  },
+  componentDidMount: function componentDidMount() {
+    this.collectionListener = CollectionStore.addListener(this.onCollectionChange);
+    CollectionActions.fetchCollections();
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    this.collectionListener.remove();
+  },
+  onCollectionChange: function onCollectionChange() {
+    this.setState({
+      collections: CollectionStore.all()
+    });
+  },
+  render: function render() {
+    var collections = this.state.collections.map(function (collection) {
+      return React.createElement(CollectionIndexItem, { collectionData: collection });
+    });
+    return React.createElement(
+      'div',
+      null,
+      collections
+    );
+  }
+});
+
+module.exports = CollectionIndex;
 
 /***/ })
 /******/ ]);

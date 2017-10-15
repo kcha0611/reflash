@@ -1,6 +1,6 @@
 const React = require('react');
 const Modal = require('react-bootstrap').Modal;
-import CollectionIndexItem from './CollectionIndexItem';
+import CollectionModalItem from './CollectionModalItem';
 import CollectionModalForm from '../forms/CollectionModalForm';
 import CollectionStore from '../../stores/CollectionStore';
 import CollectionActions from '../../actions/CollectionActions';
@@ -34,7 +34,7 @@ const CollectionModal = React.createClass({
   render() {
     let userCollections = this.state.userCollections.map((collection) => {
       return (
-        <CollectionIndexItem key={"id" + collection.id} collectionData={collection} photoData={this.props.photoData}/>
+        <CollectionModalItem key={"id" + collection.id} collectionData={collection} photoData={this.props.photoData}/>
       )
     });
     let modalLeftStyles = {

@@ -12961,9 +12961,15 @@ var CollectionIndexItem = _react2.default.createClass({
     }
   },
   render: function render() {
+    var bckImage = void 0;
+    if (this.state.added) {
+      bckImage = 'url(' + this.props.photoData.url + ')';
+    } else {
+      bckImage = "none";
+    }
     return _react2.default.createElement(
       'div',
-      { className: this.handleAddPhotoClassName(), onClick: this.handleAddPhoto },
+      { className: this.handleAddPhotoClassName(), onClick: this.handleAddPhoto, id: 'collection-item', style: { backgroundImage: bckImage, backgroundPosition: 'center', backgroundRepeat: 'no-repeat' } },
       _react2.default.createElement(
         'h6',
         null,

@@ -44,7 +44,7 @@ module.exports = {
       url: `api/collections/${collection.id}`,
       data: {collection: collection, photo_id: photo.id},
       success: function(data) {
-        successCB(data)
+        successCB(data);
       }
     })
   },

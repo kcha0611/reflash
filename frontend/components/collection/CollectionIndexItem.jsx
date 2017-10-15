@@ -46,8 +46,14 @@ const CollectionIndexItem = React.createClass ({
     }
   },
   render () {
+    let bckImage;
+    if (this.state.added) {
+      bckImage = 'url(' + this.props.photoData.url + ')';
+    } else {
+      bckImage = "none"
+    }
     return (
-      <div className={this.handleAddPhotoClassName()} onClick={this.handleAddPhoto}>
+      <div className={this.handleAddPhotoClassName()} onClick={this.handleAddPhoto} id="collection-item" style={{backgroundImage: bckImage, backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}}>
         <h6>
           {this.props.collectionData.photos.length} photos
         </h6>

@@ -32,9 +32,9 @@ const CollectionModal = React.createClass({
     CollectionActions.addPhotoToCollection(photoObj, collectionObj)
   },
   render() {
-    let userCollections = this.state.userCollections.map(function (collection) {
+    let userCollections = this.state.userCollections.map((collection) => {
       return (
-        <CollectionIndexItem key={"id" + collection.id} collectionData={collection} onClick={ () => this.addPhoto(this.props.photoData, collection)}/>
+        <CollectionIndexItem key={"id" + collection.id} collectionData={collection} photoData={this.props.photoData}/>
       )
     });
     let modalLeftStyles = {

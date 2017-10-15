@@ -8439,9 +8439,10 @@ CollectionStore.addModalCollection = function (collectionObj) {
 };
 
 CollectionStore.addPhotoToCollection = function (photoObj, collectionObj) {
-  var photoIdx = checkIfPhotoAdded(_collections[collectionObj].photos, photoObj);
-  var collectionIdx = collectionIdx(collectionObj);
+  var collectionIdx = findCollectionIdx(collectionObj.collection);
+  var photoIdx = checkIfPhotoAdded(_collections[collectionIdx].photos, photoObj.photo);
   if (collectionIdx >= 0 && photoIdx === -1) {
+    debugger;
     _collections[collectionIdx].photos.push(photoObj);
   }
 };
@@ -8460,7 +8461,7 @@ function checkIfPhotoAdded(photos, photoObj) {
   return idx;
 }
 
-function collectionIdx(collectionObj) {
+function findCollectionIdx(collectionObj) {
   var idx = -1;
   _collections.forEach(function (collection, i) {
     if (collection.id === collectionObj.id) {
@@ -12890,58 +12891,43 @@ module.exports = {
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var CollectionActions = __webpack_require__(79);
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+var CollectionIndexItem = _react2.default.createClass({
+  displayName: 'CollectionIndexItem',
+  addPhoto: function addPhoto(photoObj, collectionObj) {
+    CollectionActions.addPhotoToCollection(photoObj, collectionObj);
+  },
+  render: function render() {
+    var _this = this;
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CollectionIndexItem = function (_React$Component) {
-  _inherits(CollectionIndexItem, _React$Component);
-
-  function CollectionIndexItem() {
-    _classCallCheck(this, CollectionIndexItem);
-
-    return _possibleConstructorReturn(this, (CollectionIndexItem.__proto__ || Object.getPrototypeOf(CollectionIndexItem)).apply(this, arguments));
+    return _react2.default.createElement(
+      'div',
+      { className: 'collection-container', onClick: function onClick() {
+          return _this.addPhoto(_this.props.photoData, _this.props.collectionData);
+        } },
+      _react2.default.createElement(
+        'h6',
+        null,
+        this.props.collectionData.photos.length,
+        ' photos'
+      ),
+      _react2.default.createElement(
+        'h3',
+        null,
+        this.props.collectionData.name
+      )
+    );
   }
+});
 
-  _createClass(CollectionIndexItem, [{
-    key: "render",
-    value: function render() {
-      return _react2.default.createElement(
-        "div",
-        { className: "collection-container" },
-        _react2.default.createElement(
-          "h6",
-          null,
-          this.props.collectionData.photos.length,
-          " photos"
-        ),
-        _react2.default.createElement(
-          "h3",
-          null,
-          this.props.collectionData.name
-        )
-      );
-    }
-  }]);
-
-  return CollectionIndexItem;
-}(_react2.default.Component);
-
-exports.default = CollectionIndexItem;
+module.exports = CollectionIndexItem;
 
 /***/ }),
 /* 162 */
@@ -22642,12 +22628,10 @@ var CollectionModal = React.createClass({
     _CollectionActions2.default.addPhotoToCollection(photoObj, collectionObj);
   },
   render: function render() {
-    var userCollections = this.state.userCollections.map(function (collection) {
-      var _this = this;
+    var _this = this;
 
-      return React.createElement(_CollectionIndexItem2.default, { key: "id" + collection.id, collectionData: collection, onClick: function onClick() {
-          return _this.addPhoto(_this.props.photoData, collection);
-        } });
+    var userCollections = this.state.userCollections.map(function (collection) {
+      return React.createElement(_CollectionIndexItem2.default, { key: "id" + collection.id, collectionData: collection, photoData: _this.props.photoData });
     });
     var modalLeftStyles = {
       backgroundImage: 'url(' + this.props.photoData.url + ')',
@@ -23190,9 +23174,62 @@ module.exports = ErrorStore;
 
 /***/ }),
 /* 276 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: C:/Users/Ken/Desktop/reflash/frontend/utils/CollectionApiUtil.js: Unexpected token, expected , (46:6)\n\n\u001b[0m \u001b[90m 44 | \u001b[39m      url\u001b[33m:\u001b[39m \u001b[32m`api/collections/${collection.id}`\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 45 | \u001b[39m      data\u001b[33m:\u001b[39m {collection\u001b[33m:\u001b[39m collection\u001b[33m,\u001b[39m photo_id\u001b[33m:\u001b[39m photo\u001b[33m.\u001b[39mid}\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 46 | \u001b[39m      success\u001b[33m:\u001b[39m \u001b[36mfunction\u001b[39m(photo\u001b[33m,\u001b[39m collection) {\n \u001b[90m    | \u001b[39m      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 47 | \u001b[39m        successCB(photo\u001b[33m,\u001b[39m collection)\n \u001b[90m 48 | \u001b[39m      }\n \u001b[90m 49 | \u001b[39m    })\u001b[0m\n");
+"use strict";
+
+
+module.exports = {
+  createCollection: function createCollection(collection, successCB) {
+    $.ajax({
+      method: "POST",
+      url: "api/collections",
+      data: { collection: collection },
+      success: function success(collection) {
+        successCB(collection);
+      }
+    });
+  },
+  createModalCollection: function createModalCollection(collection, successCB) {
+    $.ajax({
+      method: "POST",
+      url: "api/collections",
+      data: { collection: collection },
+      success: function success(collection) {
+        successCB(collection);
+        $("#collection-form").animate({ right: "-=600" }, function () {
+          $(".collection-modal-right").removeClass("hide");
+        });
+      }
+    });
+  },
+  fetchCollections: function fetchCollections(successCB) {
+    $.ajax({
+      url: "api/collections",
+      success: function success(collections) {
+        successCB(collections);
+      }
+    });
+  },
+  getCollection: function getCollection(id, successCB) {
+    $.ajax({
+      url: "api/collections/" + id,
+      success: function success(collection) {
+        successCB(collection);
+      }
+    });
+  },
+  addPhotoToCollection: function addPhotoToCollection(photo, collection, successCB) {
+    $.ajax({
+      method: 'PATCH',
+      url: "api/collections/" + collection.id,
+      data: { collection: collection, photo_id: photo.id },
+      success: function success(photo, collection) {
+        successCB(photo, collection);
+      }
+    });
+  }
+};
 
 /***/ }),
 /* 277 */

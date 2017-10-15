@@ -40,9 +40,9 @@ module.exports = {
   },
   addPhotoToCollection(photo, collection, successCB) {
     $.ajax({
-      method: 'POST',
+      method: 'PATCH',
       url: `api/collections/${collection.id}`,
-      data: {collection: collection, photo_id: photo.id}
+      data: {collection: collection, photo_id: photo.id},
       success: function(photo, collection) {
         successCB(photo, collection)
       }

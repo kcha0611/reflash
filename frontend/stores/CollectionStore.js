@@ -34,9 +34,10 @@ CollectionStore.addModalCollection = function(collectionObj) {
 }
 
 CollectionStore.addPhotoToCollection = function(photoObj, collectionObj) {
-  let photoIdx = checkIfPhotoAdded(_collections[collectionObj].photos, photoObj);
-  let collectionIdx = collectionIdx(collectionObj);
+  let collectionIdx = findCollectionIdx(collectionObj.collection);
+  let photoIdx = checkIfPhotoAdded(_collections[collectionIdx].photos, photoObj.photo);
   if (collectionIdx >= 0 && photoIdx === -1) {
+    debugger
     _collections[collectionIdx].photos.push(photoObj);
   }
 }
@@ -55,7 +56,7 @@ function checkIfPhotoAdded(photos, photoObj) {
   return idx;
 }
 
-function collectionIdx(collectionObj) {
+function findCollectionIdx(collectionObj) {
   let idx = -1;
   _collections.forEach(function(collection, i) {
     if (collection.id === collectionObj.id) {

@@ -4,7 +4,7 @@ class Photo < ApplicationRecord
   acts_as_taggable
 
   belongs_to :user
-  belongs_to :collection, optional: true
-
+  has_many :collection_photo
+  has_many :collections, through: :collection_photo
   has_many :likes
 end

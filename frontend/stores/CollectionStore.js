@@ -33,13 +33,19 @@ CollectionStore.addModalCollection = function(collectionObj) {
   return _collections;
 }
 
-CollectionStore.addPhotoToCollection = function(photoObj, collectionObj) {
-  let collectionIdx = findCollectionIdx(collectionObj.collection);
+CollectionStore.addPhotoToCollection = function(collectionObj, photoObj) {
+  let collectionIdx = findCollectionIdx(collectionObj);
   let photoIdx = checkIfPhotoAdded(_collections[collectionIdx].photos, photoObj);
-  debugger
   if (collectionIdx >= 0 && photoIdx === -1) {
-    debugger
     _collections[collectionIdx].photos.push(photoObj);
+  }
+}
+
+CollectionStore.removePhotoFromCollection = function(collectionObj, photoObj) {
+  let collectionIdx = findCollectionIdx(collectionObj);
+  let photoIdx = checkIfPhotoAdded(_collections[collectionIdx].photos, photoObj);
+  if (collectionIdx >= 0 && photoIdx < 0) {
+    _collections[collectionIdx].photos.splice(photoIdx, 1);
   }
 }
 
@@ -48,7 +54,6 @@ CollectionStore.find = function(id) {
 };
 
 function checkIfPhotoAdded(photos, photoObj) {
-  debugger
   let idx = -1;
   photos.forEach(function(photo, i) {
     if (photo.id === photoObj.id) {
@@ -84,6 +89,10 @@ CollectionStore.__onDispatch = function(payload) {
       break;
     case CollectionConstants.RECEIVE_ADDED_PHOTO:
       CollectionStore.addPhotoToCollection(payload.collection, payload.photo);
+      CollectionStore.__emitChange();
+      break;
+    case CollectionConstants.REMOVE_ADDED_PHOTO:
+      CollectionStore.removePhotoFromCollection(payload.collection, payload.photo);
       CollectionStore.__emitChange();
       break;
   }

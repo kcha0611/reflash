@@ -43,8 +43,19 @@ module.exports = {
       method: 'PATCH',
       url: `api/collections/${collection.id}`,
       data: {collection: collection, photo_id: photo.id},
-      success: function(photo, collection) {
-        successCB(photo, collection)
+      success: function(data) {
+        successCB(data)
+      }
+    })
+  },
+  removePhotoFromCollection(photo, collection, successCB) {
+    $.ajax({
+      method: 'PATCH',
+      url: `api/collections/${collection.id}`,
+      data: {collection: collection, photo_id: photo.id},
+      success: function(data) {
+        debugger
+        successCB(data)
       }
     })
   }

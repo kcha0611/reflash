@@ -19,6 +19,9 @@ const CollectionActions = {
   addPhotoToCollection(photo, collection) {
     CollectionApiUtil.addPhotoToCollection(photo, collection, this.receiveAddedPhoto)
   },
+  removePhotoFromCollection(photo, collection) {
+    CollectionApiUtil.removePhotoFromCollection(photo, collection, this.removeAddedPhoto)
+  },
   receiveCollection(collection) {
     Dispatcher.dispatch({
       actionType: CollectionConstants.RECEIVE_COLLECTION,
@@ -37,11 +40,18 @@ const CollectionActions = {
       collection: collection
     })
   },
-  receiveAddedPhoto(photo, collection) {
+  receiveAddedPhoto(data) {
     Dispatcher.dispatch({
       actionType: CollectionConstants.RECEIVE_ADDED_PHOTO,
-      collection: collection,
-      photo: photo
+      collection: data.collection,
+      photo: data.photo
+    })
+  },
+  removeAddedPhoto(data) {
+    Dispatcher.dispatch({
+      actionType: CollectionConstants.REMOVE_ADDED_PHOTO,
+      collection: data.collection,
+      photo: data.photo
     })
   }
 }

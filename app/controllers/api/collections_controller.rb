@@ -22,7 +22,11 @@ class Api::CollectionsController < ApplicationController
     @collection = Collection.find(params[:id])
     if params[:photo_id]
       @photo = Photo.find(params[:photo_id])
-      photos = @collection.photos.push(@photo)
+      if @collection.photos.include?(@photo)
+        photos = @collection.photos.delete(@photo)
+      else
+        photos = @collection.photos.push(@photo)
+      end
       if @collection.update_attributes(photos: photos)
         render :show
       else

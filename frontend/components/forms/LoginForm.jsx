@@ -8,7 +8,7 @@ const SessionStore = require('../../stores/SessionStore');
 const LoginForm = React.createClass({
   getInitialState: function() {
     return {
-      userName: "",
+      username: "",
       password: ""
     };
   },
@@ -16,12 +16,7 @@ const LoginForm = React.createClass({
     this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
   },
   handleUsernameChange(e){
-    this.setState({userName: e.target.value});
-  },
-  redirectIfLoggedIn() {
-    if (SessionStore.loggedIn()) {
-      hashHistory.push('/submit')
-    }
+    this.setState({username: e.target.value});
   },
   handlePasswordChange(e){
     this.setState({password: e.target.value});

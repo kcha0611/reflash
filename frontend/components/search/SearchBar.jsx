@@ -1,6 +1,6 @@
 const React = require('react');
-const PhotoActions = require('../../actions/PhotoActions');
-const PhotoStore = require('../../stores/PhotoStore');
+const SearchActions = require('../../actions/SearchActions');
+const SearchStore = require('../../stores/PhotoStore');
 
 const SearchBar = React.createClass({
   getInitialState: function() {
@@ -9,7 +9,9 @@ const SearchBar = React.createClass({
     };
   },
   _onChange(e) {
-    PhotoActions.fetchSearchedPhotos(e.target.value);
+    SearchActions.fetchSearchedPhotos(e.target.value);
+    SearchActions.fetchSearchedCollections(e.target.value);
+    SearchActions.fetchSearchedUsers(e.target.value);
     this.setState({searchInput: e.target.value });
   },
   render() {

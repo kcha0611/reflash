@@ -8,8 +8,8 @@ module.exports = {
       url: 'api/session',
       data: {user: user},
       success: function(user) {
-        successCB(user);
         hashHistory.push("/");
+        successCB(user);
       }
     })
   },
@@ -19,8 +19,8 @@ module.exports = {
       url: 'api/users',
       data: {user: user},
       success: function(user) {
-        successCB(user);
         hashHistory.push("/");
+        successCB(user);
       }
     })
   },

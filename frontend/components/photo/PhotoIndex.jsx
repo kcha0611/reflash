@@ -21,7 +21,7 @@ const PhotoIndex = React.createClass({
     this.photoListener.remove();
   },
   onChange() {
-    this.setState({photos: PhotoStore.all(), searchInput: PhotoStore.searchInput()})
+    this.setState({photos: PhotoStore.all()})
   },
   onGridTab() {
     $(".inner-item-container").addClass('grid');

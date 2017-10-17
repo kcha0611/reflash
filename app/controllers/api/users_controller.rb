@@ -19,13 +19,13 @@ class Api::UsersController < ApplicationController
       @users = User.where(first_name: params[:search_input])
     else
       @users = User.all
-    end 
+    end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:user_name, :password, :first_name, :last_name, :email, :photos)
+    params.require(:user).permit(:user_name, :password, :first_name, :last_name, :email)
   end
 
 end

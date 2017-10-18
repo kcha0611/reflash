@@ -28,7 +28,7 @@ const PhotoIndex = React.createClass({
     this.setState({searchInput: SearchStore.searchInput()});
   },
   onChange() {
-    this.setState({photos: PhotoStore.all()})
+    this.setState({photos: PhotoStore.all()});
   },
   onGridTab() {
     $(".inner-item-container").addClass('grid');
@@ -36,12 +36,10 @@ const PhotoIndex = React.createClass({
   },
   handleSearch() {
     if (this.state.searchInput !== "") {
-      $(".inner-index-container").hide();
       return (
         <SearchResult />
       )
     } else {
-      $(".inner-index-container").show();
       return this.state.photos.map(function (photo) {
         return (
           <PhotoIndexItem key={photo.id} photoData={photo} currentUser={SessionStore.currentUser()} />
@@ -58,7 +56,6 @@ const PhotoIndex = React.createClass({
           <p>To get the best of Reflash delivered to your inbox, <a>subscribe</a>.</p>
           <Link to="/gridphotos">Grid</Link>
         </div>
-        <h1 className="search-input">{this.state.searchInput}</h1>
           {this.handleSearch()}
       </div>
     )

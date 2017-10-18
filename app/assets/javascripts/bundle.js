@@ -22439,10 +22439,8 @@ var PhotoIndex = React.createClass({
   },
   handleSearch: function handleSearch() {
     if (this.state.searchInput !== "") {
-      $(".inner-index-container").hide();
       return React.createElement(SearchResult, null);
     } else {
-      $(".inner-index-container").show();
       return this.state.photos.map(function (photo) {
         return React.createElement(PhotoIndexItem, { key: photo.id, photoData: photo, currentUser: _SessionStore2.default.currentUser() });
       });
@@ -22487,11 +22485,6 @@ var PhotoIndex = React.createClass({
           { to: '/gridphotos' },
           'Grid'
         )
-      ),
-      React.createElement(
-        'h1',
-        { className: 'search-input' },
-        this.state.searchInput
       ),
       this.handleSearch()
     );
@@ -22624,6 +22617,12 @@ var hashHistory = ReactRouter.hashHistory;
 
 var NavBar = _react2.default.createClass({
   displayName: 'NavBar',
+
+  getInitialState: function getInitialState() {
+    return {
+      searchInput: ""
+    };
+  },
   redirectTo: function redirectTo(e) {
     hashHistory.push('' + e.target.name);
   },
@@ -22654,33 +22653,45 @@ var NavBar = _react2.default.createClass({
       );
     }
   },
+  receiveSearchInput: function receiveSearchInput(searchInput) {
+    this.setState({ searchInput: searchInput });
+  },
   render: function render() {
     return _react2.default.createElement(
       'div',
-      { className: 'navbar-container' },
-      _react2.default.createElement('img', { src: 'http://res.cloudinary.com/dllnnnotc/image/upload/c_scale,w_60/v1495477878/Unsplash_logo_mub2w6.jpg' }),
-      _react2.default.createElement(_SearchBar2.default, null),
+      null,
       _react2.default.createElement(
-        'a',
-        { href: '/' },
-        'Home'
+        'div',
+        { className: 'navbar-container' },
+        _react2.default.createElement('img', { src: 'http://res.cloudinary.com/dllnnnotc/image/upload/c_scale,w_60/v1495477878/Unsplash_logo_mub2w6.jpg' }),
+        _react2.default.createElement(_SearchBar2.default, { receiveSearchInput: this.receiveSearchInput }),
+        _react2.default.createElement(
+          'a',
+          { href: '/' },
+          'Home'
+        ),
+        _react2.default.createElement(
+          'a',
+          { href: '/' },
+          'New'
+        ),
+        _react2.default.createElement(
+          'a',
+          { href: '/collections' },
+          'Collections'
+        ),
+        _react2.default.createElement(
+          Link,
+          { to: '/photos/new' },
+          'Submit Photo'
+        ),
+        this.handleCurrentUser()
       ),
       _react2.default.createElement(
-        'a',
-        { href: '/' },
-        'New'
-      ),
-      _react2.default.createElement(
-        'a',
-        { href: '/collections' },
-        'Collections'
-      ),
-      _react2.default.createElement(
-        Link,
-        { to: '/photos/new' },
-        'Submit Photo'
-      ),
-      this.handleCurrentUser()
+        'h1',
+        { className: 'search-input' },
+        this.state.searchInput
+      )
     );
   }
 });
@@ -23144,6 +23155,12 @@ var SearchBar = React.createClass({
     };
   },
   _onChange: function _onChange(e) {
+    if (e.target.value !== "") {
+      $(".inner-index-container").hide();
+    } else {
+      $(".inner-index-container").show();
+    }
+    this.props.receiveSearchInput(e.target.value);
     SearchActions.fetchSearchedPhotos(e.target.value);
     SearchActions.fetchSearchedCollections(e.target.value);
     SearchActions.fetchSearchedUsers(e.target.value);

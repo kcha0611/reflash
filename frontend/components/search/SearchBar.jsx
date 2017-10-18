@@ -9,6 +9,12 @@ const SearchBar = React.createClass({
     };
   },
   _onChange(e) {
+    if (e.target.value !== "") {
+      $(".inner-index-container").hide();
+    } else {
+      $(".inner-index-container").show();
+    }
+    this.props.receiveSearchInput(e.target.value);
     SearchActions.fetchSearchedPhotos(e.target.value);
     SearchActions.fetchSearchedCollections(e.target.value);
     SearchActions.fetchSearchedUsers(e.target.value);

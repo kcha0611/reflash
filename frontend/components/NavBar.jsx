@@ -8,6 +8,11 @@ import SessionStore from '../stores/SessionStore';
 import SessionActions from '../actions/SessionActions';
 
 const NavBar = React.createClass({
+  getInitialState: function() {
+    return {
+      searchInput: ""
+    };
+  },
   redirectTo(e) {
     hashHistory.push(`${e.target.name}`);
   },
@@ -28,16 +33,22 @@ const NavBar = React.createClass({
       )
     }
   },
+  receiveSearchInput(searchInput) {
+    this.setState({searchInput: searchInput})
+  },
   render() {
     return (
-      <div className="navbar-container">
-        <img src="http://res.cloudinary.com/dllnnnotc/image/upload/c_scale,w_60/v1495477878/Unsplash_logo_mub2w6.jpg"/>
-        <SearchBar />
-        <a href="/">Home</a>
-        <a href="/">New</a>
-        <a href="/collections">Collections</a>
-        <Link to="/photos/new">Submit Photo</Link>
-        {this.handleCurrentUser()}
+      <div>
+        <div className="navbar-container">
+          <img src="http://res.cloudinary.com/dllnnnotc/image/upload/c_scale,w_60/v1495477878/Unsplash_logo_mub2w6.jpg"/>
+          <SearchBar receiveSearchInput={this.receiveSearchInput}/>
+          <a href="/">Home</a>
+          <a href="/">New</a>
+          <a href="/collections">Collections</a>
+          <Link to="/photos/new">Submit Photo</Link>
+          {this.handleCurrentUser()}
+        </div>
+        <h1 className="search-input">{this.state.searchInput}</h1>
       </div>
     )
   }

@@ -5,20 +5,27 @@ const PhotoIndexItem = require('./PhotoIndexItem');
 const ReactRouter = require('react-router');
 const Link = ReactRouter.Link;
 import SessionStore from '../../stores/SessionStore';
+const SearchResult = require('../search/SearchResult');
+const SearchStore = require('../../stores/SearchStore');
 
 const PhotoIndex = React.createClass({
   getInitialState: function() {
     return {
       photos: [],
-      searchInput: ""
+      searchInput: SearchStore.searchInput() 
     };
   },
   componentDidMount: function() {
     this.photoListener = PhotoStore.addListener(this.onChange);
+    this.searchListener = SearchStore.addListener(this.onSearchChange);
     PhotoActions.fetchPhotos();
   },
   componentWillUnmount: function() {
+    this.searchListener.remove();
     this.photoListener.remove();
+  },
+  onSearchChange() {
+    this.setState({searchInput: SearchStore.searchInput()});
   },
   onChange() {
     this.setState({photos: PhotoStore.all()})
@@ -27,25 +34,20 @@ const PhotoIndex = React.createClass({
     $(".inner-item-container").addClass('grid');
     $(".item-container").addClass('grid');
   },
-  render() {
-    let photos = this.state.photos.map(function (photo) {
-      return (
-        <PhotoIndexItem key={photo.id} photoData={photo} currentUser={SessionStore.currentUser()} />
-      )
-    });
-    let navTab;
+  handleSearch() {
     if (this.state.searchInput !== "") {
-      navTab = (
-        <div className="navtab-wrap">
-          <div className="inner-navtab-wrap">
-            <a>All</a>
-            <a>{this.state.photos.length} Photos</a>
-            <a>Collections</a>
-            <a>Users</a>
-          </div>
-        </div>
+      return (
+        <SearchResult />
       )
+    } else {
+      return this.state.photos.map(function (photo) {
+        return (
+          <PhotoIndexItem key={photo.id} photoData={photo} currentUser={SessionStore.currentUser()} />
+        )
+      });
     }
+  },
+  render() {
     return (
       <div>
         <div className="inner-index-container">
@@ -55,8 +57,7 @@ const PhotoIndex = React.createClass({
           <Link to="/gridphotos">Grid</Link>
         </div>
         <h1 className="search-input">{this.state.searchInput}</h1>
-          {navTab}
-          {photos}
+          {this.handleSearch()}
       </div>
     )
   }

@@ -1,5 +1,8 @@
 const React = require('react');
 const SearchStore = require('../../stores/SearchStore');
+const PhotoIndexItem = require('../photo/PhotoIndexItem');
+const SessionStore = require('../../stores/SessionStore');
+const CollectionIndexItem = require('../collection/CollectionIndexItem');
 
 const SearchResult = React.createClass({
   getInitialState: function() {
@@ -14,6 +17,11 @@ const SearchResult = React.createClass({
     this.collectionSearchListener = SearchStore.addListener(this._onChange);
     this.userSearchListener = SearchStore.addListener(this._onChange);
   },
+  componentWillUnmount () {
+    this.photoSearchListener.remove();
+    this.collectionSearchListener.remove();
+    this.userSearchListener.remove();
+  },
   _onChange: function() {
     this.setState({
       photoResults: SearchStore.allPhotos(),
@@ -25,7 +33,7 @@ const SearchResult = React.createClass({
     return this.state.photoResults.map(function(photo) {
       return (
         <div>
-          <img src={photo.url}/>
+          <PhotoIndexItem key={photo.id} photoData={photo} currentUser={SessionStore.currentUser()} />
         </div>
       )
     });
@@ -34,24 +42,32 @@ const SearchResult = React.createClass({
     return this.state.collectionResults.map(function(collection) {
       return (
         <div>
-          <img src={collection.name}/>
+          <CollectionIndexItem key={collection.id} collectionData={collection} />
         </div>
       )
     });
-  }
+  },
   handleRenderUsers() {
     return this.state.userResults.map(function(user) {
       return (
         <div>
-          <img src={user.first_name}/>
+          {user.user_name}
         </div>
       )
     });
-  }
+  },
   render() {
 
     return (
       <div>
+        <div className="navtab-wrap">
+          <div className="inner-navtab-wrap">
+            <a>All</a>
+            <a>{this.state.photoResults.length} Photos</a>
+            <a>{this.state.collectionResults.length} Collections</a>
+            <a>{this.state.userResults.length} Users</a>
+          </div>
+        </div>
         {this.handleRenderPhotos()}
         {this.handleRenderUsers()}
         {this.handleRenderCollections()}

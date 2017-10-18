@@ -13,7 +13,7 @@ module.exports = {
       url: "api/collections",
       data: {search_input: searchInput},
       success: function(collections) {
-        successCB(collections, searchInput)
+        successCB(collections)
       }
     })
   },
@@ -22,7 +22,7 @@ module.exports = {
       url: "api/users",
       data: {search_input: searchInput},
       success: function(users) {
-        successCB(users, searchInput)
+        successCB(users)
       }
     })
   }

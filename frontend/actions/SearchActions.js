@@ -12,10 +12,11 @@ const SearchActions = {
   fetchSearchedUsers(searchInput) {
     SearchApiUtil.fetchSearchedUsers(searchInput, this.receiveUsers);
   },
-  receivePhotos(photos) {
+  receivePhotos(photos, searchInput) {
     Dispatcher.dispatch({
       actionType: SearchConstants.SEARCHED_PHOTOS_RECEIVED,
-      photos: photos
+      photos: photos,
+      searchInput: searchInput
     });
   },
   receiveCollections(collections) {

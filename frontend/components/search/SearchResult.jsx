@@ -33,29 +33,28 @@ const SearchResult = React.createClass({
   handleRenderPhotos() {
     return this.state.photoResults.map(function(photo) {
       return (
-        <div>
-          <PhotoIndexItem key={photo.id} photoData={photo} currentUser={SessionStore.currentUser()} />
-        </div>
+        <PhotoIndexItem key={photo.id} photoData={photo} currentUser={SessionStore.currentUser()} />
       )
     });
   },
   handleRenderCollections() {
+    let that = this;
     return this.state.collectionResults.map(function(collection) {
       return (
-        <div>
-          <CollectionIndexItem key={collection.id} collectionData={collection} />
-        </div>
+        <CollectionIndexItem key={collection.id} collectionData={collection} />
       )
     });
   },
   handleRenderUsers() {
+    let that = this;
     return this.state.userResults.map(function(user) {
       return (
-        <div>
-          <UserIndexItem key={user.id} userData={user} />
-        </div>
+        <UserIndexItem key={user.id} userData={user} />
       )
     });
+  },
+  onTabClick() {
+
   },
   render() {
 
@@ -63,15 +62,14 @@ const SearchResult = React.createClass({
       <div>
         <div className="navtab-wrap">
           <div className="inner-navtab-wrap">
-            <a>All</a>
-            <a>{this.state.photoResults.length} Photos</a>
+            <a className="active">{this.state.photoResults.length} Photos</a>
             <a>{this.state.collectionResults.length} Collections</a>
             <a>{this.state.userResults.length} Users</a>
           </div>
         </div>
         {this.handleRenderPhotos()}
-        {this.handleRenderUsers()}
         {this.handleRenderCollections()}
+        {this.handleRenderUsers()}
       </div>
     )
   }

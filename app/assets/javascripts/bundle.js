@@ -22439,8 +22439,10 @@ var PhotoIndex = React.createClass({
   },
   handleSearch: function handleSearch() {
     if (this.state.searchInput !== "") {
+      $(".inner-index-container").hide();
       return React.createElement(SearchResult, null);
     } else {
+      $(".inner-index-container").show();
       return this.state.photos.map(function (photo) {
         return React.createElement(PhotoIndexItem, { key: photo.id, photoData: photo, currentUser: _SessionStore2.default.currentUser() });
       });
@@ -23202,31 +23204,22 @@ var SearchResult = React.createClass({
   },
   handleRenderPhotos: function handleRenderPhotos() {
     return this.state.photoResults.map(function (photo) {
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(PhotoIndexItem, { key: photo.id, photoData: photo, currentUser: SessionStore.currentUser() })
-      );
+      return React.createElement(PhotoIndexItem, { key: photo.id, photoData: photo, currentUser: SessionStore.currentUser() });
     });
   },
   handleRenderCollections: function handleRenderCollections() {
+    var that = this;
     return this.state.collectionResults.map(function (collection) {
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(CollectionIndexItem, { key: collection.id, collectionData: collection })
-      );
+      return React.createElement(CollectionIndexItem, { key: collection.id, collectionData: collection });
     });
   },
   handleRenderUsers: function handleRenderUsers() {
+    var that = this;
     return this.state.userResults.map(function (user) {
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(UserIndexItem, { key: user.id, userData: user })
-      );
+      return React.createElement(UserIndexItem, { key: user.id, userData: user });
     });
   },
+  onTabClick: function onTabClick() {},
   render: function render() {
 
     return React.createElement(
@@ -23240,12 +23233,7 @@ var SearchResult = React.createClass({
           { className: 'inner-navtab-wrap' },
           React.createElement(
             'a',
-            null,
-            'All'
-          ),
-          React.createElement(
-            'a',
-            null,
+            { className: 'active' },
             this.state.photoResults.length,
             ' Photos'
           ),
@@ -23264,8 +23252,8 @@ var SearchResult = React.createClass({
         )
       ),
       this.handleRenderPhotos(),
-      this.handleRenderUsers(),
-      this.handleRenderCollections()
+      this.handleRenderCollections(),
+      this.handleRenderUsers()
     );
   }
 });

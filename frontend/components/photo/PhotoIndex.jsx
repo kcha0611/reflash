@@ -12,7 +12,7 @@ const PhotoIndex = React.createClass({
   getInitialState: function() {
     return {
       photos: [],
-      searchInput: SearchStore.searchInput() 
+      searchInput: SearchStore.searchInput()
     };
   },
   componentDidMount: function() {
@@ -36,10 +36,12 @@ const PhotoIndex = React.createClass({
   },
   handleSearch() {
     if (this.state.searchInput !== "") {
+      $(".inner-index-container").hide();
       return (
         <SearchResult />
       )
     } else {
+      $(".inner-index-container").show();
       return this.state.photos.map(function (photo) {
         return (
           <PhotoIndexItem key={photo.id} photoData={photo} currentUser={SessionStore.currentUser()} />

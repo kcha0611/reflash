@@ -23170,6 +23170,7 @@ var SearchStore = __webpack_require__(568);
 var PhotoIndexItem = __webpack_require__(274);
 var SessionStore = __webpack_require__(50);
 var CollectionIndexItem = __webpack_require__(270);
+var UserIndexItem = __webpack_require__(569);
 
 var SearchResult = React.createClass({
   displayName: 'SearchResult',
@@ -23222,7 +23223,7 @@ var SearchResult = React.createClass({
       return React.createElement(
         'div',
         null,
-        user.user_name
+        React.createElement(UserIndexItem, { key: user.id, userData: user })
       );
     });
   },
@@ -52049,6 +52050,28 @@ SearchStore.__onDispatch = function (payload) {
 };
 
 module.exports = SearchStore;
+
+/***/ }),
+/* 569 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var React = __webpack_require__(1);
+
+var UserIndexItem = React.createClass({
+  displayName: 'UserIndexItem',
+  render: function render() {
+    return React.createElement(
+      'div',
+      null,
+      this.props.userData.user_name
+    );
+  }
+});
+
+module.exports = UserIndexItem;
 
 /***/ })
 /******/ ]);

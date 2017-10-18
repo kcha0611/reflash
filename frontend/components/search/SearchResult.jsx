@@ -3,6 +3,7 @@ const SearchStore = require('../../stores/SearchStore');
 const PhotoIndexItem = require('../photo/PhotoIndexItem');
 const SessionStore = require('../../stores/SessionStore');
 const CollectionIndexItem = require('../collection/CollectionIndexItem');
+const UserIndexItem = require('../UserIndexItem');
 
 const SearchResult = React.createClass({
   getInitialState: function() {
@@ -51,7 +52,7 @@ const SearchResult = React.createClass({
     return this.state.userResults.map(function(user) {
       return (
         <div>
-          {user.user_name}
+          <UserIndexItem key={user.id} userData={user} />
         </div>
       )
     });

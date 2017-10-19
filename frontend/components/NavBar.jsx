@@ -8,11 +8,6 @@ import SessionStore from '../stores/SessionStore';
 import SessionActions from '../actions/SessionActions';
 
 const NavBar = React.createClass({
-  getInitialState: function() {
-    return {
-      searchInput: ""
-    };
-  },
   redirectTo(e) {
     hashHistory.push(`${e.target.name}`);
   },
@@ -34,7 +29,7 @@ const NavBar = React.createClass({
     }
   },
   receiveSearchInput(searchInput) {
-    this.setState({searchInput: searchInput})
+    this.props.receiveSearchInput(searchInput)
   },
   render() {
     return (
@@ -48,7 +43,6 @@ const NavBar = React.createClass({
           <Link to="/photos/new">Submit Photo</Link>
           {this.handleCurrentUser()}
         </div>
-        <h1 className="search-input">{this.state.searchInput}</h1>
       </div>
     )
   }

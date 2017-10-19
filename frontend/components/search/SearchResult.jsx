@@ -67,6 +67,7 @@ const SearchResult = React.createClass({
             <a>{this.state.userResults.length} Users</a>
           </div>
         </div>
+        <h1 className="search-input">{this.props.searchInput}</h1>
         {this.handleRenderPhotos()}
         {this.handleRenderCollections()}
         {this.handleRenderUsers()}

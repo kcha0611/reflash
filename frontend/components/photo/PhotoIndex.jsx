@@ -12,20 +12,20 @@ const PhotoIndex = React.createClass({
   getInitialState: function() {
     return {
       photos: [],
-      searchInput: SearchStore.searchInput()
+      searchInput: this.props.searchInput
     };
   },
   componentDidMount: function() {
     this.photoListener = PhotoStore.addListener(this.onChange);
-    this.searchListener = SearchStore.addListener(this.onSearchChange);
     PhotoActions.fetchPhotos();
   },
   componentWillUnmount: function() {
-    this.searchListener.remove();
     this.photoListener.remove();
   },
-  onSearchChange() {
-    this.setState({searchInput: SearchStore.searchInput()});
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      searchInput: nextProps.searchInput
+    })
   },
   onChange() {
     this.setState({photos: PhotoStore.all()});
@@ -37,7 +37,7 @@ const PhotoIndex = React.createClass({
   handleSearch() {
     if (this.state.searchInput !== "") {
       return (
-        <SearchResult />
+        <SearchResult searchInput={this.state.searchInput}/>
       )
     } else {
       return this.state.photos.map(function (photo) {

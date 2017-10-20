@@ -30,7 +30,6 @@ SessionStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case SessionConstants.LOGIN:
       login(payload.user);
-      signup(payload.user);
       break;
     case SessionConstants.LOGOUT:
       logout();

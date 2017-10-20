@@ -18,6 +18,9 @@ const LoginForm = React.createClass({
   handleUsernameChange(e){
     this.setState({username: e.target.value});
   },
+  componentWillUnmount() {
+    this.sessionListener.remove();
+  },
   handlePasswordChange(e){
     this.setState({password: e.target.value});
   },

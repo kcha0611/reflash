@@ -1,10 +1,12 @@
 // Place all the styles related to the collections controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-form.collection.form {
+.form-wrap {
   position: absolute;
   right: -600px;
   width: 63%;
+  display: flex;
+  justify-content: center;
 }
 
 .collection-modal-right.hide {
@@ -77,6 +79,7 @@ form.collection.form {
   color: white;
   margin-bottom: 12px;
   border-radius: 5px;
+  transition: all .15s ease-in-out;
 }
 
 .collection-container h3, h6 {
@@ -87,6 +90,55 @@ form.collection.form {
   opacity: 0.6;
 }
 
-.photo-added {
-  background-color: rgba(40,160,90,.7);
+.collection.form input:not([type=submit]) {
+  border-radius: 3px;
+  border: 1px solid #999;
+  font-size: 15px;
+  height: 40px;
+}
+
+form.collection.form {
+  width: 80%;
+}
+
+.collection.form input[type=submit] {
+  height: 44px;
+  padding: 0 19px;
+  background-color: #111;
+  color: white;
+  font-size: 15px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+}
+
+.collection-btn-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.collection.form a {
+  color: #999;
+  text-decoration: underline;
+  transition: all .15s ease-in-out;
+}
+
+.collection.form a:hover {
+  color: #111;
+  cursor: pointer;
+}
+
+.collection-btn-wrap div:first-child {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-wrap h1 {
+  font-size: 28px;
+  color: #111;
+  font-weight: 700;
+  margin: 35px 0 35px 0;
+}
+
+.form-wrap label {
+  margin: 35px 0 35px 0;
 }

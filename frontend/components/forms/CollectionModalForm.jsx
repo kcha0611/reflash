@@ -40,8 +40,8 @@ const CollectionModalForm = React.createClass({
     },
     render() {
       return (
-        <div>
-          <form className="collection form" id="collection-form" onSubmit={this.onSubmit}>
+        <div className="form-wrap" id="collection-form">
+          <form className="collection form" onSubmit={this.onSubmit}>
             <h1>Create new collection</h1>
             <label>
               Name
@@ -49,14 +49,14 @@ const CollectionModalForm = React.createClass({
             </label>
             <label>
               Description
-              <input type="textarea" onChange={this.changeInput} name="description"/>
+              <textarea style={{height: 86}} onChange={this.changeInput} name="description"/>
             </label>
             <div className="collection-btn-wrap">
               <div>
                 <input type="submit" value="Create collection" className="collection-submit-btn" />
               </div>
               <div>
-                <button onClick={this.closeCollectionForm} type="cancel">Cancel</button>
+                <a onClick={this.closeCollectionForm}>Cancel</a>
               </div>
             </div>
           </form>

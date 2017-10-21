@@ -2,9 +2,13 @@
   height: calc(100vh - 200px);
   width: 800px;
   overflow-y: auto;
-  border: none;
+  border: none!important;
 }
 
 .modal-dialog {
   width: 800px !important;
+}
+
+.collection-container:hover {
+  background-color: rgba(0, 0, 0, 0.6);
 }

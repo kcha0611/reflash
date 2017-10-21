@@ -12993,7 +12993,7 @@ var SearchStore = __webpack_require__(166);
 var PhotoIndexItem = __webpack_require__(158);
 var SessionStore = __webpack_require__(41);
 var CollectionIndexItem = __webpack_require__(156);
-var UserIndexItem = __webpack_require__(269);
+var UserIndexItem = __webpack_require__(553);
 
 var SearchResult = React.createClass({
   displayName: 'SearchResult',
@@ -23607,28 +23607,7 @@ var NavBar = _react2.default.createClass({
 module.exports = NavBar;
 
 /***/ }),
-/* 269 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var React = __webpack_require__(0);
-
-var UserIndexItem = React.createClass({
-  displayName: 'UserIndexItem',
-  render: function render() {
-    return React.createElement(
-      'div',
-      null,
-      this.props.userData.user_name
-    );
-  }
-});
-
-module.exports = UserIndexItem;
-
-/***/ }),
+/* 269 */,
 /* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23806,10 +23785,10 @@ var CollectionModalForm = _react2.default.createClass({
   render: function render() {
     return _react2.default.createElement(
       'div',
-      null,
+      { className: 'form-wrap', id: 'collection-form' },
       _react2.default.createElement(
         'form',
-        { className: 'collection form', id: 'collection-form', onSubmit: this.onSubmit },
+        { className: 'collection form', onSubmit: this.onSubmit },
         _react2.default.createElement(
           'h1',
           null,
@@ -23825,7 +23804,7 @@ var CollectionModalForm = _react2.default.createClass({
           'label',
           null,
           'Description',
-          _react2.default.createElement('input', { type: 'textarea', onChange: this.changeInput, name: 'description' })
+          _react2.default.createElement('textarea', { style: { height: 86 }, onChange: this.changeInput, name: 'description' })
         ),
         _react2.default.createElement(
           'div',
@@ -23839,8 +23818,8 @@ var CollectionModalForm = _react2.default.createClass({
             'div',
             null,
             _react2.default.createElement(
-              'button',
-              { onClick: this.closeCollectionForm, type: 'cancel' },
+              'a',
+              { onClick: this.closeCollectionForm },
               'Cancel'
             )
           )
@@ -49949,6 +49928,28 @@ function isReactComponent(component) {
   return !!(component && component.prototype && component.prototype.isReactComponent);
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 553 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var React = __webpack_require__(0);
+
+var UserIndexItem = React.createClass({
+  displayName: 'UserIndexItem',
+  render: function render() {
+    return React.createElement(
+      'div',
+      null,
+      this.props.userData.user_name
+    );
+  }
+});
+
+module.exports = UserIndexItem;
 
 /***/ })
 /******/ ]);

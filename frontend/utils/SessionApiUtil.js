@@ -1,6 +1,5 @@
 const ReactRouter = require('react-router');
 const hashHistory = ReactRouter.hashHistory;
-
 module.exports = {
   login(user, successCB) {
     $.ajax({
@@ -29,7 +28,7 @@ module.exports = {
       method: 'DELETE',
       url: 'api/session',
       success: function() {
-        successCB()
+        successCB();
       }
     })
   }

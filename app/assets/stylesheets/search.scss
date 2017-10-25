@@ -1,0 +1,44 @@
+.search-result-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inner-result-wrap {
+  width: 77%;
+}
+
+.search-result-wrap h1 {
+  text-transform: capitalize;
+  font-size: 46px;
+  font-weight: bold;
+  color: #111;
+  margin-bottom: 45px;
+}
+
+.navtab-wrap a {
+  color: #999;
+  font-size: 20px;
+  margin-right: 20px;
+  transition: color .2s ease-in-out,opacity .2s ease-in-out;
+}
+
+.navtab-wrap {
+  margin-bottom: 30px;
+}
+
+a.active {
+  cursor: default;
+  pointer-events: none;
+  color: #111;
+}
+
+.navtab-wrap a:hover {
+  color: #111;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.react-tabs__tab-list {
+  border-bottom: none;
+}

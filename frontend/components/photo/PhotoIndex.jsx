@@ -7,20 +7,33 @@ const Link = ReactRouter.Link;
 import SessionStore from '../../stores/SessionStore';
 const SearchResult = require('../search/SearchResult');
 const SearchStore = require('../../stores/SearchStore');
+const SearchActions = require('../../actions/SearchActions');
 
 const PhotoIndex = React.createClass({
   getInitialState: function() {
     return {
       photos: [],
+      photoResults: [],
+      collectionResults: [],
+      userResults: [],
       searchInput: this.props.searchInput
     };
   },
   componentDidMount: function() {
     this.photoListener = PhotoStore.addListener(this.onChange);
+    this.photoSearchListener = SearchStore.addListener(this.onSearchChange);
+    this.collectionSearchListener = SearchStore.addListener(this.onSearchChange);
+    this.userSearchListener = SearchStore.addListener(this.onSearchChange);
+    SearchActions.fetchSearchedUsers(this.state.searchInput);
+    SearchActions.fetchSearchedPhotos(this.state.searchInput);
+    SearchActions.fetchSearchedCollections(this.state.searchInput);
     PhotoActions.fetchPhotos();
   },
   componentWillUnmount: function() {
     this.photoListener.remove();
+    this.photoSearchListener.remove();
+    this.collectionSearchListener.remove();
+    this.userSearchListener.remove();
   },
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -28,16 +41,28 @@ const PhotoIndex = React.createClass({
     })
   },
   onChange() {
-    this.setState({photos: PhotoStore.all()});
+    this.setState({
+      photos: PhotoStore.all()
+    });
+  },
+  onSearchChange() {
+    this.setState({
+      photoResults: SearchStore.allPhotos(),
+      collectionResults: SearchStore.allCollections(),
+      userResults: SearchStore.allUsers()
+    })
   },
   onGridTab() {
     $(".inner-item-container").addClass('grid');
     $(".item-container").addClass('grid');
   },
   handleSearch() {
+    let searchedPhotos = this.state.photoResults;
+    let searchedCollections = this.state.collectionResults;
+    let searchedUsers = this.state.userResults;
     if (this.state.searchInput !== "") {
       return (
-        <SearchResult searchInput={this.state.searchInput}/>
+        <SearchResult searchedPhotos={searchedPhotos} searchedCollections={searchedCollections} searchedUsers={searchedUsers}/>
       )
     } else {
       return this.state.photos.map(function (photo) {

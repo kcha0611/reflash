@@ -8,22 +8,22 @@ const SearchBar = React.createClass({
       searchInput: ""
     };
   },
-  _onChange(e) {
+  onChange(e) {
     if (e.target.value !== "") {
       $(".inner-index-container").hide();
     } else {
       $(".inner-index-container").show();
     }
-    this.props.receiveSearchInput(e.target.value);
+    SearchActions.fetchSearchedUsers(e.target.value);
     SearchActions.fetchSearchedPhotos(e.target.value);
     SearchActions.fetchSearchedCollections(e.target.value);
-    SearchActions.fetchSearchedUsers(e.target.value);
+    this.props.receiveSearchInput(e.target.value);
     this.setState({searchInput: e.target.value });
   },
   render() {
     return (
       <div className="search-bar">
-        <input type="text" value={this.state.searchInput} onChange={this._onChange} placeholder="Search free high-resolution photos"/>
+        <input type="text" value={this.state.searchInput} onChange={this.onChange} placeholder="Search free high-resolution photos"/>
       </div>
     )
   }

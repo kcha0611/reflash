@@ -6,7 +6,6 @@ const SearchStore = new Store(Dispatcher);
 let _photoResults = [];
 let _collectionResults = [];
 let _userResults = [];
-let _searchInput = "";
 
 SearchStore.allPhotos = function() {
   return _photoResults;
@@ -22,10 +21,9 @@ SearchStore.allUsers = function() {
 
 SearchStore.resetPhotos = function(searchResultsObj) {
   _photoResults = [];
-  searchResultsObj.photos.photos.forEach(function(photo) {
+  searchResultsObj.photos.forEach(function(photo) {
     _photoResults[photo.id] = photo;
   });
-  _searchInput = searchResultsObj.searchInput;
 }
 
 SearchStore.resetCollections = function(searchResultsObj) {
@@ -42,14 +40,10 @@ SearchStore.resetUsers = function(searchResultsObj) {
   });
 }
 
-SearchStore.searchInput = function() {
-  return _searchInput;
-}
-
 SearchStore.__onDispatch = function(payload) {
   switch (payload.actionType) {
     case SearchConstants.SEARCHED_PHOTOS_RECEIVED:
-      SearchStore.resetPhotos(payload);
+      SearchStore.resetPhotos(payload.photos);
       SearchStore.__emitChange();
       break;
     case SearchConstants.SEARCHED_COLLECTIONS_RECEIVED:

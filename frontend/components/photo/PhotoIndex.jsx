@@ -24,9 +24,6 @@ const PhotoIndex = React.createClass({
     this.photoSearchListener = SearchStore.addListener(this.onSearchChange);
     this.collectionSearchListener = SearchStore.addListener(this.onSearchChange);
     this.userSearchListener = SearchStore.addListener(this.onSearchChange);
-    SearchActions.fetchSearchedUsers(this.state.searchInput);
-    SearchActions.fetchSearchedPhotos(this.state.searchInput);
-    SearchActions.fetchSearchedCollections(this.state.searchInput);
     PhotoActions.fetchPhotos();
   },
   componentWillUnmount: function() {
@@ -38,7 +35,7 @@ const PhotoIndex = React.createClass({
   componentWillReceiveProps(nextProps) {
     this.setState({
       searchInput: nextProps.searchInput
-    })
+    });
   },
   onChange() {
     this.setState({
@@ -57,9 +54,9 @@ const PhotoIndex = React.createClass({
     $(".item-container").addClass('grid');
   },
   handleSearch() {
-    let searchedPhotos = this.state.photoResults;
-    let searchedCollections = this.state.collectionResults;
-    let searchedUsers = this.state.userResults;
+    let searchedPhotos = this.state.photoResults.filter(function(el){ return el != undefined});
+    let searchedCollections = this.state.collectionResults.filter(function(el){ return el != undefined});
+    let searchedUsers = this.state.userResults.filter(function(el){ return el != undefined});
     if (this.state.searchInput !== "") {
       return (
         <SearchResult searchedPhotos={searchedPhotos} searchedCollections={searchedCollections} searchedUsers={searchedUsers}/>

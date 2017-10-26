@@ -27,17 +27,23 @@ const SearchResult = React.createClass({
       )
     });
   },
+  handleResultsLength(resultLength) {
+    if (resultLength < 0) {
+      return 0;
+    } else {
+      return resultLength;
+    }
+  },
   render() {
-
     return (
       <div className="search-result-wrap">
         <div className="inner-result-wrap">
           <h1>{this.props.searchInput}</h1>
           <Tabs>
             <TabList>
-              <Tab>{this.props.searchedPhotos.length} Photos</Tab>
-              <Tab>{this.props.searchedCollections.length} Collections</Tab>
-              <Tab>{this.props.searchedUsers.length} Users</Tab>
+              <Tab>{this.handleResultsLength(this.props.searchedPhotos.length)} Photos</Tab>
+              <Tab>{this.handleResultsLength(this.props.searchedCollections.length)} Collections</Tab>
+              <Tab>{this.handleResultsLength(this.props.searchedUsers.length)} Users</Tab>
             </TabList>
           <TabPanel>
             {this.handleRenderPhotos()}

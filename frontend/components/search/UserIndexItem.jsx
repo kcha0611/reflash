@@ -1,19 +1,26 @@
 const React = require('react');
 
 const UserIndexItem = React.createClass({
+  checkIfUndefined(photos, idx) {
+    if (photos.length > 0) {
+      return photos[idx].url;
+    } else {
+      return "https://source.unsplash.com/random"
+    }
+  },
   render () {
     let firstImageStyles = {
-      backgroundImage: `url(${this.props.userData.photos[0].url})`,
+      backgroundImage: `url(${this.checkIfUndefined(this.props.userData.photos, 0)})`,
       backgroundPosition: "50%",
       backgroundSize: "cover"
     }
     let secondImageStyles = {
-      backgroundImage: `url(${this.props.userData.photos[1].url})`,
+      backgroundImage: `url(${this.checkIfUndefined(this.props.userData.photos, 1)})`,
       backgroundPosition: "50%",
       backgroundSize: "cover"
     }
     let thirdImageStyles = {
-      backgroundImage: `url(${this.props.userData.photos[2].url})`,
+      backgroundImage: `url(${this.checkIfUndefined(this.props.userData.photos, 2)})`,
       backgroundPosition: "50%",
       backgroundSize: "cover"
     }

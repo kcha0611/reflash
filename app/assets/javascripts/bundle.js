@@ -24156,19 +24156,26 @@ var React = __webpack_require__(0);
 
 var UserIndexItem = React.createClass({
   displayName: "UserIndexItem",
+  checkIfUndefined: function checkIfUndefined(photos, idx) {
+    if (photos.length > 0) {
+      return photos[idx].url;
+    } else {
+      return "https://source.unsplash.com/random";
+    }
+  },
   render: function render() {
     var firstImageStyles = {
-      backgroundImage: "url(" + this.props.userData.photos[0].url + ")",
+      backgroundImage: "url(" + this.checkIfUndefined(this.props.userData.photos, 0) + ")",
       backgroundPosition: "50%",
       backgroundSize: "cover"
     };
     var secondImageStyles = {
-      backgroundImage: "url(" + this.props.userData.photos[1].url + ")",
+      backgroundImage: "url(" + this.checkIfUndefined(this.props.userData.photos, 1) + ")",
       backgroundPosition: "50%",
       backgroundSize: "cover"
     };
     var thirdImageStyles = {
-      backgroundImage: "url(" + this.props.userData.photos[2].url + ")",
+      backgroundImage: "url(" + this.checkIfUndefined(this.props.userData.photos, 2) + ")",
       backgroundPosition: "50%",
       backgroundSize: "cover"
     };

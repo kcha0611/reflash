@@ -48,29 +48,21 @@ const SearchResult = React.createClass({
               <Tab>{this.handleResultsLength(this.props.searchedCollections.length)} Collections</Tab>
               <Tab>{this.handleResultsLength(this.props.searchedUsers.length)} Users</Tab>
             </TabList>
-          <Grid>
             <TabPanel>
-              <Row>
-                <Col xs={6} md={6}>
-                  {this.handleRenderPhotos()}
-                </Col>
-              </Row>
+              <div className="result-wrap">
+                {this.handleRenderPhotos()}
+              </div>
             </TabPanel>
             <TabPanel>
-              <Row>
-                <Col xs={6} md={6}>
-                  {this.handleRenderCollections()}
-                </Col>
-              </Row>
+              <div className="result-wrap">
+                {this.handleRenderCollections()}
+              </div>
             </TabPanel>
             <TabPanel>
-              <Row>
-                <Col xs={6} md={6}>
-                  {this.handleRenderUsers()}
-                </Col>
-              </Row>
+              <div className="result-wrap">
+                {this.handleRenderUsers()}
+              </div>
             </TabPanel>
-          </Grid>
         </Tabs>
         </div>
       </div>

@@ -40,5 +40,37 @@ a.active {
 }
 
 .result-wrap {
-  display: flex;
+  width: 100%;
+}
+
+.collection-item {
+  width: 33%;
+  height: 250px;
+  float: left;
+  margin-left: 3px;
+  margin-bottom: 10px;
+}
+
+.collection-item p {
+  font-size: 12px;
+  letter-spacing: .02em;
+  color: #999;
+  text-shadow: 0 1px 1px rgba(0,0,0,.15);
+  font-weight: 900;
+}
+
+.collection-item h1 {
+   color: white;
+   font-size: 24px;
+   font-weight: 900;
+}
+
+.collection-item div {
+  position: absolute;
+}
+
+.collection-search-img {
+  width: 25%;
+  height: 250px;
+  position: absolute;
 }

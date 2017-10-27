@@ -2,9 +2,6 @@ const React = require('react');
 const PhotoActions = require('../../actions/PhotoActions');
 
 const GridPhotoIndexItem = React.createClass({
-  likePhoto() {
-    PhotoActions.likePhoto(this.props.gridPhotoData);
-  },
   fullScreen() {
     $(".profile-container").addClass("fullscreen");
   },

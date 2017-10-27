@@ -24155,12 +24155,48 @@ module.exports = SearchBar;
 var React = __webpack_require__(0);
 
 var UserIndexItem = React.createClass({
-  displayName: 'UserIndexItem',
+  displayName: "UserIndexItem",
   render: function render() {
+    var firstImageStyles = {
+      backgroundImage: "url(" + this.props.userData.photos[0].url + ")",
+      backgroundPosition: "50%",
+      backgroundSize: "cover"
+    };
+    var secondImageStyles = {
+      backgroundImage: "url(" + this.props.userData.photos[1].url + ")",
+      backgroundPosition: "50%",
+      backgroundSize: "cover"
+    };
+    var thirdImageStyles = {
+      backgroundImage: "url(" + this.props.userData.photos[2].url + ")",
+      backgroundPosition: "50%",
+      backgroundSize: "cover"
+    };
     return React.createElement(
-      'div',
-      null,
-      this.props.userData.user_name
+      "div",
+      { className: "user-item" },
+      React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "h1",
+          null,
+          this.props.userData.first_name + this.props.userData.last_name
+        ),
+        React.createElement(
+          "p",
+          null,
+          "@",
+          this.props.userData.user_name
+        )
+      ),
+      React.createElement(
+        "div",
+        null,
+        React.createElement("div", { style: firstImageStyles }),
+        React.createElement("div", { style: secondImageStyles }),
+        React.createElement("div", { style: thirdImageStyles })
+      )
     );
   }
 });

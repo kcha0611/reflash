@@ -54,6 +54,29 @@ a.active {
   border-radius: 6px;
 }
 
+.user-item {
+  width: 31.8%;
+  height: 250px;
+  margin: 0.6%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  transition: border-color .2s ease-in-out;
+  padding: 15px;
+}
+
+.user-item h1 {
+  font-size: 18px;
+  margin: 21px 0px 20px 0px;
+}
+
+.user-item p {
+  font-size: 15px;
+  color: #999;
+}
+
 .collection-item::before {
   background-color: rgba(0,0,0,.25);
   content: '';
@@ -62,6 +85,13 @@ a.active {
   width: 100%;
   position: absolute;
   border-radius: 6px;
+}
+
+.user-item > div:last-child > div {
+  height: 80px;
+  display: inline-block;
+  width: 30%;
+  margin: 1%;
 }
 
 

@@ -12869,19 +12869,16 @@ module.exports = SearchActions;
 
 
 var React = __webpack_require__(0);
+var GridPhotoIndexItem = __webpack_require__(276);
 
 var CollectionIndexItem = React.createClass({
   displayName: 'CollectionIndexItem',
+  handleRender: function handleRender() {},
   render: function render() {
     return React.createElement(
       'div',
-      null,
-      React.createElement(
-        'div',
-        null,
-        this.props.collectionData.created_at,
-        this.props.collectionData.name
-      )
+      { className: 'collection-item' },
+      this.props.collectionData.name
     );
   }
 });
@@ -13136,6 +13133,9 @@ var PhotoIndexItem = __webpack_require__(161);
 var CollectionIndexItem = __webpack_require__(159);
 var UserIndexItem = __webpack_require__(278);
 
+var Grid = __webpack_require__(133).Grid;
+var Row = __webpack_require__(133).Row;
+var Col = __webpack_require__(133).Col;
 
 var SearchResult = React.createClass({
   displayName: 'SearchResult',
@@ -13199,19 +13199,47 @@ var SearchResult = React.createClass({
             )
           ),
           React.createElement(
-            _reactTabs.TabPanel,
+            Grid,
             null,
-            this.handleRenderPhotos()
-          ),
-          React.createElement(
-            _reactTabs.TabPanel,
-            null,
-            this.handleRenderCollections()
-          ),
-          React.createElement(
-            _reactTabs.TabPanel,
-            null,
-            this.handleRenderUsers()
+            React.createElement(
+              _reactTabs.TabPanel,
+              null,
+              React.createElement(
+                Row,
+                null,
+                React.createElement(
+                  Col,
+                  { xs: 6, md: 6 },
+                  this.handleRenderPhotos()
+                )
+              )
+            ),
+            React.createElement(
+              _reactTabs.TabPanel,
+              null,
+              React.createElement(
+                Row,
+                null,
+                React.createElement(
+                  Col,
+                  { xs: 6, md: 6 },
+                  this.handleRenderCollections()
+                )
+              )
+            ),
+            React.createElement(
+              _reactTabs.TabPanel,
+              null,
+              React.createElement(
+                Row,
+                null,
+                React.createElement(
+                  Col,
+                  { xs: 6, md: 6 },
+                  this.handleRenderUsers()
+                )
+              )
+            )
           )
         )
       )

@@ -4,6 +4,9 @@ const PhotoIndexItem = require('../photo/PhotoIndexItem');
 const CollectionIndexItem = require('../collection/CollectionIndexItem');
 const UserIndexItem = require('./UserIndexItem');
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+const Grid = require('react-bootstrap').Grid;
+const Row = require('react-bootstrap').Row;
+const Col = require('react-bootstrap').Col;
 
 const SearchResult = React.createClass({
   handleRenderPhotos() {
@@ -45,15 +48,29 @@ const SearchResult = React.createClass({
               <Tab>{this.handleResultsLength(this.props.searchedCollections.length)} Collections</Tab>
               <Tab>{this.handleResultsLength(this.props.searchedUsers.length)} Users</Tab>
             </TabList>
-          <TabPanel>
-            {this.handleRenderPhotos()}
-          </TabPanel>
-          <TabPanel>
-            {this.handleRenderCollections()}
-          </TabPanel>
-          <TabPanel>
-            {this.handleRenderUsers()}
-          </TabPanel>
+          <Grid>
+            <TabPanel>
+              <Row>
+                <Col xs={6} md={6}>
+                  {this.handleRenderPhotos()}
+                </Col>
+              </Row>
+            </TabPanel>
+            <TabPanel>
+              <Row>
+                <Col xs={6} md={6}>
+                  {this.handleRenderCollections()}
+                </Col>
+              </Row>
+            </TabPanel>
+            <TabPanel>
+              <Row>
+                <Col xs={6} md={6}>
+                  {this.handleRenderUsers()}
+                </Col>
+              </Row>
+            </TabPanel>
+          </Grid>
         </Tabs>
         </div>
       </div>

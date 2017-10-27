@@ -1,13 +1,13 @@
 const React = require('react');
+const GridPhotoIndexItem = require('../photo/GridPhotoIndexItem');
 
 const CollectionIndexItem = React.createClass({
+  handleRender() {
+  },
   render() {
     return (
-      <div>
-        <div>
-          {this.props.collectionData.created_at}
-          {this.props.collectionData.name}
-        </div>
+      <div className="collection-item">
+        {this.props.collectionData.name}
       </div>
     )
   }

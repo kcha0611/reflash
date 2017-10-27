@@ -10,11 +10,11 @@ const CollectionIndexItem = React.createClass({
   render() {
     return (
       <div className="collection-item">
-        <img src={this.handleBackgroundImage()} className="collection-search-img"/>
-        <div>
-          <p>{this.props.collectionData.photos.length} Photos</p>
-          <h1>{this.props.collectionData.name}</h1>
-        </div>
+          <img src={this.handleBackgroundImage()} className="collection-search-img"/>
+          <div>
+            <p>{this.props.collectionData.photos.length} Photos</p>
+            <h1>{this.props.collectionData.name}</h1>
+          </div>
       </div>
     )
   }

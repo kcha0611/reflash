@@ -27,7 +27,8 @@ const LoginForm = React.createClass({
   handlePasswordChange(e){
     this.setState({password: e.target.value});
   },
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault();
     SessionActions.login(this.state);
   },
   guestLogin() {

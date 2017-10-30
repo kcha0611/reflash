@@ -23240,7 +23240,8 @@ var LoginForm = React.createClass({
   handlePasswordChange: function handlePasswordChange(e) {
     this.setState({ password: e.target.value });
   },
-  handleSubmit: function handleSubmit() {
+  handleSubmit: function handleSubmit(e) {
+    e.preventDefault();
     SessionActions.login(this.state);
   },
   guestLogin: function guestLogin() {

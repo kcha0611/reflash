@@ -49,6 +49,9 @@ a.profile-download-btn {
   padding: 0 11px;
   font-size: 11px;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
 }
 
 .profile-container {
@@ -101,6 +104,9 @@ a.like-btn img {
   font-size: 11px;
   text-transform: uppercase;
   margin-left: 5px;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
 }
 
 .photo-form-container {
@@ -208,12 +214,15 @@ p.upload-length {
   width: 100%;
   float: left;
   height: auto;
+  position: relative;
 }
 
 .grid-item-container img {
   width: 100%;
   height: auto;
   margin: 10px 0 10px 0;
+  z-index: 0;
+  position:relative;
 }
 
 .inner-photo-form-wrap {
@@ -235,4 +244,31 @@ p.upload-length {
 .like-btn.liked {
   background: #f15151;
   color: white;
+}
+
+.like-btn {
+  background-color: #fff;
+}
+
+img.grid-like {
+  width: 16px;
+}
+
+.grid-item-container div {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  z-index: 100;
+  top: 10px;
+  padding: 10px;
+  display: none;
+}
+
+.grid-item-container:hover {
+  cursor: zoom-in;
+}
+
+
+.grid-dload-btn {
+  margin-left: 5px;
 }

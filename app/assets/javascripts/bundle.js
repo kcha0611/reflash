@@ -12997,17 +12997,85 @@ module.exports = CollectionModalItem;
 
 var React = __webpack_require__(0);
 var PhotoActions = __webpack_require__(47);
+var LikeActions = __webpack_require__(273);
+var CollectionModal = __webpack_require__(275);
 
 var GridPhotoIndexItem = React.createClass({
   displayName: 'GridPhotoIndexItem',
+
+  getInitialState: function getInitialState() {
+    return {
+      show: false,
+      liked: this.photoLiked(this.props.photoData)
+    };
+  },
+  openCollectionModal: function openCollectionModal(e) {
+    e.preventDefault();
+    this.setState({ show: true });
+  },
+  close: function close() {
+    this.setState({ show: false });
+  },
   fullScreen: function fullScreen() {
     $(".profile-container").addClass("fullscreen");
+  },
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    this.setState({
+      liked: this.photoLiked(nextProps.photoData)
+    });
+  },
+  photoLiked: function photoLiked(photo) {
+    var _this = this;
+
+    return photo.likes.some(function (like) {
+      return like.user_id === _this.props.currentUser.id;
+    });
+  },
+  handleLike: function handleLike() {
+    if (this.state.liked) {
+      LikeActions.unlikePhoto(this.props.photoData.id);
+    } else {
+      LikeActions.likePhoto(this.props.photoData.id);
+    }
+  },
+  checkIfLiked: function checkIfLiked() {
+    if (this.state.liked) {
+      return React.createElement(
+        'a',
+        { href: 'javascript:void(0)', onClick: this.handleLike, className: 'like-btn liked' },
+        React.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png', className: 'grid-like' }),
+        this.props.photoData.likes.length
+      );
+    } else {
+      return React.createElement(
+        'a',
+        { href: 'javascript:void(0)', onClick: this.handleLike, className: 'like-btn' },
+        React.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png', className: 'grid-like' }),
+        this.props.photoData.likes.length
+      );
+    }
   },
   render: function render() {
     return React.createElement(
       'div',
       { className: 'grid-item-container grid' },
-      React.createElement('img', { src: this.props.photoData.url, id: 'img', className: 'img', onClick: this.fullScreen })
+      React.createElement('img', { src: this.props.photoData.url, id: 'img', className: 'img', onClick: this.fullScreen }),
+      React.createElement(
+        'div',
+        null,
+        this.checkIfLiked(),
+        React.createElement(CollectionModal, { photoData: this.props.photoData, show: this.state.show, onHide: this.close }),
+        React.createElement(
+          'a',
+          { href: 'javascript:void(0)', className: 'collect-btn', onClick: this.openCollectionModal },
+          'Collect'
+        ),
+        React.createElement(
+          'a',
+          { href: this.props.photoData.url, download: true, className: 'profile-download-btn grid-dload-btn' },
+          'Download'
+        )
+      )
     );
   }
 });

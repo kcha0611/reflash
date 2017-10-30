@@ -96,7 +96,6 @@ a.like-btn img {
   text-decoration: none;
   font-weight: 700;
   border-radius: 6px;
-
   float: right;
   padding: 0 11px;
   font-size: 11px;
@@ -124,7 +123,6 @@ a.like-btn img {
   border: 1px solid transparent;
   padding: 9px 18px;
   font-size: 15px;
-
   border-radius: 6px;
   color: white;
   background-color: black;
@@ -203,7 +201,6 @@ p.upload-length {
 
 .inner-photo-container {
   column-count: 3;
-  column-gap: 0px;
   width: 76vw;
 }
 
@@ -216,7 +213,7 @@ p.upload-length {
 .grid-item-container img {
   width: 100%;
   height: auto;
-  margin: 10px 20px 10px 20px;
+  margin: 10px 0 10px 0;
 }
 
 .inner-photo-form-wrap {

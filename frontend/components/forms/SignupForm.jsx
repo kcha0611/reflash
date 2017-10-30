@@ -2,6 +2,7 @@ const React = require('react');
 const SessionActions = require('../../actions/SessionActions');
 const ReactRouter = require('react-router');
 const Link = ReactRouter.Link;
+const ErrorStore = require('../../stores/ErrorStore');
 
 const SignupForm = React.createClass({
   getInitialState: function() {
@@ -12,6 +13,12 @@ const SignupForm = React.createClass({
       last_name: "",
       user_name: ""
     };
+  },
+  componentDidMount: function() {
+    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
+  },
+  componentWillUnmount: function() {
+    this.errorListener.remove();
   },
   handleUsernameChange(e) {
     this.setState({user_name: e.target.value})
@@ -31,6 +38,17 @@ const SignupForm = React.createClass({
   handleSubmit() {
     SessionActions.signup(this.state);
   },
+  fieldErrors(field) {
+    const errors = ErrorStore.formErrors('signup');
+    if (!errors[field]) { return; }
+
+    const messages = errors[field].map((errorMsg, i) =>
+      <li key={i}>{errorMsg}</li>
+    );
+    return messages[0].props.children.map(function(error) {
+      return <li className="form-errors">{error}</li>
+    });
+  },
   render() {
     return(
       <div>
@@ -39,7 +57,7 @@ const SignupForm = React.createClass({
             <img src="https://unsplash.com/assets/core/logo-black-b37a09de4a228cd8fb72adbabc95931c5090611a0cae8e76f1fd077d378ec080.svg"></img>
             <h1>Join</h1>
             <p>Be a part of Reflash.</p>
-            <input type="submit" value="Guest Login" className="guest-login-btn"/>
+            {this.fieldErrors("base")}
             <div className="name-wrap">
               <label className="name-label first">
                 <p>First Name</p>

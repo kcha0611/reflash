@@ -1,7 +1,7 @@
 const ReactRouter = require('react-router');
 const hashHistory = ReactRouter.hashHistory;
 module.exports = {
-  login(user, successCB) {
+  login(user, successCB, errorCB) {
     $.ajax({
       method: 'POST',
       url: 'api/session',
@@ -9,10 +9,13 @@ module.exports = {
       success: function(user) {
         hashHistory.push("/");
         successCB(user);
+      },
+      error: function(xhr) {
+        errorCB('login', xhr.responseJSON);
       }
     })
   },
-  signup(user, successCB) {
+  signup(user, successCB, errorCB) {
     $.ajax({
       method: 'POST',
       url: 'api/users',
@@ -20,6 +23,9 @@ module.exports = {
       success: function(user) {
         hashHistory.push("/");
         successCB(user);
+      },
+      error: function(xhr) {
+        errorCB('signup', xhr.responseJSON);
       }
     })
   },

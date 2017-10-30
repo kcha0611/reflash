@@ -6376,13 +6376,14 @@ module.exports = exports['default'];
 var SessionApiUtil = __webpack_require__(285);
 var SessionConstants = __webpack_require__(169);
 var Dispatcher = __webpack_require__(26);
+var ErrorActions = __webpack_require__(157);
 
 var SessionActions = {
   login: function login(user) {
-    SessionApiUtil.login(user, this.receiveUser);
+    SessionApiUtil.login(user, this.receiveUser, ErrorActions.setErrors);
   },
   signup: function signup(user) {
-    SessionApiUtil.signup(user, this.receiveUser);
+    SessionApiUtil.signup(user, this.receiveUser, ErrorActions.setErrors);
   },
   logout: function logout() {
     SessionApiUtil.logout(this.removeUser);
@@ -23214,6 +23215,7 @@ var ReactRouter = __webpack_require__(34);
 var Link = ReactRouter.Link;
 var hashHistory = ReactRouter.hashHistory;
 var SessionStore = __webpack_require__(48);
+var ErrorStore = __webpack_require__(280);
 
 var LoginForm = React.createClass({
   displayName: 'LoginForm',
@@ -23226,18 +23228,42 @@ var LoginForm = React.createClass({
   },
   componentDidMount: function componentDidMount() {
     this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
+    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
   },
   handleUsernameChange: function handleUsernameChange(e) {
     this.setState({ username: e.target.value });
   },
   componentWillUnmount: function componentWillUnmount() {
     this.sessionListener.remove();
+    this.errorListener.remove();
   },
   handlePasswordChange: function handlePasswordChange(e) {
     this.setState({ password: e.target.value });
   },
   handleSubmit: function handleSubmit() {
     SessionActions.login(this.state);
+  },
+  guestLogin: function guestLogin() {
+    SessionActions.login({ username: "guest", password: "123456" });
+  },
+  fieldErrors: function fieldErrors(field) {
+    var errors = ErrorStore.formErrors('login');
+    if (!errors[field]) {
+      return;
+    }
+
+    var messages = errors[field].map(function (errorMsg, i) {
+      return React.createElement(
+        'li',
+        { key: i },
+        errorMsg
+      );
+    });
+    return React.createElement(
+      'ul',
+      { className: 'form-errors' },
+      messages
+    );
   },
   render: function render() {
     return React.createElement(
@@ -23266,6 +23292,7 @@ var LoginForm = React.createClass({
             { className: 'or' },
             'OR'
           ),
+          this.fieldErrors("base"),
           React.createElement(
             'label',
             null,
@@ -23432,6 +23459,7 @@ var React = __webpack_require__(0);
 var SessionActions = __webpack_require__(79);
 var ReactRouter = __webpack_require__(34);
 var Link = ReactRouter.Link;
+var ErrorStore = __webpack_require__(280);
 
 var SignupForm = React.createClass({
   displayName: 'SignupForm',
@@ -23444,6 +23472,12 @@ var SignupForm = React.createClass({
       last_name: "",
       user_name: ""
     };
+  },
+  componentDidMount: function componentDidMount() {
+    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    this.errorListener.remove();
   },
   handleUsernameChange: function handleUsernameChange(e) {
     this.setState({ user_name: e.target.value });
@@ -23462,6 +23496,27 @@ var SignupForm = React.createClass({
   },
   handleSubmit: function handleSubmit() {
     SessionActions.signup(this.state);
+  },
+  fieldErrors: function fieldErrors(field) {
+    var errors = ErrorStore.formErrors('signup');
+    if (!errors[field]) {
+      return;
+    }
+
+    var messages = errors[field].map(function (errorMsg, i) {
+      return React.createElement(
+        'li',
+        { key: i },
+        errorMsg
+      );
+    });
+    return messages[0].props.children.map(function (error) {
+      return React.createElement(
+        'li',
+        { className: 'form-errors' },
+        error
+      );
+    });
   },
   render: function render() {
     return React.createElement(
@@ -23484,7 +23539,7 @@ var SignupForm = React.createClass({
             null,
             'Be a part of Reflash.'
           ),
-          React.createElement('input', { type: 'submit', value: 'Guest Login', className: 'guest-login-btn' }),
+          this.fieldErrors("base"),
           React.createElement(
             'div',
             { className: 'name-wrap' },
@@ -24317,7 +24372,7 @@ ErrorStore.formErrors = function (form) {
   if (form !== _form) {
     return [];
   }
-  return _errors.slice();
+  return _errors;
 };
 
 ErrorStore.all = function () {
@@ -24525,7 +24580,7 @@ module.exports = {
 var ReactRouter = __webpack_require__(34);
 var hashHistory = ReactRouter.hashHistory;
 module.exports = {
-  login: function login(user, successCB) {
+  login: function login(user, successCB, errorCB) {
     $.ajax({
       method: 'POST',
       url: 'api/session',
@@ -24533,10 +24588,13 @@ module.exports = {
       success: function success(user) {
         hashHistory.push("/");
         successCB(user);
+      },
+      error: function error(xhr) {
+        errorCB('login', xhr.responseJSON);
       }
     });
   },
-  signup: function signup(user, successCB) {
+  signup: function signup(user, successCB, errorCB) {
     $.ajax({
       method: 'POST',
       url: 'api/users',
@@ -24544,6 +24602,9 @@ module.exports = {
       success: function success(user) {
         hashHistory.push("/");
         successCB(user);
+      },
+      error: function error(xhr) {
+        errorCB('signup', xhr.responseJSON);
       }
     });
   },

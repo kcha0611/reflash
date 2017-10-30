@@ -4,6 +4,7 @@ const ReactRouter = require('react-router');
 const Link = ReactRouter.Link;
 const hashHistory = ReactRouter.hashHistory;
 const SessionStore = require('../../stores/SessionStore');
+const ErrorStore = require('../../stores/ErrorStore');
 
 const LoginForm = React.createClass({
   getInitialState: function() {
@@ -14,18 +15,32 @@ const LoginForm = React.createClass({
   },
   componentDidMount: function() {
     this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
+    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
   },
   handleUsernameChange(e){
     this.setState({username: e.target.value});
   },
   componentWillUnmount() {
     this.sessionListener.remove();
+    this.errorListener.remove();
   },
   handlePasswordChange(e){
     this.setState({password: e.target.value});
   },
   handleSubmit() {
     SessionActions.login(this.state);
+  },
+  guestLogin() {
+    SessionActions.login({username: "guest", password: "123456"})
+  },
+  fieldErrors(field) {
+    const errors = ErrorStore.formErrors('login');
+    if (!errors[field]) { return; }
+
+    const messages = errors[field].map((errorMsg, i) =>
+      <li key={i}>{errorMsg}</li>
+    );
+    return <ul className="form-errors">{messages}</ul>;
   },
   render() {
     return (
@@ -37,6 +52,7 @@ const LoginForm = React.createClass({
             <p>Welcome Back.</p>
             <input type="submit" value="Guest Login" className="guest-login-btn"/>
             <p className="or">OR</p>
+            {this.fieldErrors("base")}
             <label>
               <p>Username</p>
               <input type="text" onChange={this.handleUsernameChange}/>

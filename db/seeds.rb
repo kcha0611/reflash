@@ -6,8 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.create!({user_name: "a", password: 'kencha', first_name: 'Ken', last_name: 'Cha', email: 'a@a.com'})
-User.create!({user_name: "b", password: 'kencha', first_name: 'Roy', last_name: 'Jenkins', email: 'b@b.com'})
+User.create!({user_name: "a", password: 'kencha', first_name: 'Ken', last_name: 'Cha', email: 'a@a.com'});
+User.create!({user_name: "b", password: 'kencha', first_name: 'Roy', last_name: 'Jenkins', email: 'b@b.com'});
+User.create!({user_name: "guest", password: '123456', first_name: 'Billy', last_name: 'Frazier', email: 'c@c.com'});
 Photo.create!({user_id: 1, url: 'https://source.unsplash.com/random'})
 Photo.create!({user_id: 1, url: 'https://source.unsplash.com/daily'})
 Photo.create!({user_id: 1, url: 'https://source.unsplash.com/weekly'})

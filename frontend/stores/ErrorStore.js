@@ -36,7 +36,7 @@ ErrorStore.formErrors = function (form) {
   if (form !== _form) {
     return [];
   }
-  return _errors.slice();
+  return _errors;
 };
 
 ErrorStore.all = function () {

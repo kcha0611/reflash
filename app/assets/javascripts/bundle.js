@@ -12745,38 +12745,30 @@ var PhotoIndex = React.createClass({
       null,
       React.createElement(
         'div',
-        { className: 'inner-index-container' },
+        { className: 'inner-index-wrap' },
         React.createElement(
-          'h1',
-          null,
-          'Reflash'
-        ),
-        React.createElement(
-          'p',
-          null,
-          'Free (',
+          'div',
+          { className: 'inner-index-container' },
           React.createElement(
-            'a',
+            'h1',
             null,
-            'do whatever you want'
+            'Reflash'
           ),
-          ') high resolution photos.'
-        ),
-        React.createElement(
-          'p',
-          null,
-          'To get the best of Reflash delivered to your inbox, ',
           React.createElement(
-            'a',
+            'p',
             null,
-            'subscribe'
+            'Beautiful, Free Photos.'
           ),
-          '.'
-        ),
-        React.createElement(
-          Link,
-          { to: '/gridphotos' },
-          'Grid'
+          React.createElement(
+            'p',
+            null,
+            'Gifted by the world\'s most generous community of photographers.'
+          ),
+          React.createElement(
+            Link,
+            { to: '/gridphotos' },
+            'Grid'
+          )
         )
       ),
       this.handleSearch()
@@ -13015,7 +13007,7 @@ var GridPhotoIndexItem = React.createClass({
     return React.createElement(
       'div',
       { className: 'grid-item-container grid' },
-      React.createElement('img', { src: this.props.gridPhotoData.url, id: 'img', className: 'img', onClick: this.fullScreen })
+      React.createElement('img', { src: this.props.photoData.url, id: 'img', className: 'img', onClick: this.fullScreen })
     );
   }
 });
@@ -23044,6 +23036,7 @@ module.exports = getIteratorFn;
 var React = __webpack_require__(0);
 var NavBar = __webpack_require__(274);
 var PhotoIndex = __webpack_require__(156);
+var GridPhotoIndex = __webpack_require__(271);
 
 var App = React.createClass({
   displayName: 'App',
@@ -23062,7 +23055,7 @@ var App = React.createClass({
     var _this = this;
 
     var propsChildren = React.Children.map(this.props.children, function (child) {
-      if (child.type === PhotoIndex) {
+      if (child.type === PhotoIndex || child.type === GridPhotoIndex) {
         return React.cloneElement(child, {
           searchInput: _this.state.searchInput
         });
@@ -23621,12 +23614,22 @@ module.exports = SignupForm;
 "use strict";
 
 
+var _SessionStore = __webpack_require__(48);
+
+var _SessionStore2 = _interopRequireDefault(_SessionStore);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var React = __webpack_require__(0);
 var PhotoStore = __webpack_require__(63);
 var PhotoActions = __webpack_require__(47);
 var GridPhotoIndexItem = __webpack_require__(161);
 var ReactRouter = __webpack_require__(34);
 var Link = ReactRouter.Link;
+var SearchResult = __webpack_require__(163);
+var SearchStore = __webpack_require__(170);
+var SearchActions = __webpack_require__(158);
+
 
 var GridPhotoIndex = React.createClass({
   displayName: 'GridPhotoIndex',
@@ -23634,105 +23637,104 @@ var GridPhotoIndex = React.createClass({
   getInitialState: function getInitialState() {
     return {
       photos: [],
-      searchInput: ""
+      photoResults: [],
+      collectionResults: [],
+      userResults: [],
+      searchInput: this.props.searchInput
     };
   },
   componentDidMount: function componentDidMount() {
     this.photoListener = PhotoStore.addListener(this.onChange);
+    this.photoSearchListener = SearchStore.addListener(this.onSearchChange);
+    this.collectionSearchListener = SearchStore.addListener(this.onSearchChange);
+    this.userSearchListener = SearchStore.addListener(this.onSearchChange);
     PhotoActions.fetchPhotos();
   },
   componentWillUnmount: function componentWillUnmount() {
     this.photoListener.remove();
+    this.photoSearchListener.remove();
+    this.collectionSearchListener.remove();
+    this.userSearchListener.remove();
+  },
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    this.setState({
+      searchInput: nextProps.searchInput
+    });
   },
   onChange: function onChange() {
-    this.setState({ photos: PhotoStore.all(), searchInput: PhotoStore.searchInput() });
-  },
-  render: function render() {
-    var photos = this.state.photos.map(function (photo) {
-      return React.createElement(GridPhotoIndexItem, { key: photo.id, gridPhotoData: photo });
+    this.setState({
+      photos: PhotoStore.all()
     });
-    var navTab = void 0;
+  },
+  onSearchChange: function onSearchChange() {
+    this.setState({
+      photoResults: SearchStore.allPhotos(),
+      collectionResults: SearchStore.allCollections(),
+      userResults: SearchStore.allUsers()
+    });
+  },
+  handleSearch: function handleSearch() {
+    var searchedPhotos = this.state.photoResults.filter(function (el) {
+      return el != undefined;
+    });
+    var searchedCollections = this.state.collectionResults.filter(function (el) {
+      return el != undefined;
+    });
+    var searchedUsers = this.state.userResults.filter(function (el) {
+      return el != undefined;
+    });
     if (this.state.searchInput !== "") {
-      navTab = React.createElement(
+      return React.createElement(SearchResult, { searchedPhotos: searchedPhotos, searchedCollections: searchedCollections, searchedUsers: searchedUsers });
+    } else {
+      return this.state.photos.map(function (photo) {
+        return React.createElement(GridPhotoIndexItem, { key: photo.id, photoData: photo, currentUser: _SessionStore2.default.currentUser() });
+      });
+    }
+  },
+  handleGridFormat: function handleGridFormat() {
+    if (this.state.searchInput !== "") {
+      return this.handleSearch();
+    } else {
+      return React.createElement(
         'div',
-        { className: 'navtab-wrap' },
-        React.createElement(
-          'div',
-          { className: 'inner-navtab-wrap' },
-          React.createElement(
-            'a',
-            null,
-            'All'
-          ),
-          React.createElement(
-            'a',
-            null,
-            this.state.photos.length,
-            ' Photos'
-          ),
-          React.createElement(
-            'a',
-            null,
-            'Collections'
-          ),
-          React.createElement(
-            'a',
-            null,
-            'Users'
-          )
-        )
+        { className: 'inner-photo-container' },
+        this.handleSearch()
       );
     }
+  },
+  render: function render() {
     return React.createElement(
       'div',
       { className: 'grid-container' },
       React.createElement(
         'div',
-        { className: 'grid-index-container' },
+        { className: 'inner-index-wrap' },
         React.createElement(
-          'h1',
-          null,
-          'Reflash'
-        ),
-        React.createElement(
-          'p',
-          null,
-          'Free (',
+          'div',
+          { className: 'inner-index-container' },
           React.createElement(
-            'a',
+            'h1',
             null,
-            'do whatever you want'
+            'Reflash'
           ),
-          ') high resolution photos.'
-        ),
-        React.createElement(
-          'p',
-          null,
-          'To get the best of Reflash delivered to your inbox, ',
           React.createElement(
-            'a',
+            'p',
             null,
-            'subscribe'
+            'Beautiful, Free Photos.'
           ),
-          '.'
-        ),
-        React.createElement(
-          Link,
-          { to: '/' },
-          'Normal'
+          React.createElement(
+            'p',
+            null,
+            'Gifted by the world\'s most generous community of photographers.'
+          ),
+          React.createElement(
+            Link,
+            { to: '/' },
+            'Normal'
+          )
         )
       ),
-      React.createElement(
-        'h1',
-        { className: 'search-input' },
-        this.state.searchInput
-      ),
-      navTab,
-      React.createElement(
-        'div',
-        { className: 'inner-photo-container' },
-        photos
-      )
+      this.handleGridFormat()
     );
   }
 });

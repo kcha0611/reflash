@@ -8,7 +8,7 @@ const GridPhotoIndexItem = React.createClass({
   render() {
     return (
       <div className="grid-item-container grid">
-        <img src={this.props.gridPhotoData.url} id="img" className="img" onClick={this.fullScreen}/>
+        <img src={this.props.photoData.url} id="img" className="img" onClick={this.fullScreen}/>
       </div>
     )
   }

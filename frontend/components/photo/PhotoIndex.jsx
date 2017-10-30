@@ -72,11 +72,13 @@ const PhotoIndex = React.createClass({
   render() {
     return (
       <div>
-        <div className="inner-index-container">
-          <h1>Reflash</h1>
-          <p>Free (<a>do whatever you want</a>) high resolution photos.</p>
-          <p>To get the best of Reflash delivered to your inbox, <a>subscribe</a>.</p>
-          <Link to="/gridphotos">Grid</Link>
+        <div className="inner-index-wrap">
+          <div className="inner-index-container">
+            <h1>Reflash</h1>
+            <p>Beautiful, Free Photos.</p>
+            <p>Gifted by the world's most generous community of photographers.</p>
+            <Link to="/gridphotos">Grid</Link>
+          </div>
         </div>
           {this.handleSearch()}
       </div>

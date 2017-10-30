@@ -9,22 +9,32 @@
 }
 
 .inner-index-container, .grid-index-container {
-  text-align: center;
+  text-align: left;
   margin-bottom: 60px;
+  width: 76vw;
+}
+
+.inner-index-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .inner-index-container h1, .grid-index-container h1 {
   font-size: 46px;
   margin: 0 0 24px;
+  font-weight: 700;
 }
 
 .inner-index-container a, .grid-index-container a {
-  font-size: 15px;
   color: #999;
+  font-weight: 400;
 }
 
 .inner-index-container p, a.submit-link, .grid-index-container p {
-  margin: 0 0 12px;
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 400;
 }
 
 a.profile-download-btn {

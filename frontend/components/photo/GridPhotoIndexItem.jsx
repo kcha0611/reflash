@@ -52,7 +52,7 @@ const GridPhotoIndexItem = React.createClass({
     return (
       <div className="grid-item-container grid">
         <img src={this.props.photoData.url} id="img" className="img" onClick={this.fullScreen}/>
-        <div>
+        <div className="grid-btns">
           {this.checkIfLiked()}
           <CollectionModal photoData={this.props.photoData} show={this.state.show} onHide={this.close}/>
           <a href="javascript:void(0)" className="collect-btn" onClick={this.openCollectionModal}>Collect</a>

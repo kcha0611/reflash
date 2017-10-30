@@ -254,7 +254,7 @@ img.grid-like {
   width: 16px;
 }
 
-.grid-item-container div {
+.grid-btns {
   display: flex;
   align-items: center;
   position: absolute;
@@ -264,8 +264,9 @@ img.grid-like {
   display: none;
 }
 
-.grid-item-container:hover {
+.grid-item-container:hover .grid-btns {
   cursor: zoom-in;
+  display: flex;
 }
 
 

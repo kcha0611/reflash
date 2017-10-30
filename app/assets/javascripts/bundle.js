@@ -13062,7 +13062,7 @@ var GridPhotoIndexItem = React.createClass({
       React.createElement('img', { src: this.props.photoData.url, id: 'img', className: 'img', onClick: this.fullScreen }),
       React.createElement(
         'div',
-        null,
+        { className: 'grid-btns' },
         this.checkIfLiked(),
         React.createElement(CollectionModal, { photoData: this.props.photoData, show: this.state.show, onHide: this.close }),
         React.createElement(

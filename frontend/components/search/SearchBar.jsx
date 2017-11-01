@@ -1,6 +1,7 @@
 const React = require('react');
 const SearchActions = require('../../actions/SearchActions');
 const SearchStore = require('../../stores/PhotoStore');
+const SessionStore = require('../../stores/SessionStore');
 
 const SearchBar = React.createClass({
   getInitialState: function() {

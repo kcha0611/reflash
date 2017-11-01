@@ -3,10 +3,10 @@ const SearchStore = require('../../stores/SearchStore');
 const PhotoIndexItem = require('../photo/PhotoIndexItem');
 const CollectionIndexItem = require('../collection/CollectionIndexItem');
 const UserIndexItem = require('./UserIndexItem');
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 const Grid = require('react-bootstrap').Grid;
 const Row = require('react-bootstrap').Row;
 const Col = require('react-bootstrap').Col;
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 const SearchResult = React.createClass({
   handleRenderPhotos() {

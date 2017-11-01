@@ -1,9 +1,12 @@
 const React = require('react');
+const ReactRouter = require('react-router');
+const hashHistory = ReactRouter.hashHistory;
 const Modal = require('react-bootstrap').Modal;
-import CollectionModalItem from './CollectionModalItem';
-import CollectionModalForm from '../forms/CollectionModalForm';
-import CollectionStore from '../../stores/CollectionStore';
-import CollectionActions from '../../actions/CollectionActions';
+const CollectionModalItem = require('./CollectionModalItem');
+const CollectionModalForm = require('../forms/CollectionModalForm');
+const CollectionStore = require('../../stores/CollectionStore');
+const CollectionActions = require('../../actions/CollectionActions');
+const SessionStore = require('../../stores/SessionStore');
 
 const CollectionModal = React.createClass({
   getInitialState: function() {
@@ -11,6 +14,13 @@ const CollectionModal = React.createClass({
       show: this.props.show,
       userCollections: []
     };
+  },
+  componentWillMount() {
+  },
+  redirectIfLoggedIn() {
+    if (!SessionStore.loggedIn()) {
+      hashHistory.push('/login')
+    }
   },
   componentDidMount: function() {
     this.collectionListener = CollectionStore.addListener(this.onCollectionChange);

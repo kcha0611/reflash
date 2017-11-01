@@ -3,16 +3,16 @@ const PhotoActions = require('../../actions/PhotoActions');
 //Bootstrap
 const Modal = require('react-bootstrap').Modal;
 //Collections
-import CollectionStore from '../../stores/CollectionStore';
-import CollectionModalItem from '../collection/CollectionModalItem';
-import CollectionActions from '../../actions/CollectionActions';
-import CollectionModal from '../collection/CollectionModal';
+const CollectionStore = require('../../stores/CollectionStore');
+const CollectionModalItem = require('../collection/CollectionModalItem');
+const CollectionActions = require('../../actions/CollectionActions');
+const CollectionModal = require('../collection/CollectionModal');
 //Session
-import SessionStore from '../../stores/SessionStore';
+const SessionStore = require('../../stores/SessionStore');
 //Likes
-import LikeActions from '../../actions/LikeActions';
+const LikeActions = require('../../actions/LikeActions');
 //Photo
-import PhotoStore from '../../stores/PhotoStore';
+const PhotoStore = require('../../stores/PhotoStore');
 
 const PhotoIndexItem = React.createClass({
   getInitialState: function() {
@@ -28,7 +28,7 @@ const PhotoIndexItem = React.createClass({
   },
   photoLiked(photo) {
     return photo.likes.some( like => {
-      return like.user_id === this.props.currentUser.id
+      return like.user_id === SessionStore.currentUser().id
     });
   },
   fullScreen() {
@@ -71,7 +71,7 @@ const PhotoIndexItem = React.createClass({
                 <a href="javascript:void(0)" className="collect-btn" onClick={this.openCollectionModal}>Collect</a>
               </div>
               <CollectionModal photoData={this.props.photoData} show={this.state.show} onHide={this.close}/>
-              <a href="/" className="image-user">{this.props.photoData.user.first_name} {this.props.photoData.user.last_name}</a>
+              <a href="/" className="image-user">{this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name}</a>
               <a href={this.props.photoData.url} download className="profile-download-btn">Download</a>
             </div>
           </div>

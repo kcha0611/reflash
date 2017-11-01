@@ -32,7 +32,7 @@ const LoginForm = React.createClass({
     SessionActions.login(this.state);
   },
   guestLogin() {
-    SessionActions.login({username: "guest", password: "123456"})
+    SessionActions.login({username: "guest", password: "123456"});
   },
   fieldErrors(field) {
     const errors = ErrorStore.formErrors('login');

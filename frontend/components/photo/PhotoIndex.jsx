@@ -1,10 +1,14 @@
+//React
 const React = require('react');
+const ReactRouter = require('react-router');
+const Link = ReactRouter.Link;
+//Photo
 const PhotoStore = require('../../stores/PhotoStore');
 const PhotoActions = require('../../actions/PhotoActions');
 const PhotoIndexItem = require('./PhotoIndexItem');
-const ReactRouter = require('react-router');
-const Link = ReactRouter.Link;
-import SessionStore from '../../stores/SessionStore';
+//Session
+const SessionStore = require('../../stores/SessionStore');
+//Search
 const SearchResult = require('../search/SearchResult');
 const SearchStore = require('../../stores/SearchStore');
 const SearchActions = require('../../actions/SearchActions');
@@ -64,7 +68,7 @@ const PhotoIndex = React.createClass({
     } else {
       return this.state.photos.map(function (photo) {
         return (
-          <PhotoIndexItem key={photo.id} photoData={photo} currentUser={SessionStore.currentUser()} />
+          <PhotoIndexItem key={photo.id} photoData={photo} />
         )
       });
     }

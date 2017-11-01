@@ -15,11 +15,13 @@ class Api::CollectionsController < ApplicationController
   end
 
   def index
-    @collections = Collection.where(user_id: current_user.id)
-    if params[:search_input]
+    if params[:search_input] && current_user
+      @collections = Collection.where(user_id: current_user.id)
+      @collections = Collection.where("lower(name) LIKE '%#{params[:search_input].downcase}%'")
+    elsif params[:search_input] && !current_user
       @collections = Collection.where("lower(name) LIKE '%#{params[:search_input].downcase}%'")
     else
-      @collections
+      @collections = Collection.where(user_id: current_user.id)
     end
   end
 

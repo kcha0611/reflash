@@ -15,10 +15,10 @@ const PhotoForm = require('./components/forms/PhotoForm');
 const PhotoIndex = require('./components/photo/PhotoIndex');
 const PhotoDetail = require('./components/photo/PhotoDetail');
 const GridPhotoIndex = require('./components/photo/GridPhotoIndex');
-
+//App
 const App = require('./components/App');
-//
-import CollectionDetail from './components/collection/CollectionDetail';
+//Collection
+const CollectionDetail = require('./components/collection/CollectionDetail');
 const CollectionIndex = require('./components/collection/CollectionIndex');
 
 const routes = (

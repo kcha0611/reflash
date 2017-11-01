@@ -1,13 +1,17 @@
+//React
 const React = require('react');
+const ReactRouter = require('react-router');
+const Link = ReactRouter.Link;
+//Photo
 const PhotoStore = require('../../stores/PhotoStore');
 const PhotoActions = require('../../actions/PhotoActions');
 const GridPhotoIndexItem = require('./GridPhotoIndexItem');
-const ReactRouter = require('react-router');
-const Link = ReactRouter.Link;
+//Session
+const SessionStore = require('../../stores/SessionStore');
+//Search
 const SearchResult = require('../search/SearchResult');
 const SearchStore = require('../../stores/SearchStore');
 const SearchActions = require('../../actions/SearchActions');
-import SessionStore from '../../stores/SessionStore';
 
 const GridPhotoIndex = React.createClass({
   getInitialState: function() {

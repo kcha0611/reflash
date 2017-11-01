@@ -14,7 +14,10 @@ class Api::PhotosController < ApplicationController
   end
 
   def index
-    if params[:search_input]
+    if params[:search_input] && current_user
+      @photos = Photo.where(user_id: current_user.id)
+      @photos = Photo.where("lower(description) LIKE '%#{params[:search_input].downcase}%'")
+    elsif params[:search_input] && !current_user
       @photos = Photo.where("lower(description) LIKE '%#{params[:search_input].downcase}%'")
     else
       @photos = Photo.all

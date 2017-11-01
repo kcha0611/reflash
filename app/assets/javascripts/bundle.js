@@ -13184,7 +13184,7 @@ var PhotoIndex = React.createClass({
       return el != undefined;
     });
     if (this.state.searchInput !== "") {
-      return React.createElement(SearchResult, { searchedPhotos: searchedPhotos, searchedCollections: searchedCollections, searchedUsers: searchedUsers });
+      return React.createElement(SearchResult, { searchedPhotos: searchedPhotos, searchedCollections: searchedCollections, searchedUsers: searchedUsers, searchInput: this.state.searchInput });
     } else {
       return this.state.photos.map(function (photo) {
         return React.createElement(PhotoIndexItem, { key: photo.id, photoData: photo });

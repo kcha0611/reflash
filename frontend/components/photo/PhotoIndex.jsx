@@ -63,7 +63,7 @@ const PhotoIndex = React.createClass({
     let searchedUsers = this.state.userResults.filter(function(el){ return el != undefined});
     if (this.state.searchInput !== "") {
       return (
-        <SearchResult searchedPhotos={searchedPhotos} searchedCollections={searchedCollections} searchedUsers={searchedUsers}/>
+        <SearchResult searchedPhotos={searchedPhotos} searchedCollections={searchedCollections} searchedUsers={searchedUsers} searchInput={this.state.searchInput}/>
       )
     } else {
       return this.state.photos.map(function (photo) {

@@ -16,12 +16,11 @@ class Api::UsersController < ApplicationController
 
   def index
     if params[:search_input] && current_user
-      @users = User.where(id: current_user.id)
       @users = User.where("lower(user_name) LIKE '%#{params[:search_input].downcase}%'")
     elsif params[:search_input] && !current_user
       @users = User.where("lower(user_name) LIKE '%#{params[:search_input].downcase}%'")
     else
-      @users = User.where(id: current_user.id)
+      @users = User.all
     end
   end
 

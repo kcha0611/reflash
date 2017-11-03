@@ -17,7 +17,8 @@ const PhotoStore = require('../../stores/PhotoStore');
 const PhotoIndexItem = React.createClass({
   getInitialState: function() {
     return {
-      show: false,
+      collectionModalShow: false,
+      loginModalShow: false,
       liked: this.photoLiked(this.props.photoData)
     };
   },
@@ -36,12 +37,15 @@ const PhotoIndexItem = React.createClass({
   },
   openCollectionModal(e) {
     e.preventDefault();
-    this.setState({show: true});
+    this.setState({collectionModalShow: true});
   },
   close() {
-    this.setState({show: false});
+    this.setState({collectionModalShow: false});
   },
   handleLike() {
+    if (!SessionStore.currentUser()) {
+
+    }
     if (this.state.liked) {
       LikeActions.unlikePhoto(this.props.photoData.id);
     } else {
@@ -70,7 +74,7 @@ const PhotoIndexItem = React.createClass({
                 {this.checkIfLiked()}
                 <a href="javascript:void(0)" className="collect-btn" onClick={this.openCollectionModal}>Collect</a>
               </div>
-              <CollectionModal photoData={this.props.photoData} show={this.state.show} onHide={this.close}/>
+              <CollectionModal photoData={this.props.photoData} show={this.state.collectionModalShow} onHide={this.close} style="position: absolute;"/>
               <a href="/" className="image-user">{this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name}</a>
               <a href={this.props.photoData.url} download className="profile-download-btn">Download</a>
             </div>

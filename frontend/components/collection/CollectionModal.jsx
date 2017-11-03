@@ -15,8 +15,6 @@ const CollectionModal = React.createClass({
       userCollections: []
     };
   },
-  componentWillMount() {
-  },
   redirectIfLoggedIn() {
     if (!SessionStore.loggedIn()) {
       hashHistory.push('/login')

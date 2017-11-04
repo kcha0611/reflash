@@ -75,3 +75,17 @@ p.or {
   border-radius: 3px;
   width: 100%;
 }
+
+.left {
+  width: 35%;
+}
+
+.right {
+  width: 65%;
+}
+
+.login-form-modal {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}

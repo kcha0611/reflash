@@ -13624,6 +13624,8 @@ var SessionStore = __webpack_require__(33);
 var LikeActions = __webpack_require__(163);
 //Photo
 var PhotoStore = __webpack_require__(63);
+//Login Modal
+var LoginFormModal = __webpack_require__(564);
 
 var PhotoIndexItem = React.createClass({
   displayName: 'PhotoIndexItem',
@@ -13632,7 +13634,8 @@ var PhotoIndexItem = React.createClass({
     return {
       collectionModalShow: false,
       loginModalShow: false,
-      liked: this.photoLiked(this.props.photoData)
+      liked: this.photoLiked(this.props.photoData),
+      actionType: ""
     };
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -13650,17 +13653,28 @@ var PhotoIndexItem = React.createClass({
   },
   openCollectionModal: function openCollectionModal(e) {
     e.preventDefault();
-    this.setState({ collectionModalShow: true });
+    if (SessionStore.loggedIn()) {
+      this.setState({ collectionModalShow: true });
+    } else {
+      this.setState({ loginModalShow: true });
+    }
   },
-  close: function close() {
+  closeCollectionModal: function closeCollectionModal() {
     this.setState({ collectionModalShow: false });
   },
-  handleLike: function handleLike() {
-    if (!SessionStore.currentUser()) {}
-    if (this.state.liked) {
-      LikeActions.unlikePhoto(this.props.photoData.id);
+  closeLoginModal: function closeLoginModal() {
+    this.setState({ loginModalShow: false });
+  },
+  handleLike: function handleLike(e) {
+    e.preventDefault();
+    if (SessionStore.loggedIn()) {
+      if (this.state.liked) {
+        LikeActions.unlikePhoto(this.props.photoData.id);
+      } else {
+        LikeActions.likePhoto(this.props.photoData.id);
+      }
     } else {
-      LikeActions.likePhoto(this.props.photoData.id);
+      this.setState({ loginModalShow: true });
     }
   },
   checkIfLiked: function checkIfLiked() {
@@ -13704,7 +13718,8 @@ var PhotoIndexItem = React.createClass({
                 'Collect'
               )
             ),
-            React.createElement(CollectionModal, { photoData: this.props.photoData, show: this.state.collectionModalShow, onHide: this.close, style: 'position: absolute;' }),
+            React.createElement(CollectionModal, { photoData: this.props.photoData, show: this.state.collectionModalShow, onHide: this.closeCollectionModal }),
+            React.createElement(LoginFormModal, { photoData: this.props.photoData, show: this.state.loginModalShow, onHide: this.closeLoginModal }),
             React.createElement(
               'a',
               { href: '/', className: 'image-user' },
@@ -51041,6 +51056,85 @@ function isReactComponent(component) {
   return !!(component && component.prototype && component.prototype.isReactComponent);
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 564 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var React = __webpack_require__(0);
+var Modal = __webpack_require__(56).Modal;
+var SessionStore = __webpack_require__(33);
+var SessionActions = __webpack_require__(79);
+var ErrorStore = __webpack_require__(33);
+var LoginFormModal = React.createClass({
+  displayName: 'LoginFormModal',
+
+  getInitialState: function getInitialState() {
+    return {
+      username: "",
+      password: ""
+    };
+  },
+  componentDidMount: function componentDidMount() {
+    this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
+    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
+  },
+  handleUsernameChange: function handleUsernameChange(e) {
+    this.setState({ username: e.target.value });
+  },
+  componentWillUnmount: function componentWillUnmount() {
+    this.sessionListener.remove();
+    this.errorListener.remove();
+  },
+  handlePasswordChange: function handlePasswordChange(e) {
+    this.setState({ password: e.target.value });
+  },
+  handleSubmit: function handleSubmit(e) {
+    e.preventDefault();
+    SessionActions.login(this.state);
+  },
+  render: function render() {
+    var modalLeftStyles = {
+      backgroundImage: 'url(' + this.props.photoData.url + ')',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat'
+    };
+    return React.createElement(
+      'div',
+      { className: 'login-form-modal-container' },
+      React.createElement(
+        Modal,
+        { show: this.props.show, onHide: this.props.onHide },
+        React.createElement(
+          'form',
+          { onSubmit: this.handleSubmit, className: 'login-form-modal' },
+          React.createElement('div', { className: 'login-modal left', style: modalLeftStyles }),
+          React.createElement(
+            'div',
+            { className: 'login-modal right' },
+            React.createElement(
+              'label',
+              null,
+              'Username:',
+              React.createElement('input', { onChange: this.handleUsernameChange })
+            ),
+            React.createElement(
+              'label',
+              null,
+              'Password:',
+              React.createElement('input', { onChange: this.handlePasswordChange })
+            )
+          )
+        )
+      )
+    );
+  }
+});
+
+module.exports = LoginFormModal;
 
 /***/ })
 /******/ ]);

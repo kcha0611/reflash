@@ -13,13 +13,17 @@ const SessionStore = require('../../stores/SessionStore');
 const LikeActions = require('../../actions/LikeActions');
 //Photo
 const PhotoStore = require('../../stores/PhotoStore');
+//Login Modal
+const LoginFormModal = require('../forms/LoginFormModal');
+
 
 const PhotoIndexItem = React.createClass({
   getInitialState: function() {
     return {
       collectionModalShow: false,
       loginModalShow: false,
-      liked: this.photoLiked(this.props.photoData)
+      liked: this.photoLiked(this.props.photoData),
+      actionType: ""
     };
   },
   componentWillReceiveProps(nextProps) {
@@ -37,19 +41,28 @@ const PhotoIndexItem = React.createClass({
   },
   openCollectionModal(e) {
     e.preventDefault();
-    this.setState({collectionModalShow: true});
+    if (SessionStore.loggedIn()) {
+      this.setState({collectionModalShow: true});
+    } else {
+      this.setState({loginModalShow: true});
+    }
   },
-  close() {
+  closeCollectionModal() {
     this.setState({collectionModalShow: false});
   },
-  handleLike() {
-    if (!SessionStore.currentUser()) {
-
-    }
-    if (this.state.liked) {
-      LikeActions.unlikePhoto(this.props.photoData.id);
+  closeLoginModal() {
+    this.setState({loginModalShow: false});
+  },
+  handleLike(e) {
+    e.preventDefault();
+    if (SessionStore.loggedIn()) {
+      if (this.state.liked) {
+        LikeActions.unlikePhoto(this.props.photoData.id);
+      } else {
+        LikeActions.likePhoto(this.props.photoData.id);
+      }
     } else {
-      LikeActions.likePhoto(this.props.photoData.id);
+      this.setState({loginModalShow: true});
     }
   },
   checkIfLiked() {
@@ -74,7 +87,8 @@ const PhotoIndexItem = React.createClass({
                 {this.checkIfLiked()}
                 <a href="javascript:void(0)" className="collect-btn" onClick={this.openCollectionModal}>Collect</a>
               </div>
-              <CollectionModal photoData={this.props.photoData} show={this.state.collectionModalShow} onHide={this.close} style="position: absolute;"/>
+              <CollectionModal photoData={this.props.photoData} show={this.state.collectionModalShow} onHide={this.closeCollectionModal}/>
+              <LoginFormModal photoData={this.props.photoData} show={this.state.loginModalShow} onHide={this.closeLoginModal}/>
               <a href="/" className="image-user">{this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name}</a>
               <a href={this.props.photoData.url} download className="profile-download-btn">Download</a>
             </div>

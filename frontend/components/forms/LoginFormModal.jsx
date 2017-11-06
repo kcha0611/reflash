@@ -3,6 +3,8 @@ const Modal = require('react-bootstrap').Modal;
 const SessionStore = require('../../stores/SessionStore');
 const SessionActions = require('../../actions/SessionActions');
 const ErrorStore = require('../../stores/SessionStore');
+const hashHistory = require('react-router').hashHistory;
+
 const LoginFormModal = React.createClass({
   getInitialState: function() {
     return {
@@ -23,6 +25,11 @@ const LoginFormModal = React.createClass({
   },
   handlePasswordChange(e){
     this.setState({password: e.target.value});
+  },
+  redirectIfLoggedIn() {
+    if (SessionStore.loggedIn()) {
+      
+    }
   },
   handleSubmit(e) {
     e.preventDefault();

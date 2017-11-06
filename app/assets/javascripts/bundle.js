@@ -5415,7 +5415,6 @@ var SessionActions = {
     SessionApiUtil.logout(this.removeUser);
   },
   receiveUser: function receiveUser(user) {
-    debugger;
     Dispatcher.dispatch({
       actionType: SessionConstants.LOGIN,
       user: user
@@ -23588,6 +23587,11 @@ var LoginForm = React.createClass({
     this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
     this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
   },
+  redirectIfLoggedIn: function redirectIfLoggedIn() {
+    if (SessionStore.loggedIn()) {
+      hashHistory.push('/');
+    }
+  },
   handleUsernameChange: function handleUsernameChange(e) {
     this.setState({ username: e.target.value });
   },
@@ -24254,6 +24258,8 @@ var Modal = __webpack_require__(45).Modal;
 var SessionStore = __webpack_require__(27);
 var SessionActions = __webpack_require__(63);
 var ErrorStore = __webpack_require__(27);
+var hashHistory = __webpack_require__(33).hashHistory;
+
 var LoginFormModal = React.createClass({
   displayName: 'LoginFormModal',
 
@@ -24276,6 +24282,9 @@ var LoginFormModal = React.createClass({
   },
   handlePasswordChange: function handlePasswordChange(e) {
     this.setState({ password: e.target.value });
+  },
+  redirectIfLoggedIn: function redirectIfLoggedIn() {
+    if (SessionStore.loggedIn()) {}
   },
   handleSubmit: function handleSubmit(e) {
     e.preventDefault();
@@ -24711,7 +24720,6 @@ module.exports = {
       url: 'api/session',
       data: { user: user },
       success: function success(user) {
-        hashHistory.push("/");
         successCB(user);
       },
       error: function error(xhr) {
@@ -24725,7 +24733,6 @@ module.exports = {
       url: 'api/users',
       data: { user: user },
       success: function success(user) {
-        hashHistory.push("/");
         successCB(user);
       },
       error: function error(xhr) {

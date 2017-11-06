@@ -17,6 +17,11 @@ const LoginForm = React.createClass({
     this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
     this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
   },
+  redirectIfLoggedIn() {
+    if (SessionStore.loggedIn()) {
+      hashHistory.push('/')
+    }
+  },
   handleUsernameChange(e){
     this.setState({username: e.target.value});
   },

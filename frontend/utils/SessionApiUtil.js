@@ -7,7 +7,6 @@ module.exports = {
       url: 'api/session',
       data: {user: user},
       success: function(user) {
-        hashHistory.push("/");
         successCB(user);
       },
       error: function(xhr) {
@@ -21,7 +20,6 @@ module.exports = {
       url: 'api/users',
       data: {user: user},
       success: function(user) {
-        hashHistory.push("/");
         successCB(user);
       },
       error: function(xhr) {

@@ -78,14 +78,20 @@ p.or {
 
 .left {
   width: 35%;
+  height: 100%;
 }
 
 .right {
   width: 65%;
+  height: 100%;
 }
 
 .login-form-modal {
   display: flex;
   justify-content: center;
   height: 100%;
+}
+
+.login-modal-container {
+  height: 80%;
 }

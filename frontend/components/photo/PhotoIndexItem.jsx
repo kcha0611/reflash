@@ -13,6 +13,7 @@ const SessionStore = require('../../stores/SessionStore');
 const LikeActions = require('../../actions/LikeActions');
 //Photo
 const PhotoStore = require('../../stores/PhotoStore');
+const FullScreenPhoto = require('./FullScreenPhoto');
 //Login Modal
 const LoginFormModal = require('../forms/LoginFormModal');
 
@@ -23,7 +24,8 @@ const PhotoIndexItem = React.createClass({
       collectionModalShow: false,
       loginModalShow: false,
       liked: this.photoLiked(this.props.photoData),
-      actionType: ""
+      actionType: "",
+      fullScreenShow: false
     };
   },
   componentWillReceiveProps(nextProps) {
@@ -36,9 +38,6 @@ const PhotoIndexItem = React.createClass({
       return like.user_id === SessionStore.currentUser().id
     });
   },
-  fullScreen() {
-    $(".profile-container").addClass("fullscreen");
-  },
   openCollectionModal(e) {
     e.preventDefault();
     if (SessionStore.loggedIn()) {
@@ -46,6 +45,15 @@ const PhotoIndexItem = React.createClass({
     } else {
       this.setState({loginModalShow: true});
     }
+  },
+  fullScreenModal(e) {
+    e.preventDefault();
+    this.setState({
+      fullScreenShow: true
+    });
+  },
+  closeFullScreen() {
+    this.setState({fullScreenShow: false});
   },
   closeCollectionModal() {
     this.setState({collectionModalShow: false});
@@ -81,14 +89,15 @@ const PhotoIndexItem = React.createClass({
       <div>
         <div className="item-container">
           <div className="inner-item-container">
-            <img src={this.props.photoData.url} id="img" className="img" onClick={this.fullScreen}/>
+            <img src={this.props.photoData.url} id="img" className="img" onClick={this.fullScreenModal}/>
             <div className="profile-container">
               <div>
                 {this.checkIfLiked()}
                 <a href="javascript:void(0)" className="collect-btn" onClick={this.openCollectionModal}>Collect</a>
               </div>
-              <CollectionModal photoData={this.props.photoData} show={this.state.collectionModalShow} onHide={this.closeCollectionModal}/>
-              <LoginFormModal photoData={this.props.photoData} show={this.state.loginModalShow} onHide={this.closeLoginModal}/>
+              <FullScreenPhoto photoData={this.props.photoData} show={this.state.fullScreenShow} onHide={this.closeFullScreen} dialogClassName="fullscreen-modal"/>
+              <CollectionModal photoData={this.props.photoData} show={this.state.collectionModalShow} onHide={this.closeCollectionModal} dialogClassName="collection-modal"/>
+              <LoginFormModal photoData={this.props.photoData} show={this.state.loginModalShow} onHide={this.closeLoginModal} dialogClassName="login-modal-container"/>
               <a href="/" className="image-user">{this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name}</a>
               <a href={this.props.photoData.url} download className="profile-download-btn">Download</a>
             </div>

@@ -36,7 +36,7 @@ const LoginFormModal = React.createClass({
     }
     return (
       <div className="login-form-modal-container">
-        <Modal show={this.props.show} onHide={this.props.onHide}>
+        <Modal show={this.props.show} onHide={this.props.onHide} dialogClassName={this.props.dialogClassName}>
           <form onSubmit={this.handleSubmit} className="login-form-modal">
             <div className="login-modal left" style={modalLeftStyles}>
             </div>

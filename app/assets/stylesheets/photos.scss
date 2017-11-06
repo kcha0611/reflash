@@ -296,4 +296,15 @@ img.grid-like {
 .fullscreen-prof-container {
   display: flex;
   justify-content: space-between;
+  padding: 9px 12px;
+  align-items: center;
+}
+
+.fullscreen-prof-container div:last-child {
+  display: flex;
+}
+
+.fullscreen-prof-container p {
+  font-size: 11px;
+  color: #999;
 }

@@ -14,6 +14,7 @@ const SessionActions = {
     SessionApiUtil.logout(this.removeUser);
   },
   receiveUser(user) {
+    debugger
     Dispatcher.dispatch({
       actionType: SessionConstants.LOGIN,
       user: user

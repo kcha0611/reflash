@@ -5415,6 +5415,7 @@ var SessionActions = {
     SessionApiUtil.logout(this.removeUser);
   },
   receiveUser: function receiveUser(user) {
+    debugger;
     Dispatcher.dispatch({
       actionType: SessionConstants.LOGIN,
       user: user
@@ -13655,14 +13656,12 @@ var PhotoIndexItem = React.createClass({
     if (SessionStore.loggedIn()) {
       this.setState({ collectionModalShow: true });
     } else {
-      this.setState({ loginModalShow: true });
+      this.setState({ loginModalShow: true, actionType: "collect" });
     }
   },
   fullScreenModal: function fullScreenModal(e) {
     e.preventDefault();
-    this.setState({
-      fullScreenShow: true
-    });
+    this.setState({ fullScreenShow: true });
   },
   closeFullScreen: function closeFullScreen() {
     this.setState({ fullScreenShow: false });
@@ -13682,7 +13681,7 @@ var PhotoIndexItem = React.createClass({
         LikeActions.likePhoto(this.props.photoData.id);
       }
     } else {
-      this.setState({ loginModalShow: true });
+      this.setState({ loginModalShow: true, actionType: "like" });
     }
   },
   checkIfLiked: function checkIfLiked() {
@@ -13726,9 +13725,9 @@ var PhotoIndexItem = React.createClass({
                 'Collect'
               )
             ),
-            React.createElement(FullScreenPhoto, { photoData: this.props.photoData, show: this.state.fullScreenShow, onHide: this.closeFullScreen, dialogClassName: 'fullscreen-modal' }),
-            React.createElement(CollectionModal, { photoData: this.props.photoData, show: this.state.collectionModalShow, onHide: this.closeCollectionModal, dialogClassName: 'collection-modal' }),
-            React.createElement(LoginFormModal, { photoData: this.props.photoData, show: this.state.loginModalShow, onHide: this.closeLoginModal, dialogClassName: 'login-modal-container' }),
+            React.createElement(FullScreenPhoto, { photoData: this.props.photoData, show: this.state.fullScreenShow, onHide: this.closeFullScreen, dialogClassName: 'fullscreen-modal', actionType: this.state.actionType }),
+            React.createElement(CollectionModal, { photoData: this.props.photoData, show: this.state.collectionModalShow, onHide: this.closeCollectionModal, dialogClassName: 'collection-modal', actionType: this.state.actionType }),
+            React.createElement(LoginFormModal, { photoData: this.props.photoData, show: this.state.loginModalShow, onHide: this.closeLoginModal, dialogClassName: 'login-modal-container', actionType: this.state.actionType }),
             React.createElement(
               'a',
               { href: '/', className: 'image-user' },
@@ -24296,23 +24295,53 @@ var LoginFormModal = React.createClass({
         { show: this.props.show, onHide: this.props.onHide, dialogClassName: this.props.dialogClassName },
         React.createElement(
           'form',
-          { onSubmit: this.handleSubmit, className: 'login-form-modal' },
+          { onSubmit: this.handleSubmit, className: 'login-form-modal login' },
           React.createElement('div', { className: 'login-modal left', style: modalLeftStyles }),
           React.createElement(
             'div',
             { className: 'login-modal right' },
+            React.createElement('img', { src: 'https://unsplash.com/assets/core/logo-black-b37a09de4a228cd8fb72adbabc95931c5090611a0cae8e76f1fd077d378ec080.svg' }),
             React.createElement(
-              'label',
+              'h1',
               null,
-              'Username:',
-              React.createElement('input', { onChange: this.handleUsernameChange })
+              'Login'
+            ),
+            React.createElement(
+              'p',
+              null,
+              'To ',
+              this.props.actionType,
+              ' ',
+              this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name,
+              's Photo, login.'
+            ),
+            React.createElement('input', { type: 'submit', value: 'Guest Login', className: 'guest-login-btn login-modal-input' }),
+            React.createElement(
+              'p',
+              { className: 'or' },
+              'OR'
             ),
             React.createElement(
               'label',
-              null,
-              'Password:',
-              React.createElement('input', { onChange: this.handlePasswordChange })
-            )
+              { className: 'login-modal-label' },
+              React.createElement(
+                'p',
+                null,
+                'Username'
+              ),
+              React.createElement('input', { type: 'text', onChange: this.handleUsernameChange })
+            ),
+            React.createElement(
+              'label',
+              { className: 'login-modal-label' },
+              React.createElement(
+                'p',
+                null,
+                'Password'
+              ),
+              React.createElement('input', { type: 'password', onChange: this.handlePasswordChange })
+            ),
+            React.createElement('input', { type: 'submit', value: 'Login', className: 'login-btn login-modal-input' })
           )
         )
       )
@@ -51166,7 +51195,7 @@ var FullScreenPhoto = React.createClass({
       collectionModalShow: false,
       loginModalShow: false,
       liked: this.photoLiked(this.props.photoData),
-      actionType: ""
+      actionType: this.props.actionType
     };
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -51228,14 +51257,20 @@ var FullScreenPhoto = React.createClass({
       { className: 'fullscreen-photo' },
       React.createElement(
         Modal,
-        { show: this.props.show, onHide: this.props.onHide, dialogClassName: this.props.dialogClassName, style: 'height: 100vw;' },
+        { show: this.props.show, onHide: this.props.onHide, dialogClassName: this.props.dialogClassName },
         React.createElement(
           'div',
           { className: 'fullscreen-prof-container' },
           React.createElement(
             'div',
             null,
-            this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name
+            this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name,
+            React.createElement(
+              'p',
+              null,
+              '@',
+              this.props.photoData.user.user_name
+            )
           ),
           React.createElement(
             'div',
@@ -51247,9 +51282,13 @@ var FullScreenPhoto = React.createClass({
               'Collect'
             ),
             React.createElement(
-              'a',
-              { href: this.props.photoData.url, download: true, className: 'profile-download-btn' },
-              'Download Free'
+              'div',
+              null,
+              React.createElement(
+                'a',
+                { href: this.props.photoData.url, download: true, className: 'profile-download-btn' },
+                'Download Free'
+              )
             )
           )
         ),

@@ -10,7 +10,7 @@ const FullScreenPhoto = React.createClass({
       collectionModalShow: false,
       loginModalShow: false,
       liked: this.photoLiked(this.props.photoData),
-      actionType: ""
+      actionType: this.props.actionType
     };
   },
   componentWillReceiveProps(nextProps) {
@@ -63,15 +63,18 @@ const FullScreenPhoto = React.createClass({
   render() {
     return (
       <div className="fullscreen-photo">
-        <Modal show={this.props.show} onHide={this.props.onHide} dialogClassName={this.props.dialogClassName} style="height: 100vw;">
+        <Modal show={this.props.show} onHide={this.props.onHide} dialogClassName={this.props.dialogClassName}>
           <div className="fullscreen-prof-container">
             <div>
               {this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name}
+              <p>@{this.props.photoData.user.user_name}</p>
             </div>
             <div>
               {this.checkIfLiked()}
               <a href="javascript:void(0)" className="collect-btn" onClick={this.openCollectionModal}>Collect</a>
-              <a href={this.props.photoData.url} download className="profile-download-btn">Download Free</a>
+              <div>
+                <a href={this.props.photoData.url} download className="profile-download-btn">Download Free</a>
+              </div>
             </div>
           </div>
           <div>

@@ -37,18 +37,25 @@ const LoginFormModal = React.createClass({
     return (
       <div className="login-form-modal-container">
         <Modal show={this.props.show} onHide={this.props.onHide} dialogClassName={this.props.dialogClassName}>
-          <form onSubmit={this.handleSubmit} className="login-form-modal">
+          <form onSubmit={this.handleSubmit} className="login-form-modal login">
             <div className="login-modal left" style={modalLeftStyles}>
             </div>
             <div className="login-modal right">
-              <label>
-                Username:
-                <input onChange={this.handleUsernameChange}/>
+              <img src="https://unsplash.com/assets/core/logo-black-b37a09de4a228cd8fb72adbabc95931c5090611a0cae8e76f1fd077d378ec080.svg"></img>
+              <h1>Login</h1>
+              <p>To {this.props.actionType} {this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name}s Photo, login.</p>
+              <input type="submit" value="Guest Login" className="guest-login-btn login-modal-input"/>
+              <p className="or">OR</p>
+              <label className="login-modal-label">
+                <p>Username</p>
+                <input type="text" onChange={this.handleUsernameChange}/>
               </label>
-              <label>
-                Password:
-                <input onChange={this.handlePasswordChange}/>
+              <label className="login-modal-label">
+                <p>Password</p>
+                <input type="password" onChange={this.handlePasswordChange}/>
               </label>
+              <input type="submit" value="Login" className="login-btn login-modal-input"/>
+
             </div>
           </form>
         </Modal>

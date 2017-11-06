@@ -43,14 +43,12 @@ const PhotoIndexItem = React.createClass({
     if (SessionStore.loggedIn()) {
       this.setState({collectionModalShow: true});
     } else {
-      this.setState({loginModalShow: true});
+      this.setState({loginModalShow: true, actionType: "collect"});
     }
   },
   fullScreenModal(e) {
     e.preventDefault();
-    this.setState({
-      fullScreenShow: true
-    });
+    this.setState({fullScreenShow: true});
   },
   closeFullScreen() {
     this.setState({fullScreenShow: false});
@@ -70,7 +68,7 @@ const PhotoIndexItem = React.createClass({
         LikeActions.likePhoto(this.props.photoData.id);
       }
     } else {
-      this.setState({loginModalShow: true});
+      this.setState({loginModalShow: true, actionType: "like"});
     }
   },
   checkIfLiked() {
@@ -95,9 +93,9 @@ const PhotoIndexItem = React.createClass({
                 {this.checkIfLiked()}
                 <a href="javascript:void(0)" className="collect-btn" onClick={this.openCollectionModal}>Collect</a>
               </div>
-              <FullScreenPhoto photoData={this.props.photoData} show={this.state.fullScreenShow} onHide={this.closeFullScreen} dialogClassName="fullscreen-modal"/>
-              <CollectionModal photoData={this.props.photoData} show={this.state.collectionModalShow} onHide={this.closeCollectionModal} dialogClassName="collection-modal"/>
-              <LoginFormModal photoData={this.props.photoData} show={this.state.loginModalShow} onHide={this.closeLoginModal} dialogClassName="login-modal-container"/>
+              <FullScreenPhoto photoData={this.props.photoData} show={this.state.fullScreenShow} onHide={this.closeFullScreen} dialogClassName="fullscreen-modal" actionType={this.state.actionType}/>
+              <CollectionModal photoData={this.props.photoData} show={this.state.collectionModalShow} onHide={this.closeCollectionModal} dialogClassName="collection-modal" actionType={this.state.actionType}/>
+              <LoginFormModal photoData={this.props.photoData} show={this.state.loginModalShow} onHide={this.closeLoginModal} dialogClassName="login-modal-container" actionType={this.state.actionType}/>
               <a href="/" className="image-user">{this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name}</a>
               <a href={this.props.photoData.url} download className="profile-download-btn">Download</a>
             </div>

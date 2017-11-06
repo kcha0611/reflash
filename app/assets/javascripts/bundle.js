@@ -51155,6 +51155,8 @@ function isReactComponent(component) {
 var React = __webpack_require__(0);
 var Modal = __webpack_require__(45).Modal;
 var SessionStore = __webpack_require__(27);
+var CollectionModal = __webpack_require__(165);
+var LoginFormModal = __webpack_require__(278);
 
 var FullScreenPhoto = React.createClass({
   displayName: 'FullScreenPhoto',
@@ -51229,25 +51231,35 @@ var FullScreenPhoto = React.createClass({
         { show: this.props.show, onHide: this.props.onHide, dialogClassName: this.props.dialogClassName, style: 'height: 100vw;' },
         React.createElement(
           'div',
-          null,
-          this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name,
-          this.checkIfLiked(),
+          { className: 'fullscreen-prof-container' },
           React.createElement(
-            'a',
-            { href: 'javascript:void(0)', className: 'collect-btn', onClick: this.openCollectionModal },
-            'Collect'
+            'div',
+            null,
+            this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name
           ),
           React.createElement(
-            'a',
-            { href: this.props.photoData.url, download: true, className: 'profile-download-btn' },
-            'Download'
+            'div',
+            null,
+            this.checkIfLiked(),
+            React.createElement(
+              'a',
+              { href: 'javascript:void(0)', className: 'collect-btn', onClick: this.openCollectionModal },
+              'Collect'
+            ),
+            React.createElement(
+              'a',
+              { href: this.props.photoData.url, download: true, className: 'profile-download-btn' },
+              'Download Free'
+            )
           )
         ),
         React.createElement(
           'div',
           null,
-          React.createElement('img', { src: this.props.photoData.url })
-        )
+          React.createElement('img', { src: this.props.photoData.url, className: 'fullscreen-img' })
+        ),
+        React.createElement(CollectionModal, { photoData: this.props.photoData, show: this.state.collectionModalShow, onHide: this.closeCollectionModal, dialogClassName: 'collection-modal' }),
+        React.createElement(LoginFormModal, { photoData: this.props.photoData, show: this.state.loginModalShow, onHide: this.closeLoginModal, dialogClassName: 'login-modal-container' })
       )
     );
   }

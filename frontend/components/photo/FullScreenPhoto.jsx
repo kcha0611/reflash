@@ -1,6 +1,8 @@
 const React = require('react');
 const Modal = require('react-bootstrap').Modal;
 const SessionStore = require('../../stores/SessionStore');
+const CollectionModal = require('../collection/CollectionModal');
+const LoginFormModal = require('../forms/LoginFormModal');
 
 const FullScreenPhoto = React.createClass({
   getInitialState: function() {
@@ -62,15 +64,21 @@ const FullScreenPhoto = React.createClass({
     return (
       <div className="fullscreen-photo">
         <Modal show={this.props.show} onHide={this.props.onHide} dialogClassName={this.props.dialogClassName} style="height: 100vw;">
-          <div>
-            {this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name}
-            {this.checkIfLiked()}
-            <a href="javascript:void(0)" className="collect-btn" onClick={this.openCollectionModal}>Collect</a>
-            <a href={this.props.photoData.url} download className="profile-download-btn">Download</a>
+          <div className="fullscreen-prof-container">
+            <div>
+              {this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name}
+            </div>
+            <div>
+              {this.checkIfLiked()}
+              <a href="javascript:void(0)" className="collect-btn" onClick={this.openCollectionModal}>Collect</a>
+              <a href={this.props.photoData.url} download className="profile-download-btn">Download Free</a>
+            </div>
           </div>
           <div>
-            <img src={this.props.photoData.url}/>
+            <img src={this.props.photoData.url} className="fullscreen-img"/>
           </div>
+          <CollectionModal photoData={this.props.photoData} show={this.state.collectionModalShow} onHide={this.closeCollectionModal} dialogClassName="collection-modal"/>
+          <LoginFormModal photoData={this.props.photoData} show={this.state.loginModalShow} onHide={this.closeLoginModal} dialogClassName="login-modal-container"/>
         </Modal>
       </div>
     )

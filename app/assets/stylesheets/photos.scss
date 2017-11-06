@@ -89,6 +89,8 @@ a.like-btn {
 
 a.like-btn img {
   margin-right: 5px;
+  width: 15px;
+  height: 15px;
 }
 
 .collect-btn {
@@ -161,42 +163,42 @@ p.upload-length {
   color: #999999;
 }
 
-#img:-webkit-full-screen {
-  width: 100%;
-  height: 100%;
-}
-
-.fullscreen {
-  z-index: 2147483647;
-  position: absolute;
-  top: 0;
-  height: 100%;
-  margin: 0;
-  width: 96%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-}
-
-.fullscreen a {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid transparent;
-  color: #777;
-  fill: #777;
-  margin-top: 10px;
-}
-
-.fullscreen .image-user {
-  background-color: transparent;
-  color: #fff;
-  position: absolute;
-  right: 93%;
-
-}
-
-.fullscreen > a:not(.image-user) {
-  margin-left: 5px;
-}
+// #img:-webkit-full-screen {
+//   width: 100%;
+//   height: 100%;
+// }
+//
+// .fullscreen {
+//   z-index: 2147483647;
+//   position: absolute;
+//   top: 0;
+//   height: 100%;
+//   margin: 0;
+//   width: 96%;
+//   display: flex;
+//   justify-content: flex-end;
+//   align-items: flex-start;
+// }
+//
+// .fullscreen a {
+//   background-color: rgba(255, 255, 255, 0.8);
+//   border: 1px solid transparent;
+//   color: #777;
+//   fill: #777;
+//   margin-top: 10px;
+// }
+//
+// .fullscreen .image-user {
+//   background-color: transparent;
+//   color: #fff;
+//   position: absolute;
+//   right: 93%;
+//
+// }
+//
+// .fullscreen > a:not(.image-user) {
+//   margin-left: 5px;
+// }
 
 .grid-container {
   display: flex;
@@ -285,4 +287,13 @@ img.grid-like {
 .modal-content {
   width: 100%;
   height: 100%;
+}
+
+.fullscreen-img {
+  width: 80vw;
+}
+
+.fullscreen-prof-container {
+  display: flex;
+  justify-content: space-between;
 }

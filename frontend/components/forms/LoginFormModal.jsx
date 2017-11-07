@@ -3,7 +3,6 @@ const Modal = require('react-bootstrap').Modal;
 const SessionStore = require('../../stores/SessionStore');
 const SessionActions = require('../../actions/SessionActions');
 const ErrorStore = require('../../stores/SessionStore');
-const hashHistory = require('react-router').hashHistory;
 
 const LoginFormModal = React.createClass({
   getInitialState: function() {
@@ -28,7 +27,7 @@ const LoginFormModal = React.createClass({
   },
   redirectIfLoggedIn() {
     if (SessionStore.loggedIn()) {
-
+      window.location.reload();
     }
   },
   handleSubmit(e) {

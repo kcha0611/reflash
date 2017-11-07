@@ -19,7 +19,7 @@ const LoginForm = React.createClass({
   },
   redirectIfLoggedIn() {
     if (SessionStore.loggedIn()) {
-
+      hashHistory.push('/');
     }
   },
   handleUsernameChange(e){

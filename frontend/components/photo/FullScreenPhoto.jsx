@@ -61,20 +61,21 @@ const FullScreenPhoto = React.createClass({
     }
   },
   render() {
-    let styles = {
+    let modalStyles = {
         border: '0',
         bottom: 'auto',
-        minHeight: '10rem',
         left: '50%',
         padding: '2rem',
         position: 'fixed',
         right: 'auto',
         top: '50%',
-        transform: 'translate(-50%,-50%)'
+        transform: 'translate(-50%,-50%)',
+        minWidth: '20rem',
+        width: '80%',
     }
     return (
       <div className="fullscreen-photo">
-        <Modal show={this.props.show} onHide={this.props.onHide} dialogClassName={this.props.dialogClassName} style={styles}>
+        <Modal show={this.props.show} onHide={this.props.onHide} dialogClassName={this.props.dialogClassName} style={modalStyles}>
           <div className="fullscreen-prof-container">
             <div>
               {this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name}
@@ -89,7 +90,7 @@ const FullScreenPhoto = React.createClass({
             </div>
           </div>
           <div>
-            <img src={this.props.photoData.url} className="fullscreen-img"/>
+            <img src={this.props.photoData.url} className="fullscreen-img" />
           </div>
           <CollectionModal photoData={this.props.photoData} show={this.state.collectionModalShow} onHide={this.closeCollectionModal} dialogClassName="collection-modal"/>
           <LoginFormModal photoData={this.props.photoData} show={this.state.loginModalShow} onHide={this.closeLoginModal} dialogClassName="login-modal-container"/>

@@ -24440,23 +24440,24 @@ var FullScreenPhoto = React.createClass({
     }
   },
   render: function render() {
-    var styles = {
+    var modalStyles = {
       border: '0',
       bottom: 'auto',
-      minHeight: '10rem',
       left: '50%',
       padding: '2rem',
       position: 'fixed',
       right: 'auto',
       top: '50%',
-      transform: 'translate(-50%,-50%)'
+      transform: 'translate(-50%,-50%)',
+      minWidth: '20rem',
+      width: '80%'
     };
     return React.createElement(
       'div',
       { className: 'fullscreen-photo' },
       React.createElement(
         Modal,
-        { show: this.props.show, onHide: this.props.onHide, dialogClassName: this.props.dialogClassName, style: styles },
+        { show: this.props.show, onHide: this.props.onHide, dialogClassName: this.props.dialogClassName, style: modalStyles },
         React.createElement(
           'div',
           { className: 'fullscreen-prof-container' },

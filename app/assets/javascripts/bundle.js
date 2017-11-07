@@ -23588,9 +23588,7 @@ var LoginForm = React.createClass({
     this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
   },
   redirectIfLoggedIn: function redirectIfLoggedIn() {
-    if (SessionStore.loggedIn()) {
-      hashHistory.push('/');
-    }
+    if (SessionStore.loggedIn()) {}
   },
   handleUsernameChange: function handleUsernameChange(e) {
     this.setState({ username: e.target.value });
@@ -24312,12 +24310,12 @@ var LoginFormModal = React.createClass({
             React.createElement('img', { src: 'https://unsplash.com/assets/core/logo-black-b37a09de4a228cd8fb72adbabc95931c5090611a0cae8e76f1fd077d378ec080.svg' }),
             React.createElement(
               'h1',
-              null,
+              { className: 'login-content' },
               'Login'
             ),
             React.createElement(
               'p',
-              null,
+              { className: 'login-content' },
               'To ',
               this.props.actionType,
               ' ',
@@ -24327,7 +24325,7 @@ var LoginFormModal = React.createClass({
             React.createElement('input', { type: 'submit', value: 'Guest Login', className: 'guest-login-btn login-modal-input' }),
             React.createElement(
               'p',
-              { className: 'or' },
+              { className: 'or login-content' },
               'OR'
             ),
             React.createElement(

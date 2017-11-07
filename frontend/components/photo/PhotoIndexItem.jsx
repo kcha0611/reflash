@@ -48,7 +48,6 @@ const PhotoIndexItem = React.createClass({
   },
   fullScreenModal(e) {
     e.preventDefault();
-    $('.modal-content').css({"height": "1000px"});
     this.setState({fullScreenShow: true});
   },
   closeFullScreen() {

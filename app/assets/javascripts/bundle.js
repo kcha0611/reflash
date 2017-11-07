@@ -13634,25 +13634,21 @@ var React = __webpack_require__(0);
 var PhotoActions = __webpack_require__(49);
 var LikeActions = __webpack_require__(164);
 var CollectionModal = __webpack_require__(105);
+var LoginFormModal = __webpack_require__(167);
+var FullScreenPhoto = __webpack_require__(279);
+var SessionStore = __webpack_require__(25);
 
 var GridPhotoIndexItem = React.createClass({
   displayName: 'GridPhotoIndexItem',
 
   getInitialState: function getInitialState() {
     return {
-      show: false,
-      liked: this.photoLiked(this.props.photoData)
+      collectionModalShow: false,
+      loginModalShow: false,
+      liked: this.photoLiked(this.props.photoData),
+      actionType: "",
+      fullScreenShow: false
     };
-  },
-  openCollectionModal: function openCollectionModal(e) {
-    e.preventDefault();
-    this.setState({ show: true });
-  },
-  close: function close() {
-    this.setState({ show: false });
-  },
-  fullScreen: function fullScreen() {
-    $(".profile-container").addClass("fullscreen");
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     this.setState({
@@ -13660,17 +13656,41 @@ var GridPhotoIndexItem = React.createClass({
     });
   },
   photoLiked: function photoLiked(photo) {
-    var _this = this;
-
     return photo.likes.some(function (like) {
-      return like.user_id === _this.props.currentUser.id;
+      return like.user_id === SessionStore.currentUser().id;
     });
   },
-  handleLike: function handleLike() {
-    if (this.state.liked) {
-      LikeActions.unlikePhoto(this.props.photoData.id);
+  openCollectionModal: function openCollectionModal(e) {
+    e.preventDefault();
+    if (SessionStore.loggedIn()) {
+      this.setState({ collectionModalShow: true });
     } else {
-      LikeActions.likePhoto(this.props.photoData.id);
+      this.setState({ loginModalShow: true, actionType: "collect" });
+    }
+  },
+  fullScreenModal: function fullScreenModal(e) {
+    e.preventDefault();
+    this.setState({ fullScreenShow: true });
+  },
+  closeFullScreen: function closeFullScreen() {
+    this.setState({ fullScreenShow: false });
+  },
+  closeCollectionModal: function closeCollectionModal() {
+    this.setState({ collectionModalShow: false });
+  },
+  closeLoginModal: function closeLoginModal() {
+    this.setState({ loginModalShow: false });
+  },
+  handleLike: function handleLike(e) {
+    e.preventDefault();
+    if (SessionStore.loggedIn()) {
+      if (this.state.liked) {
+        LikeActions.unlikePhoto(this.props.photoData.id);
+      } else {
+        LikeActions.likePhoto(this.props.photoData.id);
+      }
+    } else {
+      this.setState({ loginModalShow: true, actionType: "like" });
     }
   },
   checkIfLiked: function checkIfLiked() {
@@ -13678,14 +13698,14 @@ var GridPhotoIndexItem = React.createClass({
       return React.createElement(
         'a',
         { href: 'javascript:void(0)', onClick: this.handleLike, className: 'like-btn liked' },
-        React.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png', className: 'grid-like' }),
+        React.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png' }),
         this.props.photoData.likes.length
       );
     } else {
       return React.createElement(
         'a',
         { href: 'javascript:void(0)', onClick: this.handleLike, className: 'like-btn' },
-        React.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png', className: 'grid-like' }),
+        React.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/169px-Heart_coraz%C3%B3n.svg.png' }),
         this.props.photoData.likes.length
       );
     }
@@ -13694,12 +13714,14 @@ var GridPhotoIndexItem = React.createClass({
     return React.createElement(
       'div',
       { className: 'grid-item-container grid' },
-      React.createElement('img', { src: this.props.photoData.url, id: 'img', className: 'img', onClick: this.fullScreen }),
+      React.createElement('img', { src: this.props.photoData.url, id: 'img', className: 'img', onClick: this.fullScreenModal }),
       React.createElement(
         'div',
         { className: 'grid-btns' },
         this.checkIfLiked(),
-        React.createElement(CollectionModal, { photoData: this.props.photoData, show: this.state.show, onHide: this.close }),
+        React.createElement(FullScreenPhoto, { photoData: this.props.photoData, show: this.state.fullScreenShow, onHide: this.closeFullScreen, dialogClassName: 'fullscreen-modal', actionType: this.state.actionType }),
+        React.createElement(CollectionModal, { photoData: this.props.photoData, show: this.state.collectionModalShow, onHide: this.closeCollectionModal, dialogClassName: 'collection-modal', actionType: this.state.actionType }),
+        React.createElement(LoginFormModal, { photoData: this.props.photoData, show: this.state.loginModalShow, onHide: this.closeLoginModal, dialogClassName: 'login-modal-container', actionType: this.state.actionType }),
         React.createElement(
           'a',
           { href: 'javascript:void(0)', className: 'collect-btn', onClick: this.openCollectionModal },
@@ -13775,7 +13797,6 @@ var PhotoIndexItem = React.createClass({
   },
   fullScreenModal: function fullScreenModal(e) {
     e.preventDefault();
-    $('.modal-content').css({ "height": "1000px" });
     this.setState({ fullScreenShow: true });
   },
   closeFullScreen: function closeFullScreen() {

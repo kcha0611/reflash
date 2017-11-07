@@ -13775,6 +13775,7 @@ var PhotoIndexItem = React.createClass({
   },
   fullScreenModal: function fullScreenModal(e) {
     e.preventDefault();
+    $('.modal-content').css({ "height": "1000px" });
     this.setState({ fullScreenShow: true });
   },
   closeFullScreen: function closeFullScreen() {
@@ -24439,12 +24440,23 @@ var FullScreenPhoto = React.createClass({
     }
   },
   render: function render() {
+    var styles = {
+      border: '0',
+      bottom: 'auto',
+      minHeight: '10rem',
+      left: '50%',
+      padding: '2rem',
+      position: 'fixed',
+      right: 'auto',
+      top: '50%',
+      transform: 'translate(-50%,-50%)'
+    };
     return React.createElement(
       'div',
       { className: 'fullscreen-photo' },
       React.createElement(
         Modal,
-        { show: this.props.show, onHide: this.props.onHide, dialogClassName: this.props.dialogClassName },
+        { show: this.props.show, onHide: this.props.onHide, dialogClassName: this.props.dialogClassName, style: styles },
         React.createElement(
           'div',
           { className: 'fullscreen-prof-container' },

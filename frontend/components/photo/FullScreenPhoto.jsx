@@ -61,9 +61,20 @@ const FullScreenPhoto = React.createClass({
     }
   },
   render() {
+    let styles = {
+        border: '0',
+        bottom: 'auto',
+        minHeight: '10rem',
+        left: '50%',
+        padding: '2rem',
+        position: 'fixed',
+        right: 'auto',
+        top: '50%',
+        transform: 'translate(-50%,-50%)'
+    }
     return (
       <div className="fullscreen-photo">
-        <Modal show={this.props.show} onHide={this.props.onHide} dialogClassName={this.props.dialogClassName}>
+        <Modal show={this.props.show} onHide={this.props.onHide} dialogClassName={this.props.dialogClassName} style={styles}>
           <div className="fullscreen-prof-container">
             <div>
               {this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name}

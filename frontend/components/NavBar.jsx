@@ -38,9 +38,7 @@ const NavBar = React.createClass({
           <img src="http://res.cloudinary.com/dllnnnotc/image/upload/c_scale,w_60/v1495477878/Unsplash_logo_mub2w6.jpg"/>
           <SearchBar receiveSearchInput={this.receiveSearchInput}/>
           <a href="/">Home</a>
-          <a href="/">New</a>
-          <a href="/collections">Collections</a>
-          <Link to="/photos/new">Submit Photo</Link>
+          <Link to="/photos/new" className="new-photo-link">Submit Photo</Link>
           {this.handleCurrentUser()}
         </div>
       </div>

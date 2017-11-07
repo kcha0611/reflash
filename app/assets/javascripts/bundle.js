@@ -24243,18 +24243,8 @@ var NavBar = _react2.default.createClass({
           'Home'
         ),
         _react2.default.createElement(
-          'a',
-          { href: '/' },
-          'New'
-        ),
-        _react2.default.createElement(
-          'a',
-          { href: '/collections' },
-          'Collections'
-        ),
-        _react2.default.createElement(
           Link,
-          { to: '/photos/new' },
+          { to: '/photos/new', className: 'new-photo-link' },
           'Submit Photo'
         ),
         this.handleCurrentUser()

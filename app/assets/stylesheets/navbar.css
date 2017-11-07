@@ -29,3 +29,7 @@ div.navbar-container a:nth-child(6) {
 .search-bar {
   width: 100%;
 }
+
+.new-photo-link {
+  min-width: 86px;
+}

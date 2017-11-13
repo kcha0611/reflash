@@ -15,9 +15,16 @@ const SignupForm = React.createClass({
     };
   },
   componentDidMount: function() {
+    this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
     this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
   },
+  redirectIfLoggedIn() {
+    if (SessionStore.loggedIn()) {
+      hashHistory.push('/');
+    }
+  },
   componentWillUnmount: function() {
+    this.sessionListener.remove();
     this.errorListener.remove();
   },
   handleUsernameChange(e) {

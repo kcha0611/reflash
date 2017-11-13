@@ -36,8 +36,9 @@ const LoginForm = React.createClass({
     e.preventDefault();
     SessionActions.login(this.state);
   },
-  guestLogin() {
-    SessionActions.login({username: "guest", password: "123456"});
+  guestLogin(e) {
+    e.preventDefault();
+    SessionActions.login({username: "guest", password: '123456'});
   },
   fieldErrors(field) {
     const errors = ErrorStore.formErrors('login');
@@ -56,7 +57,7 @@ const LoginForm = React.createClass({
             <img src="https://unsplash.com/assets/core/logo-black-b37a09de4a228cd8fb72adbabc95931c5090611a0cae8e76f1fd077d378ec080.svg"></img>
             <h1>Login</h1>
             <p>Welcome Back.</p>
-            <input type="submit" value="Guest Login" className="guest-login-btn"/>
+            <input type="submit" value="Guest Login" className="guest-login-btn" onClick={this.guestLogin}/>
             <p className="or">OR</p>
             {this.fieldErrors("base")}
             <label>

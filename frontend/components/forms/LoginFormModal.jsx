@@ -34,6 +34,10 @@ const LoginFormModal = React.createClass({
     e.preventDefault();
     SessionActions.login(this.state);
   },
+  guestLogin(e) {
+    e.preventDefault();
+    SessionActions.login({username: "guest", password: "123456"});
+  },
   render() {
     let modalLeftStyles = {
       backgroundImage: `url(${this.props.photoData.url})`,
@@ -50,7 +54,7 @@ const LoginFormModal = React.createClass({
               <img src="https://unsplash.com/assets/core/logo-black-b37a09de4a228cd8fb72adbabc95931c5090611a0cae8e76f1fd077d378ec080.svg"></img>
               <h1 className="login-content">Login</h1>
               <p className="login-content">To {this.props.actionType} {this.props.photoData.user.first_name + " " + this.props.photoData.user.last_name}s Photo, login.</p>
-              <input type="submit" value="Guest Login" className="guest-login-btn login-modal-input"/>
+              <input type="submit" value="Guest Login" className="guest-login-btn login-modal-input" onClick={this.guestLogin}/>
               <p className="or login-content">OR</p>
               <label className="login-modal-label">
                 <p>Username</p>
